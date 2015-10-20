@@ -6,7 +6,7 @@ function latexFoxCombat():void {
 	ename = "Latex Fox";
 	estrength = 10;
 	edexterity = 12;
-	estamina = 8;
+	eendurance = 8;
 	eperception = 10;
 	eintelligence = 6;
 	echarisma = 6;
@@ -20,6 +20,7 @@ function latexFoxCombat():void {
 }
 
 function latexFoxInfect():void {
+	ename = "Latex Fox";
 	ecocks = 1;
 	ecocksize = 2;
 	eballsize = 2;

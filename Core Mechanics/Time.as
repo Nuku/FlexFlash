@@ -42,10 +42,10 @@ function passTime(minutes:Number):void {
 			++healthTicker;
 			if(healthTicker == 0) {
 				++HP;
-				healthTicker = Math.round(-(1/((((stamina/2)/3)/60))));
+				healthTicker = Math.round(-(1/((((endurance/2)/3)/60))));
 			}
 		}
-		else healthTicker = Math.round(-(1/((((stamina/2)/3)/60))));
+		else healthTicker = Math.round(-(1/((((endurance/2)/3)/60))));
 		if(isPure("Human") == false) {
 			var corruption:Number = 0;
 			if(pheadname != "Human") ++corruption;
@@ -105,7 +105,7 @@ function passTime(minutes:Number):void {
 
 var thirstTicker:Number = -45;
 var hungerTicker:Number = -135;
-var healthTicker:Number = Math.round(-(1/((((stamina/2)/3)/60))));
+var healthTicker:Number = Math.round(-(1/((((endurance/2)/3)/60))));
 var corruptionTicker:Number = 0;
 
 function translatetimer():String {
@@ -133,11 +133,11 @@ function spontaneousOrgasm():String {
 }
 
 /*
-if ( a random number from 1 to 20 ) > ( a random number between 1 and ( stamina of player + 1 ) ):
+if ( a random number from 1 to 20 ) > ( a random number between 1 and ( endurance of player + 1 ) ):
 	increase hunger of player by 1;
 	if number of entries in childrenfaces is greater than 0 and a random chance of 1 in 2 succeeds, increase hunger of player by 1;
 	if "Spartan Diet" is listed in feats of player and a random chance of 1 in 2 succeeds, decrease hunger of player by 1;
-if a random number from 1 to 25 is greater than ( a random number between 1 and ( stamina of player + 1 ) ):
+if a random number from 1 to 25 is greater than ( a random number between 1 and ( endurance of player + 1 ) ):
 	increase thirst of player by 3;
 	if number of entries in childrenfaces is greater than 0, increase thirst of player by 1;
 	if "Spartan Diet" is listed in feats of player, decrease thirst of player by 1;
@@ -161,29 +161,18 @@ function assessEnding():void {
 		screenClear();
 		pstrainending();
 		say("\r\r     Game Over!");
-		Choice1Outline.visible = false;
-		Choice2Outline.visible = false;
-		Choice3Outline.visible = false;
-		Choice4Outline.visible = false;
-		Choice5Outline.visible = false;
-		Choice6Outline.visible = false;
-		exploreCityText.visible=false;
-		exploreCityBox.visible=false;
-		exploreLocalText.visible=false;
-		exploreLocalBox.visible=false;
-		scavCityText.visible=false;
-		scavCityBox.visible=false;
-		scavLocalText.visible=false;
-		scavLocalBox.visible=false;
-		Choice1.visible = false;
-		Choice2.visible = false;
-		Choice3.visible = false;
-		Choice4.visible = false;
-		Choice5.visible = false;
-		Choice6.visible = false;
-		appearanceText.visible=false;
-		appearanceBox.visible=false;
-		inventoryText.visible=false;
-		inventoryBox.visible=false;
+		button1(false, "", 0);
+		button2(false, "", 0);
+		button3(false, "", 0);
+		button4(false, "", 0);
+		button5(false, "", 0);
+		button6(false, "", 0);
+		buttonScavCity(false);
+		buttonExploreCity(false);
+		buttonScavLocal(false);
+		buttonExploreLocal(false);
+		buttonInventory(false);
+		buttonAppearance(false);
+		newGame.visible = true;
 	}
 }

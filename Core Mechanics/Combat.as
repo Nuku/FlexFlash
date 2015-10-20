@@ -9,6 +9,7 @@ var fightoutcome:Number = 0;
 function doCombatEvent(eventNum:Number)
 {	
 	var temp:Number = 0;
+	newGame.visible = false;
 	statDisplay();
 	//Main combat screen.
 	if(eventNum == 3)
@@ -26,36 +27,18 @@ function doCombatEvent(eventNum:Number)
 			return;
 		}
 		display();
-		Choice1Outline.visible = true;
-		Choice2Outline.visible = true;
-		Choice3Outline.visible = true;
-		Choice4Outline.visible = true;
-		Choice5Outline.visible = true;
-		Choice6Outline.visible = true;
-		Choice1.visible = true;
-		Choice2.visible = true;
-		Choice3.visible = true;
-		Choice4.visible = true;
-		Choice5.visible = true;
-		Choice6.visible = true;
-		Choice1.htmlText="Attack";
-		Choice2.htmlText="Special"; //special
-		Choice3.htmlText="Pass"; //items
-		Choice4.htmlText="Flee"; //run!
-		Choice5.htmlText="Submit";
-		Choice6.htmlText="Throw";
-		appearanceText.visible=false;
-		appearanceBox.visible=false;
-		exploreCityText.visible=false;
-		exploreCityBox.visible=false;
-		exploreLocalText.visible=false;
-		exploreLocalBox.visible=false;
-		scavCityText.visible=false;
-		scavCityBox.visible=false;
-		scavLocalText.visible=false;
-		scavLocalBox.visible=false;
-		dataBox.visible = false;
-		dataText.visible = false;
+		button1(true, "Attack", 1);
+		button2(true, "Special", 2);
+		button3(true, "Pass", 10);
+		button4(true, "Flee", 4);
+		button5(true, "Submit", 150);
+		button6(true, "Throw", 100);
+		buttonScavCity(false);
+		buttonExploreCity(false);
+		buttonScavLocal(false);
+		buttonExploreLocal(false);
+		buttonInventory(false);
+		buttonAppearance(false);
 		button1Choice = 1; 
 		button2Choice = 2; 
 		button3Choice = 10;

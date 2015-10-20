@@ -30,7 +30,7 @@ function exploration(zone:String):void {
 	{
 		trace("Illegal Zone Access!");
 	}
-	passTime(120);
+	queueTime = 120;
 	randomfightchance();
 	if(something == 0 && inCombat == false) say("\r\r     You decide to go exploring, but you encounter nothing and after two long hours of wandering you return to the relative safety of where you started.\r\r");
 	eventFound = false;
@@ -124,6 +124,6 @@ function scavenge():void {
 	else {
 		doEvent(5.4);
 	}
-	passTime(120);
+	queueTime = 120;
 	randomfightchance();
 }

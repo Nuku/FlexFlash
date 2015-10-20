@@ -40,19 +40,25 @@ var goalballsize:Number = 0;
 var vaginity:Number = 0;
 var passivetimer:Number = Math.floor(Math.random()*1080)+360;
 
+function randomInfect():void {
+	var choice:Number = Math.floor(Math.random()*monsterTable.length);
+	monsterTable[choice][4]();
+	applyInfect();
+}
+
 function infect(str:String): void {
 	var tempnum:Number = 0;
 	var arrayLength:Number = monsterTable.length;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 		if(monsterTable[tempnum][1] == str) {
 			monsterTable[tempnum][4]();
-			applyinfect();
+			applyInfect();
 			return;
 		}
 	}
 }
 
-function applyinfect(): void {
+function applyInfect(): void {
 	var i:Number = Math.round(Math.random()*5);
 	var found:Number = 0;
 	var infectpoint:Number = 0;
@@ -182,6 +188,7 @@ function passiveInfect():void {
 			for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 				if(monsterTable[tempnum][1] == strain) {
 					monsterTable[tempnum][4]();
+					trace("passiveInfect: " + monsterTable[tempnum][1]);
 					if(pbodyname == "Human") {
 						queue("     " + ebodychange + ".\r\r");
 						pbodyname = ename;
@@ -235,7 +242,7 @@ function sexChange():void {
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
 		pcocksize += Math.round((ecocksize - pcocksize)/3);
 		if(prevcock < pcocksize) {
-			say("You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random> as <theym> <one of>grow||expand<random> in size, becoming <cock size desc>!\r\r");
+			say("     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random> as <theym> <one of>grow||expand<random> in size, becoming <cock size desc>!\r\r");
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocksize > ecocksize) {
@@ -243,7 +250,7 @@ function sexChange():void {
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
 		if(prevcock > pcocksize) {
-			say("Strong <one of>erotic tingles||cold waves||hot flashes<random> run along the length of your <cocktype> <one of>cock||dick||shaft||poles<random> as <theym> begin<smv> to diminish somewhat to better suit your new infection. "); 
+			say("     Strong <one of>erotic tingles||cold waves||hot flashes<random> run along the length of your <cocktype> <one of>cock||dick||shaft||poles<random> as <theym> begin<smv> to diminish somewhat to better suit your new infection. "); 
 			if(pcocks > 1) say("They");
 			else say("It");
 			say(" dwindle<smv> in size, becoming <cock size desc>.\r\r");
@@ -254,7 +261,7 @@ function sexChange():void {
 		++pballsize;
 		if(pballsize < eballsize && Math.random()*100 < 51) ++pballsize;
 		if(prevballs < pballsize) {
-			say("You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
+			say("     You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pballsize > eballsize) {
@@ -262,7 +269,7 @@ function sexChange():void {
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
 		if(prevballs > pballsize) {
-			say("You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r");
+			say("     You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r");
 		}
 	}
 	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks < ecocks) {
@@ -278,7 +285,7 @@ function sexChange():void {
 		}
 		else if(Math.random()*100 > 33) ++pcocks;
 		if(prevcocks < pcocks) {
-			say("Your groin throbs with intense sensations as a <cock size desc> <cocktype> <one of>cock||penis||shaft||maleness<random> erupts from you, spurting a few excited streams of fluid as it settles into place.\r\r");
+			say("     Your groin throbs with intense sensations as a <cock size desc> <cocktype> <one of>cock||penis||shaft||maleness<random> erupts from you, spurting a few excited streams of fluid as it settles into place.\r\r");
 		}
 	}
 	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy")) {
@@ -290,7 +297,7 @@ function sexChange():void {
 		if(pballsize >= 2 && Math.random()*100 < 34) --pballsize;
 		if(pballsize < 1 && pcocksize > 1) pballsize == 1;
 		if(prevcock > pcocksize || prevballs > pballsize) {
-			say("Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cocks||member||shafts||poles<random> as begin<smv> to shrink. [if cocks of player is greater than 1]They dwindle[otherwise]It dwindles[end if] in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
+			say("     Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cocks||member||shafts||poles<random> as they begin< to shrink in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
 			if(pcocksize < 1) {
 				pcocks = 0;
 				say("     You barely have time to give a whimper as you cease to be a male.\r\r");
@@ -298,12 +305,12 @@ function sexChange():void {
 		}
 		if(pcocks > 1 && Math.random()*100 < 41) {
 			--pcocks;
-			say("Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
+			say("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks > ecocks && Math.random()*100 < 34) {
 		--pcocks;
-		say("Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
+		say("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 	}
 	if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && (pcunts < ecunts || (pcunts == ecunts && vaginity <= 2))) {
 		var prevcunts = pcunts;
@@ -314,7 +321,7 @@ function sexChange():void {
 		else if(Math.random()*100 > 33 && pcunts < ecunts) ++pcunts;
 		else if(vaginity <= 2) ++vaginity;
 		if(prevcunts < pcunts) {
-			say("Your groin throbs with intense sensations as a <bodytype> <one of>cunt||pussy||vagina||cleft<random> wetly forms, Leaking along a thigh as you quiver.\r\r");
+			say("     Your groin throbs with intense sensations as a <bodytype> <one of>cunt||pussy||vagina||cleft<random> wetly forms, Leaking along a thigh as you quiver.\r\r");
 		}
 	}
 	if(pcunts != 0 && (sextrend == "Male" || sextrend == "Shemale" || sextrend == "Femneuter" || sextrend == "Neuter")) {
@@ -322,12 +329,12 @@ function sexChange():void {
 			--vaginity;
 			if(vaginity <= 0) {
 				--pcunts;
-				say("An odd, wet noise has you peeking in time to find that your <one of>cunt||pussy<random> has vanished entirely, leaving you with no female anatomy!\r\r")
+				say("     An odd, wet noise has you peeking in time to find that your <one of>cunt||pussy<random> has vanished entirely, leaving you with no female anatomy!\r\r")
 			}
 		}
 		else if(Math.random()*100 >= 50) {
 			--pcunts;
-			say("An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
+			say("     An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 		}
 	}
 	else if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && pcunts > ecunts && Math.random()*100 < 34) {
@@ -343,7 +350,7 @@ function queueSexChange():void {
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
 		pcocksize += Math.round((ecocksize - pcocksize)/3);
 		if(prevcock < pcocksize) {
-			queue("You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random> as <theym> <one of>grow||expand<random> in size, becoming <cock size desc>!\r\r");
+			queue("     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random> as <theym> <one of>grow||expand<random> in size, becoming <cock size desc>!\r\r");
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocksize > ecocksize) {
@@ -351,7 +358,7 @@ function queueSexChange():void {
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
 		if(prevcock > pcocksize) {
-			queue("Strong <one of>erotic tingles||cold waves||hot flashes<random> run along the length of your <cocktype> <one of>cock||dick||shaft||poles<random> as <theym> begin<smv> to diminish somewhat to better suit your new infection. "); 
+			queue("     Strong <one of>erotic tingles||cold waves||hot flashes<random> run along the length of your <cocktype> <one of>cock||dick||shaft||poles<random> as <theym> begin<smv> to diminish somewhat to better suit your new infection. "); 
 			if(pcocks > 1) queue("They");
 			else queue("It");
 			queue(" dwindle<smv> in size, becoming <cock size desc>.\r\r");
@@ -362,7 +369,7 @@ function queueSexChange():void {
 		++pballsize;
 		if(pballsize < eballsize && Math.random()*100 < 51) ++pballsize;
 		if(prevballs < pballsize) {
-			queue("You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
+			queue("     You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pballsize > eballsize) {
@@ -370,7 +377,7 @@ function queueSexChange():void {
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
 		if(prevballs > pballsize) {
-			queue("You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r");
+			queue("     You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r");
 		}
 	}
 	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks < ecocks) {
@@ -386,7 +393,7 @@ function queueSexChange():void {
 		}
 		else if(Math.random()*100 > 33) ++pcocks;
 		if(prevcocks < pcocks) {
-			queue("Your groin throbs with intense sensations as a <cock size desc> <cocktype> <one of>cock||penis||shaft||maleness<random> erupts from you, spurting a few excited streams of fluid as it settles into place.\r\r");
+			queue("     Your groin throbs with intense sensations as a <cock size desc> <cocktype> <one of>cock||penis||shaft||maleness<random> erupts from you, spurting a few excited streams of fluid as it settles into place.\r\r");
 		}
 	}
 	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy")) {
@@ -398,7 +405,7 @@ function queueSexChange():void {
 		if(pballsize >= 2 && Math.random()*100 < 34) --pballsize;
 		if(pballsize < 1 && pcocksize > 1) pballsize == 1;
 		if(prevcock > pcocksize || prevballs > pballsize) {
-			queue("Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cocks||member||shafts||poles<random> as begin<smv> to shrink. [if cocks of player is greater than 1]They dwindle[otherwise]It dwindles[end if] in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
+			queue("     Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cocks||member||shafts||poles<random> as they begin to shrink in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
 			if(pcocksize < 1) {
 				pcocks = 0;
 				queue("     You barely have time to give a whimper as you cease to be a male.\r\r");
@@ -406,12 +413,12 @@ function queueSexChange():void {
 		}
 		if(pcocks > 1 && Math.random()*100 < 41) {
 			--pcocks;
-			queue("Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
+			queue("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks > ecocks && Math.random()*100 < 34) {
 		--pcocks;
-		queue("Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
+		queue("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 	}
 	if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && (pcunts < ecunts || (pcunts == ecunts && vaginity <= 2))) {
 		var prevcunts = pcunts;
@@ -422,7 +429,7 @@ function queueSexChange():void {
 		else if(Math.random()*100 > 33 && pcunts < ecunts) ++pcunts;
 		else if(vaginity <= 2) ++vaginity;
 		if(prevcunts < pcunts) {
-			queue("Your groin throbs with intense sensations as a <bodytype> <one of>cunt||pussy||vagina||cleft<random> wetly forms, Leaking along a thigh as you quiver.\r\r");
+			queue("     Your groin throbs with intense sensations as a <bodytype> <one of>cunt||pussy||vagina||cleft<random> wetly forms, Leaking along a thigh as you quiver.\r\r");
 		}
 	}
 	if(pcunts != 0 && (sextrend == "Male" || sextrend == "Shemale" || sextrend == "Femneuter" || sextrend == "Neuter")) {
@@ -430,17 +437,17 @@ function queueSexChange():void {
 			--vaginity;
 			if(vaginity <= 0) {
 				--pcunts;
-				queue("An odd, wet noise has you peeking in time to find that your <one of>cunt||pussy<random> has vanished entirely, leaving you with no female anatomy!\r\r")
+				queue("     An odd, wet noise has you peeking in time to find that your <one of>cunt||pussy<random> has vanished entirely, leaving you with no female anatomy!\r\r")
 			}
 		}
 		else if(Math.random()*100 >= 50) {
 			--pcunts;
-			queue("An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
+			queue("     An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 		}
 	}
 	else if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && pcunts > ecunts && Math.random()*100 < 34) {
 		--pcunts;
-		queue("An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
+		queue("     An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 	}
 }
 
@@ -448,7 +455,7 @@ function bodyChange():void {
 	if(pscale < escale) {
 		++pscale;
 		if(pscale < escale && Math.random()*100 < 51) ++pscale;
-		say("You feel a sudden swelling all over your <bodytype> body, causing you to tremble as the world around you seems to shrink slightly. When the transformation stops, you find that you've grown to be <scale desc> in size. ");
+		say("     You feel a sudden swelling all over your <bodytype> body, causing you to tremble as the world around you seems to shrink slightly. When the transformation stops, you find that you've grown to be <scale desc> in size. ");
 		if(pscale > 5) say("<one of>You imagine finding new clothes that fit will be a challenge, if even your altered form will abide them||Getting into smaller rooms feels slightly more of a challenge||Hopefully you won't constantly hit your head while indoors<random>");
 		else say("<one of>It feels like your size is slightly more reasonable now||Finding clothes that don't fit so loosely should be easier now, if your altered form will even allow it||It should be easier to reach things higher up, you imagine<random>");
 		say(".\r\r");
@@ -456,7 +463,7 @@ function bodyChange():void {
 	if(pscale > escale) {
 		--pscale;
 		if(pscale < escale && Math.random()*100 < 51) --pscale;
-		say("You feel dizzy as a strange tingling runs all along your <skintype>, the whole world around you seemingly growing in size. When the change subsides, you find that you've shrunk to be <scale desc> in size. ");
+		say("     You feel dizzy as a strange tingling runs all along your <skintype>, the whole world around you seemingly growing in size. When the change subsides, you find that you've shrunk to be <scale desc> in size. ");
 		if(pscale > 5) say("<one of>Perhaps it'll be less of a hassle moving around indoors now||Finding clothes that don't fit so tightly should be easier now, if your altered form will even allow it||It feels like your size is slightly more reasonable now<random>");
 		else say("<one of>You figure this won't make your life any easier when you need to fetch something high up||Most clothes you find will probably be too large for you, assuming your altered form will even allow them to fit||Thankfully, it doesn't seem to inhibit your strength or speed<random>");
 		say(".\r\r");
@@ -464,16 +471,16 @@ function bodyChange():void {
 	if(pbreastpairs != ebreastpairs) {
 		if(pbreastpairs < ebreastpairs) {
 			if(pbreastsize > 0) {
-				say("Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r");
+				say("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r");
 			}
-			else say("Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of nipples, pressing out of your <skintype>\r\r");
+			else say("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of nipples, pressing out of your <skintype>\r\r");
 			++pbreastpairs;
 		}
 		else {
 			if(pbreastsize > 0) {
-				say("You look down just in time to see two nipples, breasts included, be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
+				say("     You look down just in time to see two nipples, breasts included, be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
 			}
-			else say("You look down just in time to see two nipples be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
+			else say("     You look down just in time to see two nipples be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
 			--pbreastpairs;
 		}
 	}
@@ -482,13 +489,13 @@ function bodyChange():void {
 			var prevbreasts:Number = pbreastsize;
 			++pbreastsize;
 			if(pbreastsize < ebreastsize && Math.random()*100 < 51) ++pbreastsize;
-			if(prevbreasts == 0) say("You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your once entirely flat chest swells to develop <breast size desc> <one of>orbs||breasts||jugs||tits<random>!\r\r");
-			else say("You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> grow to become <breast size desc>!\r\r");
+			if(prevbreasts == 0) say("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your once entirely flat chest swells to develop <breast size desc> <one of>orbs||breasts||jugs||tits<random>!\r\r");
+			else say("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> grow to become <breast size desc>!\r\r");
 		}
 		else if(pbreastsize > ebreastsize) {
 			--pbreastsize;
 			if(pbreastsize > ebreastsize && Math.random()*100 < 51) --pbreastsize;
-			say("You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> shrink until they're <breast size desc>!\r\r");
+			say("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> shrink until they're <breast size desc>!\r\r");
 		}
 	}
 }
@@ -497,7 +504,7 @@ function queueBodyChange():void {
 	if(pscale < escale) {
 		++pscale;
 		if(pscale < escale && Math.random()*100 < 51) ++pscale;
-		queue("You feel a sudden swelling all over your <bodytype> body, causing you to tremble as the world around you seems to shrink slightly. When the transformation stops, you find that you've grown to be <scale desc> in size. ");
+		queue("     You feel a sudden swelling all over your <bodytype> body, causing you to tremble as the world around you seems to shrink slightly. When the transformation stops, you find that you've grown to be <scale desc> in size. ");
 		if(pscale > 5) queue("<one of>You imagine finding new clothes that fit will be a challenge, if even your altered form will abide them||Getting into smaller rooms feels slightly more of a challenge||Hopefully you won't constantly hit your head while indoors<random>");
 		else queue("<one of>It feels like your size is slightly more reasonable now||Finding clothes that don't fit so loosely should be easier now, if your altered form will even allow it||It should be easier to reach things higher up, you imagine<random>");
 		queue(".\r\r");
@@ -505,7 +512,7 @@ function queueBodyChange():void {
 	if(pscale > escale) {
 		--pscale;
 		if(pscale < escale && Math.random()*100 < 51) --pscale;
-		queue("You feel dizzy as a strange tingling runs all along your <skintype>, the whole world around you seemingly growing in size. When the change subsides, you find that you've shrunk to be <scale desc> in size. ");
+		queue("     You feel dizzy as a strange tingling runs all along your <skintype>, the whole world around you seemingly growing in size. When the change subsides, you find that you've shrunk to be <scale desc> in size. ");
 		if(pscale > 5) queue("<one of>Perhaps it'll be less of a hassle moving around indoors now||Finding clothes that don't fit so tightly should be easier now, if your altered form will even allow it||It feels like your size is slightly more reasonable now<random>");
 		else queue("<one of>You figure this won't make your life any easier when you need to fetch something high up||Most clothes you find will probably be too large for you, assuming your altered form will even allow them to fit||Thankfully, it doesn't seem to inhibit your strength or speed<random>");
 		queue(".\r\r");
@@ -513,16 +520,16 @@ function queueBodyChange():void {
 	if(pbreastpairs != ebreastpairs) {
 		if(pbreastpairs < ebreastpairs) {
 			if(pbreastsize > 0) {
-				queue("Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r");
+				queue("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r");
 			}
-			else queue("Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of nipples, pressing out of your <skintype>\r\r");
+			else queue("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of nipples, pressing out of your <skintype>\r\r");
 			++pbreastpairs;
 		}
 		else {
 			if(pbreastsize > 0) {
-				queue("You look down just in time to see two nipples, breasts included, be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
+				queue("     You look down just in time to see two nipples, breasts included, be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
 			}
-			else queue("You look down just in time to see two nipples be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
+			else queue("     You look down just in time to see two nipples be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
 			--pbreastpairs;
 		}
 	}
@@ -531,13 +538,13 @@ function queueBodyChange():void {
 			var prevbreasts:Number = pbreastsize;
 			++pbreastsize;
 			if(pbreastsize < ebreastsize && Math.random()*100 < 51) ++pbreastsize;
-			if(prevbreasts == 0) queue("You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your once entirely flat chest swells to develop <breast size desc> <one of>orbs||breasts||jugs||tits<random>!\r\r");
-			else queue("You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> grow to become <breast size desc>!\r\r");
+			if(prevbreasts == 0) queue("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your once entirely flat chest swells to develop <breast size desc> <one of>orbs||breasts||jugs||tits<random>!\r\r");
+			else queue("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> grow to become <breast size desc>!\r\r");
 		}
 		else if(pbreastsize > ebreastsize) {
 			--pbreastsize;
 			if(pbreastsize > ebreastsize && Math.random()*100 < 51) --pbreastsize;
-			queue("You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> shrink until they're <breast size desc>!\r\r");
+			queue("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> shrink until they're <breast size desc>!\r\r");
 		}
 	}
 }

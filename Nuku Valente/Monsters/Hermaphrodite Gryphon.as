@@ -6,7 +6,7 @@ function hermGryphonCombat():void {
 	ename = "Hermaphrodite Gryphon";
 	estrength = 12;
 	edexterity = 10;
-	estamina = 12;
+	eendurance = 12;
 	eperception = 14;
 	eintelligence = 10;
 	echarisma = 12;
@@ -20,6 +20,7 @@ function hermGryphonCombat():void {
 }
 
 function hermGryphonInfect():void {
+	ename = "Hermaphrodite Gryphon";
 	ecocks = 1;
 	ecocksize = 3;
 	eballsize = 3;
@@ -57,7 +58,7 @@ function hermgryphvictory():void {
 	if(HP < 1) say("     Too exhausted to fight back, you fall to your knees. The tainted gryphon lets out a mocking chirp at its newfound victim.\r\r");
 	else say("     You willfully offer yourself, dropping to your knees. An amused look streaked across the tainted gryphon’s face, she’s no doubt entertained by the offer.\r\r");
 	if(anallevel != 1 && (pcunts == 0 || anallevel == 3) && (Math.random()*100 < 34 || (anallevel == 3 && Math.random()*100 < 34))) {
-		say("She’s, at the very least, gentle when she forces you to bend over, pulling free any obstruction in her path until your <bodytype> ass is freely exposed before the monster’s lewd gaze. You have some doubts over whether she’ll remain gentle when ");
+		say("     She’s, at the very least, gentle when she forces you to bend over, pulling free any obstruction in her path until your <bodytype> ass is freely exposed before the monster’s lewd gaze. You have some doubts over whether she’ll remain gentle when ");
 		if(pscale >= 7) say("she climbs atop your larger, <bodyshape> form");
 		else say(" she closes in behind your <bodyshape> form");
 		say(" and you feel the oozing, black tip of her dick press against your anal ring.\r\r");
@@ -143,7 +144,7 @@ function hermgryphvictory():void {
 			say("hilts her dick in you one last time. Gullet flooded with a sudden rush of her hot, virile cum, she forces you to swallow down each thick gout of her tainted seed");
 			choice = 1;
 		}
-		say("until she’s utterly spent.\r\r");
+		say(" until she’s utterly spent.\r\r");
 		if(pcocks > 0) say("     Overtaken by your own lust, you can only endure the shame as you finally find bliss, wasting your <cum size desc> load against the ground.");
 		else if(pcunts > 0) say("     Overtaken by your own lust, you can only endure the shame as you finally find bliss, staining the ground with your juices.");
 		else say("     Overwhelmed by your own, insatiable need, you can only writhe in a shameful display.");
