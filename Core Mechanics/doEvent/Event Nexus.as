@@ -6,6 +6,7 @@ var doBypassEvent:Number = 0;
 
 function doEvent(eventNum:Number):void {
 	trace("doEvent called. Eventnum " + eventNum + " triggered.");
+	newGame.visible = false;
 	if(doBypass == true) doBypass = false
 	/*if(doBypass && doBypassEvent != 0) {
 		var newevent:Number = doBypassEvent;
@@ -14,6 +15,7 @@ function doEvent(eventNum:Number):void {
 		doEvent(newevent);
 	}*/
 	else {
+		if(eventNum == -1) revertButtons();
 		if(eventNum < 2) startEvents(eventNum);
 		if(eventNum >= 2 && eventNum < 3) roomEvents(eventNum);
 		if(eventNum >= 3 && eventNum < 4) inventEvents(eventNum);
@@ -23,15 +25,27 @@ function doEvent(eventNum:Number):void {
 		if(eventNum == 11) {
 			queue("Resting...\r\r");
 			var route1:Number = MAXHP/4;
-			var route2:Number = Math.round(stamina*1.5)+level;
+			var route2:Number = Math.round(endurance*1.5)+level;
 			if(route1 > route2) HP += route1;
 			else HP += route2;
 			if(HP > MAXHP) HP = MAXHP;
 			passTime(120);
 			doEvent(lastRoom);
 		}
-		if(eventNum == 12) {
-			trace(itemTable);
+		if(eventNum == 99) {
+			if(inCreation) {
+				if(inMajor) majorFeatChoice = tappedFeat;
+				else minorFeatChoice = tappedFeat;
+				doEvent(1);
+			}
+			else {
+				addFeat(tappedFeat);
+				doEvent(lastRoom);
+			}
+			tappedFeat = "";
+		}
+		if(eventNum == 1000) {
+			trace(pbodyname + pskinname + pheadname + ptailname + pcockname);
 		}
 	}
 	//

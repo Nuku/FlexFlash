@@ -22,12 +22,23 @@ drop entries:
 2 = undroppable, untrashable
 */
 
+var tappeditem:String = "";
+var removeitem:String = "";
+var itemmove:Number = 0;
+var itemtapped:String = "";
+var droppeditem:Array = [];
+var takenitem:String = "";
+
+var bunkerinvent:Array = [];
+var playerinvent:Array = [];
+var abbeyinvent:Array = [];
+
 var itemTable:Array = [];
 
-//itemTable.push([ "Name", Weight, "Description.", classification, use function, stack, droppability ]);
-itemTable.push([ "Food", 1, "Some non-perishable food. Good to sating hunger.", 1, consumeFood, 1, 0 ]);
-itemTable.push([ "Bottled Water", 1, "A bottle of water. Good for slaking thirst.", 1, consumeWater, 1, 0 ]);
-itemTable.push([ "Journal", 1, "A small leather clad book. Spending some time writing in it can help clear your thoughts and recenter your troubled mind.", 2, useJournal, 1, 2 ]);
+//itemTable.push([ 0:"Name", 1:Weight, 2:"Description.", 3:classification, 4:use function, 5:droppability ]);
+itemTable.push([ "Food", 1, "Some non-perishable food. Good to sating hunger.", 1, consumeFood, 0 ]);
+itemTable.push([ "Bottled Water", 1, "A bottle of water. Good for slaking thirst.", 1, consumeWater, 0 ]);
+itemTable.push([ "Journal", 1, "A small, leather-clad book. Spending some time writing in it can help clear your thoughts and recenter your troubled mind.", 2, useJournal, 2 ]);
 
 
 function consumeFood():void {
@@ -76,9 +87,6 @@ function brainDescr():String {
 	return(descr);
 }
 
-var tappeditem:Array = [];
-var removeitem:Array = [];
-
 function givePlayer(item:String, stack:Number):void {
 	var tempnum:Number = 0;
 	var arrayLength:Number = itemTable.length;
@@ -93,102 +101,75 @@ function givePlayer(item:String, stack:Number):void {
 	if(found == true) {
 		trace("Dumping stack: " + stack);
 		while(stack > 0) {
-			takenitem = tappeditem;
+			takenitem = item;
 			shiftstock(playerinvent);
 			--stack;
 		}
 	}
-	tappeditem = [];
+	else {
+		trace("Item not found in master list. Aborting");
+	}
+	tappeditem = "";
 }
 
-
-function clone(source:Object):* 
-{ 
-    var myBA:ByteArray = new ByteArray(); 
-    myBA.writeObject(source); 
-    myBA.position = 0; 
-    return(myBA.readObject()); 
-}
 
 function interact(item:String):void {
+	tappeditem = item;
 	var tempnum:Number = 0;
 	var arrayLength:Number = itemTable.length;
-	var found:Boolean = false;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(itemTable[tempnum][0] == item && found == false) {
-			found = true;
-			tappeditem = clone(itemTable[tempnum]);
-			tappeditem[4] = itemTable[tempnum][4];
+		if(itemTable[tempnum][0] == item) {
+			say("\r\r" + itemTable[tempnum][0] + " selected:");
+			button1(true, "Take", 3.1);
+			button2(true, "Look", 3.2);
+			button3(true, "Use", 3.3);
+			button4(false, "", 0);
+			button5(false, "", 0);
+			button6(true, "Cancel", 3.4);
+			buttonScavCity(false);
+			buttonExploreCity(false);
+			buttonScavLocal(false);
+			buttonExploreLocal(false);
+			buttonInventory(false);
+			buttonAppearance(false);
+			newGame.visible = false;
+			tempnum = arrayLength;
 			trace("Found Item: " + tappeditem);
 		}
-	}
-	if(found == true) {
-		say("\r\r" + tappeditem[0] + " Selected.");
-		Choice1Outline.visible = true;
-		Choice2Outline.visible = true;
-		Choice3Outline.visible = true;
-		Choice6Outline.visible = true;
-		Choice1.visible = true;
-		Choice2.visible = true;
-		Choice3.visible = true;
-		Choice6.visible = true;
-		Choice1.htmlText="Take";
-		Choice2.htmlText="Look";
-		Choice3.htmlText="Use";
-		Choice6.htmlText="Cancel";
-		button1Choice = 3.1;
-		button2Choice = 3.2;
-		button3Choice = 3.3;
-		button6Choice = 3.4;
 	}
 }
 
 function invInteract(item:String):void {
+	tappeditem = item;
 	var tempnum:Number = 0;
 	var arrayLength:Number = itemTable.length;
 	var found:Boolean = false;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 		if(itemTable[tempnum][0] == item && found == false) {
-			found = true;
-			tappeditem = clone(itemTable[tempnum]);
-			tappeditem[4] = itemTable[tempnum][4];
+			say("\r\r" + itemTable[tempnum][0] + " selected:");
+			button1(true, "Drop", 3.5);
+			button2(true, "Look", 3.6);
+			button3(true, "Use", 3.7);
+			button4(false, "", 0);
+			button5(false, "", 0);
+			button6(true, "Cancel", 3.8);
+			buttonScavCity(false);
+			buttonExploreCity(false);
+			buttonScavLocal(false);
+			buttonExploreLocal(false);
+			buttonInventory(false);
+			buttonAppearance(false);
+			tempnum = arrayLength;
 			trace("Found Item: " + tappeditem + "From Item table: " + itemTable[tempnum])
 		}
 	}
-	if(found == true) {
-		say("\r\r" + tappeditem[0] + " Selected.");
-		Choice1Outline.visible = true;
-		Choice2Outline.visible = true;
-		Choice3Outline.visible = true;
-		Choice6Outline.visible = true;
-		Choice1.visible = true;
-		Choice2.visible = true;
-		Choice3.visible = true;
-		Choice6.visible = true;
-		Choice1.htmlText="Drop";
-		Choice2.htmlText="Look";
-		Choice3.htmlText="Use";
-		Choice6.htmlText="Cancel";
-		button1Choice = 3.5;
-		button2Choice = 3.6;
-		button3Choice = 3.7;
-		button6Choice = 3.8;
-	}
 }
-
-var itemmove:Number = 0;
-var itemtapped:String = "";
-var droppeditem:Array = [];
-var takenitem:Array = [];
-
-var bunkerinvent:Array = [];
-var playerinvent:Array = [];
-var abbeyinvent:Array = [];
 
 
 
 function takestock(arr:Array, format:Boolean):void {
 	shiftstock(arr);
+	trace(arr);
 	arr.sortOn("0");
 	var tempnum:Number = 0;
 	var triplock:Boolean = false;
@@ -197,7 +178,16 @@ function takestock(arr:Array, format:Boolean):void {
 		trace("This room has Inventory.");
 		if(format == true) {
 			for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-				say("<a href='event:3~" + arr[tempnum][0] + "'>" + arr[tempnum][0] + "</a>	x " + arr[tempnum][5] + "( " + arr[tempnum][5]*arr[tempnum][1] + " lbs)\r");
+				var i:Number = 0;
+				var secondLength:Number = itemTable.length;
+				var weight:Number = 0;
+				for(i = 0; i < secondLength; i++) {
+					if(itemTable[i][0] == arr[tempnum][0]) {
+						weight = itemTable[i][1]
+						i = secondLength;
+					}
+				}
+				say("<a href='event:3~" + arr[tempnum][0] + "'>" + arr[tempnum][0] + "</a>	x " + arr[tempnum][1] + "( " + weight*arr[tempnum][1] + " lbs)\r");
 			}
 		}
 		else {
@@ -205,7 +195,7 @@ function takestock(arr:Array, format:Boolean):void {
 			trace("EXACT INVENTORY LIST: " + arr)
 			for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 				//trace("PARTICULAR ITEM: " + arr[tempnum][0] + "/" + arr[tempnum][5]);
-				say("<a href='event:2~" + arr[tempnum][0] + "'>" + arr[tempnum][0] + "</a>(" + arr[tempnum][5] + ")");
+				say("<a href='event:2~" + arr[tempnum][0] + "'>" + arr[tempnum][0] + "</a>(" + arr[tempnum][1] + ")");
 				if(arr[(tempnum + 1)] != undefined) say(", ");
 			}
 		}
@@ -214,23 +204,23 @@ function takestock(arr:Array, format:Boolean):void {
 }
 
 var itemdrop:Number = 0;
-var tappeddrop:String
+var tappeddrop:String = "";
 
 function shiftstock(arr:Array):void {
 	var tempnum:Number = 0;
 	var triplock:Boolean = false;
 	var arrayLength:Number = arr.length;
 	if(arr == playerinvent) {
-		if(takenitem.length != 0) {
+		if(takenitem != "") {
 			trace("Adding Item to inventory.");
 			for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 				trace("Checking inventory array slot " + tempnum + ". Which has:" + arr[tempnum][0]);
-				if(arr[tempnum][0] == takenitem[0] && triplock == false) {
+				if(arr[tempnum][0] == takenitem && triplock == false) {
 					trace("Found item in player inventory.");
-					arr[tempnum][5] += 1;
+					arr[tempnum][1] += 1;
 					tempnum = arrayLength;
 					triplock = true;
-					takenitem = [];
+					takenitem = "";
 					trace("New Inventory: " + arr);
 					trace("MASTERLIST CHECK: " + itemTable);
 				}
@@ -238,22 +228,22 @@ function shiftstock(arr:Array):void {
 			if(triplock == false) {
 				trace("No item in player inventory, pushing from tappeditem.");
 				tempnum = 0;
-				arr.push(takenitem);
+				arr.push([takenitem, 1]);
 				trace("New room Inventory: " + arr);
 				trace("Carried Item: " + tappeditem);
-				takenitem = [];
+				takenitem = "";
 				trace("Carried Item -- post removal: " + tappeditem);
 			}
 		}
 		tempnum = 0;
-		if(removeitem.length != 0) {
-			trace("Removing item from inventory: " + removeitem[0]);
+		if(removeitem != "") {
+			trace("Removing item from inventory: " + removeitem);
 			for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-				if(arr[tempnum][0] == removeitem[0] && triplock == false) {
+				if(arr[tempnum][0] == removeitem && triplock == false) {
 					trace("Checking inventory array slot " + tempnum + ". Which has:" + arr[tempnum][0] + " At a stack of: " + arr[tempnum][5]);
-					arr[tempnum][5] -= 1;
-					trace("Stack now:" + arr[tempnum][5]);
-					if(arr[tempnum][5] <= 0) {
+					arr[tempnum][1] -= 1;
+					trace("Stack now:" + arr[tempnum][1]);
+					if(arr[tempnum][1] <= 0) {
 						trace("No more " + arr[tempnum][0] + ", attempting to remove!");
 						arr.splice([tempnum], 1);
 					}
@@ -262,7 +252,7 @@ function shiftstock(arr:Array):void {
 					trace("New Inventory: " + arr);
 				}
 			}
-			removeitem = [];
+			removeitem = "";
 			tempnum = 0;
 		}
 	}
@@ -277,7 +267,7 @@ function shiftstock(arr:Array):void {
 					trace("Checking room array slot " + tempnum + ". Which has:" + arr[tempnum][0]);
 					if(arr[tempnum][0] == droppeditem[0][0]) {
 						trace("Found item in room inventory.");
-						arr[tempnum][5] += droppeditem[0][5];
+						arr[tempnum][1] += droppeditem[0][1];
 						droppeditem.splice([0], 1);
 						triplock = true;
 						tempnum = arrayLength;
@@ -299,11 +289,11 @@ function shiftstock(arr:Array):void {
 		if(removeitem.length != 0) {
 			trace("Removing item from room: " + removeitem);
 			for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-				if(arr[tempnum][0] == removeitem[0] && triplock == false) {
+				if(arr[tempnum][0] == removeitem && triplock == false) {
 					trace("Checking room array slot " + tempnum + ". Which has:" + arr[tempnum][0] + " At a stack of: " + arr[tempnum][5]);
-					arr[tempnum][5] -= 1;
-					trace("Stack now:" + arr[tempnum][5]);
-					if(arr[tempnum][5] <= 0) {
+					arr[tempnum][1] -= 1;
+					trace("Stack now:" + arr[tempnum][1]);
+					if(arr[tempnum][1] <= 0) {
 						trace("No more " + arr[tempnum][0] + ", attempting to remove!");
 						arr.splice([tempnum], 1);
 					}
@@ -312,7 +302,7 @@ function shiftstock(arr:Array):void {
 					trace("New room Inventory: " + arr);
 				}
 			}
-			removeitem = [];
+			removeitem = "";
 		}
 		else trace("No items being dropped in here.");
 	}

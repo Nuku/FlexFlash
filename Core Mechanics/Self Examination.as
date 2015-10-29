@@ -2,7 +2,7 @@
 
 function appearance(e:MouseEvent):void
 {
-	selfExamine();
+	if(allowAppearance) selfExamine();
 }
 
 
@@ -11,7 +11,7 @@ function selfExamine()
 	var cocktext:String = "";
 	var cunttext:String = "";
 	screenClear();
-	say("LEVEL: " + level + "\rStrength: " + strength + "\rDexterity:" + dexterity + "\rStamina: " + stamina + "\rCharisma: " + charisma + "\rPerception: " + perception + "\rIntelligence: " + intelligence + "\rFeats: NYI!");
+	say("LEVEL: " + level + "\rStrength: " + strength + "\rDexterity:" + dexterity + "\rEndurance: " + endurance + "\rCharisma: " + charisma + "\rPerception: " + perception + "\rIntelligence: " + intelligence + "\rFeats: " + pFeats);
 	if(pcocks > 1) {
 		cocktext = "have " + pcocks + " " + cockSizeDesc() + " <one of>cocks||dicks||penises||shafts||manhoods<random>. " + pcockdesc + ". They're ";
 		if(libido == 0) cocktext = cocktext + "not aroused in the slightest at the moment";
@@ -59,10 +59,10 @@ function selfExamine()
 		if(pbreastpairs == 1 && pbreastsize == 0) say("You have a pair of nipples on your <bodytype> torso, and is otherwise unremarkable.");
 		else if(pbreastpairs > 1 && pbreastsize == 0) say("You have " + pbreastpairs + " pairs of nipples across your " + pbodytype + " torso.");
 		else if(pbreastpairs == 1) say("You have a pair of " + breastSizeDesc() + " breasts on your " + pbodytype + " chest.");
-		else if(pbreastpairs == 2) say("you have two pairs of breasts lining your " + pbodytype + " torso. The topmostset is " + breastSizeDesc() + " with the second set being a fraction of that size.");
-		else say("you have " + pbreastpairs + " pairs of breasts lining your " + pbodytype + " torso. The topmostset is " + breastSizeDesc() + " with each successive set being a fraction of previous set's size.");
+		else if(pbreastpairs == 2) say("you have two pairs of breasts lining your " + pbodytype + " torso. The topmost set is " + breastSizeDesc() + " with the second set being a fraction of that size.");
+		else say("you have " + pbreastpairs + " pairs of breasts lining your " + pbodytype + " torso. The topmost set is " + breastSizeDesc() + " with each successive set being a fraction of previous set's size.");
 	}
-	doNext(lastRoom);
+	doBack(lastRoom);
 }
 
 

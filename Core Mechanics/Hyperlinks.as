@@ -1,4 +1,4 @@
-﻿//Very complicated!
+﻿//The system for defining hyperlink actions and stuff
 
 function linkify(linkEvent:TextEvent):void {
 	if(nextButton == false) {
@@ -16,6 +16,11 @@ function linkify(linkEvent:TextEvent):void {
 		else if(arr[0] == 3){
 			invInteract(arr[1]);
 		}
+		else if(arr[0] == 4){
+			tappedFeat = arr[1];
+			say(featDesc(arr[1]) + "\rIs this your choice?");
+			doYesNo(99, lastPage);
+		}
 		else if(arr[0] == 41){
 			passTime(180);
 			say("\r\r     Time advanced by 3 hours.");
@@ -28,8 +33,6 @@ function linkify(linkEvent:TextEvent):void {
 addEventListener(TextEvent.LINK, linkify);
 
 var myCSS:StyleSheet = new StyleSheet();
-myCSS.setStyle("a:link", {color:'#0000CC',textDecoration:'none'});
-myCSS.setStyle("a:hover", {color:'#0000FF',textDecoration:'underline'});
-//myCSS.setStyle("b:fontWeight", "bold");
-myCSS.setStyle("i", "italic");
+myCSS.setStyle("a:link", {color:'#0000CC',textDecoration:'none', fontWeight: 'bold'});
+myCSS.setStyle("a:hover", {color:'#0000FF',textDecoration:'underline', fontWeight: 'bold'});
 outputWindow.styleSheet = myCSS;

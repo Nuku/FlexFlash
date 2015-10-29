@@ -15,7 +15,7 @@ function monsterCombat():void {
 	ename = "Name";
 	estrength = 10;
 	edexterity = 12;
-	estamina = 8;
+	eendurance = 8;
 	eperception = 10;
 	eintelligence = 6;
 	echarisma = 6;
@@ -35,6 +35,7 @@ As you can see, the game loads all of the monster's stats, their name (Though th
 */
 
 function monsterInfect():void {
+	ename = "Name";
 	ecocks = 1;
 	ecocksize = 2;
 	eballsize = 2;
