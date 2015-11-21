@@ -2,11 +2,11 @@
 var something:Number = 0;
 var cullEvent:Boolean = false;
 
-/*exploreMasterList.push(["Wyvern Flight", "Outside", 4.1]);
+exploreMasterList.push(["Wyvern Flight", "Outside", 4.1]);
 exploreMasterList.push(["Cats and Dogs", "Outside", 4.2]);
 exploreMasterList.push(["Giant Egg", "Outside", 4.3]);
 exploreMasterList.push(["Masturbating Fox", "Outside", 4.4]);
-exploreMasterList.push(["School Spirit", "Outside", 4.5]);*/
+exploreMasterList.push(["School Spirit", "Outside", 4.5]);
 exploreMasterList.push(["Test Event", "Outside", 4.6]);
 
 function exploreEvents(eventNum:Number):void {
