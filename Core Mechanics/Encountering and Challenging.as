@@ -19,6 +19,7 @@ function encounter(): void {
 	say("\r\r");
 	enemyentry();
 	eHP = eMAXHP;
+	elevel = pulledTable[tempnum][0];
 	doNext(3);
 }
 
@@ -29,7 +30,10 @@ function challenge(str:String): void {
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 		if(monsterTable[tempnum][1] == str) {
 			monsterTable[tempnum][3]();
+			monsterTable[tempnum][4]();
+			enemyentry();
 			eHP = eMAXHP;
+			elevel = monsterTable[tempnum][0];
 			doNext(3);
 			return;
 		}

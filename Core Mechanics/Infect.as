@@ -236,8 +236,10 @@ function libidoChange():void {
 }
 
 function sexChange():void {
+	var prevcock = pcocksize;
+	var prevballs = pballsize;
 	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && ecocksize > pcocksize) {
-		var prevcock = pcocksize;
+		prevcock = pcocksize;
 		++pcocksize;
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
 		pcocksize += Math.round((ecocksize - pcocksize)/3);
@@ -246,7 +248,7 @@ function sexChange():void {
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocksize > ecocksize) {
-		var prevcock = pcocksize;
+		prevcock = pcocksize;
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
 		if(prevcock > pcocksize) {
@@ -257,7 +259,7 @@ function sexChange():void {
 		}
 	}
 	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && eballsize > pballsize && pcocks >= 1) {
-		var prevballs = pballsize;
+		prevballs = pballsize;
 		++pballsize;
 		if(pballsize < eballsize && Math.random()*100 < 51) ++pballsize;
 		if(prevballs < pballsize) {
@@ -265,7 +267,7 @@ function sexChange():void {
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pballsize > eballsize) {
-		var prevballs = pballsize;
+		prevballs = pballsize;
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
 		if(prevballs > pballsize) {
@@ -289,8 +291,8 @@ function sexChange():void {
 		}
 	}
 	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy")) {
-		var prevcock = pcocksize;
-		var prevballs = pballsize;
+		prevcock = pcocksize;
+		prevballs = pballsize;
 		--pcocksize;
 		--pballsize;
 		if(pcocksize >= 2 && Math.random()*100 < 34) --pcocksize;
@@ -344,8 +346,10 @@ function sexChange():void {
 }
 
 function queueSexChange():void {
+	var prevcock = pcocksize;
+	var prevballs = pballsize;
 	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && ecocksize > pcocksize) {
-		var prevcock = pcocksize;
+		prevcock = pcocksize;
 		++pcocksize;
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
 		pcocksize += Math.round((ecocksize - pcocksize)/3);
@@ -354,7 +358,7 @@ function queueSexChange():void {
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocksize > ecocksize) {
-		var prevcock = pcocksize;
+		prevcock = pcocksize;
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
 		if(prevcock > pcocksize) {
@@ -365,7 +369,7 @@ function queueSexChange():void {
 		}
 	}
 	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && eballsize > pballsize && pcocks >= 1) {
-		var prevballs = pballsize;
+		prevballs = pballsize;
 		++pballsize;
 		if(pballsize < eballsize && Math.random()*100 < 51) ++pballsize;
 		if(prevballs < pballsize) {
@@ -373,7 +377,7 @@ function queueSexChange():void {
 		}
 	}
 	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pballsize > eballsize) {
-		var prevballs = pballsize;
+		prevballs = pballsize;
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
 		if(prevballs > pballsize) {
@@ -397,8 +401,8 @@ function queueSexChange():void {
 		}
 	}
 	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy")) {
-		var prevcock = pcocksize;
-		var prevballs = pballsize;
+		prevcock = pcocksize;
+		prevballs = pballsize;
 		--pcocksize;
 		--pballsize;
 		if(pcocksize >= 2 && Math.random()*100 < 34) --pcocksize;

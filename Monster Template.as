@@ -15,7 +15,7 @@ function monsterCombat():void {
 	ename = "Name";
 	estrength = 10;
 	edexterity = 12;
-	eendurance = 8;
+	estamina = 8;
 	eperception = 10;
 	eintelligence = 6;
 	echarisma = 6;

@@ -66,7 +66,7 @@ var nextButton:Boolean = false;
 //Setup Buttons & Window
 statDisplay();
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <b>Iteration 2: Character Creation</b> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <b>Iteration 3: Progression</b> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);
@@ -118,6 +118,8 @@ statPane.visible = true;
 dataBox.visible = false;
 dataText.visible = false;
 newGame.visible = true;
+inputBox.nameInput.restrict = "A-Z a-z 0-9";
+inputBox.visible = false;
 
 var allowInventory:Boolean = false;
 var allowAppearance:Boolean = false;
@@ -138,25 +140,9 @@ function doCitScav(e:MouseEvent):void {
 	if(allowScavCity) doEvent(5);
 }
 
-function hideButtons():void {
-	appearanceText.visible=false;
-	appearanceBox.visible=false;
-	dataBox.visible = false;
-	dataText.visible = false;
-	Choice1.visible=false;
-	Choice2.visible=false;
-	Choice3.visible=false;
-	Choice4.visible=false;
-	Choice1Outline.visible=false;
-	Choice2Outline.visible=false;
-	Choice3Outline.visible=false;
-	Choice4Outline.visible=false;
-}
-
 //Update Stat Display
-function statDisplay():void
-{
-	statPane.htmlText = "HP: " + HP + "\rHunger: " + hunger + " Thirst: " + thirst + "\rHumanity: " + Math.floor(humanity) + " Libido: " + libido + " Time Left: " + translatetimer();
+function statDisplay():void {
+	statPane.htmlText = "HP: " + HP + " Level: " + level + "\rHunger: " + hunger + " Thirst: " + thirst + "\rHumanity: " + Math.floor(humanity) + " Libido: " + libido + " Time Left: " + translatetimer() + " XP: " + XP + "/" + MAXXP;
 }
 
 function screenClear():void {
@@ -863,41 +849,37 @@ function buttonEvent6(e:MouseEvent):void
 
 //Hide most buttons and display 'next' and call new event.
 function doNext(eventNum:Number):void {
-	if(doBypass == false) {
-		newGame.visible = false;
-		button1(true, "Next", eventNum);
-		button2(false, "", 0);
-		button3(false, "", 0);
-		button4(false, "", 0);
-		button5(false, "", 0);
-		button6(false, "", 0);
-		buttonInventory(false);
-		buttonAppearance(false);
-		buttonScavCity(false);
-		buttonExploreCity(false);
-		buttonScavLocal(false);
-		buttonExploreLocal(false);
-		nextButton = true;
-	}
+	newGame.visible = false;
+	button1(true, "Next", eventNum);
+	button2(false, "", 0);
+	button3(false, "", 0);
+	button4(false, "", 0);
+	button5(false, "", 0);
+	button6(false, "", 0);
+	buttonInventory(false);
+	buttonAppearance(false);
+	buttonScavCity(false);
+	buttonExploreCity(false);
+	buttonScavLocal(false);
+	buttonExploreLocal(false);
+	nextButton = true;
 }
 
 function doBack(eventNum:Number):void {
-	if(doBypass == false) {
-		newGame.visible = false;
-		button1(true, "Back", eventNum);
-		button2(false, "", 0);
-		button3(false, "", 0);
-		button4(false, "", 0);
-		button5(false, "", 0);
-		button6(false, "", 0);
-		buttonInventory(false);
-		buttonAppearance(false);
-		buttonScavCity(false);
-		buttonExploreCity(false);
-		buttonScavLocal(false);
-		buttonExploreLocal(false);
-		nextButton = true;
-	}
+	newGame.visible = false;
+	button1(true, "Back", eventNum);
+	button2(false, "", 0);
+	button3(false, "", 0);
+	button4(false, "", 0);
+	button5(false, "", 0);
+	button6(false, "", 0);
+	buttonInventory(false);
+	buttonAppearance(false);
+	buttonScavCity(false);
+	buttonExploreCity(false);
+	buttonScavLocal(false);
+	buttonExploreLocal(false);
+	nextButton = true;
 }
 
 function doYesNo(yesNum:Number, noNum:Number) {

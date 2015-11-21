@@ -10,8 +10,8 @@ function fhuskyCombat():void {
 	eperception = 6;
 	eintelligence = 2;
 	echarisma = 16;
-	eMAXHP = 15;
-	ewdam = 3;
+	eMAXHP = 150;
+	ewdam = 30;
 	enemyloss = fhuskyloss;
 	enemyvic = fhuskyvictory;
 	enemyattack = fhuskyattack;

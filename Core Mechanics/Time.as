@@ -42,10 +42,10 @@ function passTime(minutes:Number):void {
 			++healthTicker;
 			if(healthTicker == 0) {
 				++HP;
-				healthTicker = Math.round(-(1/((((endurance/2)/3)/60))));
+				healthTicker = Math.round(-((1/((((endurance/2)/3)/60)))/10));
 			}
 		}
-		else healthTicker = Math.round(-(1/((((endurance/2)/3)/60))));
+		else healthTicker = Math.round(-((1/((((endurance/2)/3)/60)))/10));
 		if(isPure("Human") == false) {
 			var corruption:Number = 0;
 			if(pheadname != "Human") ++corruption;

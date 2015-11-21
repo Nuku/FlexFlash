@@ -6,12 +6,18 @@ function appearance(e:MouseEvent):void
 }
 
 
-function selfExamine()
-{
+function selfExamine() {
+	var pFeatList:String = "";
+	var tempnum:Number = 0;
+	var arrayLength:Number = pFeats.length;
+	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
+		pFeatList += pFeats[tempnum][0]
+		if(tempnum+1 != arrayLength) pFeatList += ", ";
+	}
 	var cocktext:String = "";
 	var cunttext:String = "";
 	screenClear();
-	say("LEVEL: " + level + "\rStrength: " + strength + "\rDexterity:" + dexterity + "\rEndurance: " + endurance + "\rCharisma: " + charisma + "\rPerception: " + perception + "\rIntelligence: " + intelligence + "\rFeats: " + pFeats);
+	say("LEVEL: " + level + "\rStrength: " + strength + "\rDexterity:" + dexterity + "\rEndurance: " + endurance + "\rCharisma: " + charisma + "\rPerception: " + perception + "\rIntelligence: " + intelligence + "\rFeats: " + pFeatList);
 	if(pcocks > 1) {
 		cocktext = "have " + pcocks + " " + cockSizeDesc() + " <one of>cocks||dicks||penises||shafts||manhoods<random>. " + pcockdesc + ". They're ";
 		if(libido == 0) cocktext = cocktext + "not aroused in the slightest at the moment";
