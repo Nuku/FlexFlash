@@ -5,7 +5,7 @@ function roomEvents(eventNum:Number):void {
 	if(eventNum == 2.1) {
 		lastRoom = eventNum;
 		screenClear();
-		say("     Sparsely appointed, the bunker was built back during the Cold War, then abandoned to become a forgotten curiosity at best. Its walls are solid concrete and the shelves are at least in good repair.  There are several large storage lockers in the bunker as well. They look like a good place to store all your extra stuff. There are several cots bolted to the floor and walls for those taking shelter here to rest upon. The small sink seems to be broken, producing no water no matter how much the knob is turned. There's a large, secure-looking door leading outside.");
+		say("     Sparsely appointed, the bunker was built back during the Cold War, then abandoned to become a forgotten curiosity at best. Its walls are solid concrete and the shelves are at least in good repair.  There are several large storage lockers in the bunker as well. They look like a good place to store all your extra stuff. There are several cots bolted to the floor and walls for those taking shelter here to rest upon. The small sink seems to be broken, producing no water no matter how much the knob is turned. There's a large, secure-looking door leading outside. <a href='event:1~100'>[+XP]</a> <a href='event:1~101'>[+MFEAT]</a>");
 		takestock(bunkerinvent, false);
 		button1(true, "Library", 2.2);
 		button2(false, "", 0);
@@ -35,12 +35,10 @@ function roomEvents(eventNum:Number):void {
 		buttonExploreCity(true);
 		buttonScavLocal(false);
 		buttonExploreLocal(false);
-		//Choice2.htmlText="Shop";
-		//Choice3.htmlText="Items";
-		//Choice4.htmlText="Sleep";
 		buttonInventory(true);
 		buttonAppearance(true);
 	}
 	outputQueue();
+	assessExp();
 	assessEnding();
 }

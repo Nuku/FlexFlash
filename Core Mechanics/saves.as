@@ -19,6 +19,9 @@ function savePreset(slot:String):Boolean {
 	saveFile.data.breastLevel = breastLevel;
 	saveFile.data.cuntLevel = cuntLevel;
 	saveFile.data.cockLevel = cockLevel;
+	saveFile.data.multiCock = multiCock;
+	saveFile.data.multiCunt = multiCunt;
+	saveFile.data.multiTits = multiTits;
 	saveFile.data.combiSexed = combiSexed;
 	saveFile.data.hardMode = hardMode;
 	saveFile.data.ironMan = ironMan;
@@ -68,6 +71,9 @@ function loadPreset(slot:String):Boolean {
 		breastLevel = saveFile.data.breastLevel;
 		cuntLevel = saveFile.data.cuntLevel;
 		cockLevel = saveFile.data.cockLevel;
+		multiCock = saveFile.data.multiCock;
+		multiCunt = saveFile.data.multiCunt;
+		multiTits = saveFile.data.multiTits;
 		combiSexed = saveFile.data.combiSexed;
 		hardMode = saveFile.data.hardMode;
 		ironMan = saveFile.data.ironMan;

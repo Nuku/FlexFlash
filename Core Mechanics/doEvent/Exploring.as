@@ -7,6 +7,7 @@ exploreMasterList.push(["Cats and Dogs", "Outside", 4.2]);
 exploreMasterList.push(["Giant Egg", "Outside", 4.3]);
 exploreMasterList.push(["Masturbating Fox", "Outside", 4.4]);
 exploreMasterList.push(["School Spirit", "Outside", 4.5]);
+exploreMasterList.push(["Test Event", "Outside", 4.6]);
 
 function exploreEvents(eventNum:Number):void {
 	if(eventNum == 4) {
@@ -36,5 +37,17 @@ function exploreEvents(eventNum:Number):void {
 		say("     While exploring the city, you discover a crashed school bus. There is no one on the bus, but you do find a dozen shredded cheerleader uniforms. Judging by the uniforms, the cheerleaders were from the local college. All the uniforms are ripped around the middle, almost as if the bellies of all the cheerleaders grew until they ripped through their uniforms. The excessive display is exacerbated by an abundant mess of cum and afterbirth interspersed with the ruined attire.\r\r     Obviousy, some wanton horror must have gotten on board the bus and impregnated every single cheerleader with its tainted seed. You quietly leave the bus and sneak away before the once-cheerleaders or their spawn return.");
 		cullEvent = true;
 		something = 1;
+	}
+	if(eventNum == 4.6) { //Test Event
+		say("     This is a test event, relating to in-event monster encounters.\r\r");
+		challenge("Latex Fox");
+		doBypass = 4.61
+		something = 1;
+	}
+	if(eventNum == 4.61) { //Test Event
+		screenClear();
+		if(fightOutcome != 10) say("You lost the Event");
+		else say("You won the Event");
+		doNext(lastRoom);
 	}
 }

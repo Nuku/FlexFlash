@@ -3,10 +3,9 @@ var knowallzones:Boolean = false;
 var knowallevents:Boolean = false;
 
 function exploration(zone:String):void {
-	//something = 0;
 	var roomfirst:Number = 1;
 	var bonus:Number = ((perception-10)/2);
-	//Add curious bonus!
+	if(hasFeat("Explorer")) bonus += 1+Math.round(bonus/5);
 	say("\r");
 	eventCheck(zone);
 	zoneCheck(zone);
@@ -31,8 +30,11 @@ function exploration(zone:String):void {
 		trace("Illegal Zone Access!");
 	}
 	queueTime = 120;
-	randomfightchance();
-	if(something == 0 && inCombat == false) say("\r\r     You decide to go exploring, but you encounter nothing and after two long hours of wandering you return to the relative safety of where you started.\r\r");
+	if(hasFeat("Explorer")) queueTime -= 30;
+	if(doBypass == 0) {
+		if(something == 0 && inCombat == false) say("\r\r     You decide to go exploring, but you encounter nothing and after wandering for what seems like forever you return to the relative safety of where you started.\r\r");
+		randomfightchance();
+	}
 	eventFound = false;
 }
 
@@ -100,7 +102,9 @@ function zoneCheck(zone:String):void {
 function randomfightchance():void {
 	var bonus:Number = ((perception-10)/2);
 	if((Math.random()*20) < (bonus+10)) {
-		say("\r\rWhile wandering, you suddenly feel like you're not alone...");
+		if(something == 0) say("\r\r     As you return");
+		else say("\r\rWhile wandering");
+		say(", you suddenly feel like you're not alone...");
 		encounter();
 	}
 	else doNext(lastRoom);
@@ -125,5 +129,6 @@ function scavenge():void {
 		doEvent(5.4);
 	}
 	queueTime = 120;
+	if(hasFeat("Scavenger")) queueTime -= 30;
 	randomfightchance();
 }

@@ -10,8 +10,8 @@ function hermGryphonCombat():void {
 	eperception = 14;
 	eintelligence = 10;
 	echarisma = 12;
-	eMAXHP = 22;
-	ewdam = 5;
+	eMAXHP = 220;
+	ewdam = 45;
 	enemyloss = hermgryphloss;
 	enemyvic = hermgryphvictory;
 	enemyattack = hermgryphattack;

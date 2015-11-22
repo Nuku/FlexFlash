@@ -10,8 +10,8 @@ function latexFoxCombat():void {
 	eperception = 10;
 	eintelligence = 6;
 	echarisma = 6;
-	eMAXHP = 15;
-	ewdam = 4;
+	eMAXHP = 150;
+	ewdam = 40;
 	enemyloss = latexfoxloss;
 	enemyvic = latexfoxvictory;
 	enemyattack = latexfoxattack;
@@ -51,10 +51,8 @@ function latexFoxInfect():void {
 }
 
 function latexfoxloss():void {
-	if(libido > 30 && (pcunts > 0 || pcocks > 0)) {
-		say("     Before you can strike the fox again, he cowers and lets out a high-pitched whine. He seems subdued for now, perhaps you should use him to sate your need?");
-		doYesNo(6.1, 6.2);
-		doBypass = true;
+	if((hasFeat("Dominant") || libido > 30) && (pcunts > 0 || pcocks > 0)) {
+		doBypass = 6.1;
 	}
 	else say("     <one of>With one final lash, the latex fox begins to make a whining sound. It appears that the creature is deflating, flumping onto the ground as an inanimate pile of rubber. It's unclear if the thing is dead or simply pretending to be to make you leave||Striking the critter down, he yips loudly, bouncing off into the distance and away from you<random>. With the matter attended to, you move on.");
 }

@@ -10,8 +10,8 @@ var ccStatAllowance:Number = 5;
 var ccRandom:Boolean = false;
 var playerName:String = "Survivor";
 
-var majorFeatChoice:String = "Apples";
-var minorFeatChoice:String = "Vanilla";
+var majorFeatChoice:String = "Adaptive Metabolism";
+var minorFeatChoice:String = "Street Smart";
 var inMajor:Boolean = true;
 var inCreation:Boolean = true;
 
@@ -19,6 +19,9 @@ var breastLevel:Number = 2;
 var cockLevel:Number = 2;
 var cuntLevel:Number = 2;
 var combiSexed:Number = 2;
+var multiCock:Number = 2;
+var multiCunt:Number = 2;
+var multiTits:Number = 2;
 
 var ccFate:Number = 1;
 var ironMan:Boolean = false;
@@ -49,14 +52,62 @@ function ccStats():String {
 
 function ccGRules():String {
 	var texts:String = "None";
-	if(cockLevel != 2 || cuntLevel != 2 || breastLevel != 2 || combiSexed != 2) {
+	if(cockLevel != 2 || cuntLevel != 2 || breastLevel != 2 || combiSexed != 2 || multiCock != 2 || multiCunt != 2 || multiTits != 2) {
 		texts = "";
-		if(cockLevel == 1) texts += "<b>Cock:</b>NEV/";
-		else if(cockLevel == 3) texts += "<b>Cock:</b>ALL/";
-		if(cuntLevel == 1) texts += "<b>Cunt:</b>NEV/";
-		else if(cuntLevel == 3) texts += "<b>Cunt:</b>ALL/";
-		if(breastLevel == 1) texts += "<b>Breasts:</b>NEV/";
-		else if(breastLevel == 3) texts += "<b>Breasts:</b>ALL/";
+		if(cockLevel != 2 || multiCock != 2) {
+			texts += "<b>Cock:</b>"
+			if(cockLevel != 2 && multiCock != 2) {
+				if(cockLevel == 1) texts += "NEV";
+				else texts += "ALL";
+				if(multiCock == 1) texts += "(MULTI-NEV)";
+				else texts += "(MULTI-ALL)";
+			}
+			else if(cockLevel != 2) {
+				if(cockLevel == 1) texts += "NEV";
+				else texts += "ALL";
+			}
+			else {
+				if(multiCock == 1) texts += "MULTI-NEV";
+				else texts += "MULTI-ALL";
+			}
+			texts += "/";
+		}
+		if(cuntLevel != 2 || multiCunt != 2) {
+			texts += "<b>Cunt:</b>"
+			if(cuntLevel != 2 && multiCunt != 2) {
+				if(cuntLevel == 1) texts += "NEV";
+				else texts += "ALL";
+				if(multiCunt == 1) texts += "(MULTI-NEV)";
+				else texts += "(MULTI-ALL)";
+			}
+			else if(cuntLevel != 2) {
+				if(cuntLevel == 1) texts += "NEV";
+				else texts += "ALL";
+			}
+			else {
+				if(multiCunt == 1) texts += "MULTI-NEV";
+				else texts += "MULTI-ALL";
+			}
+			texts += "/";	
+		}
+		if(breastLevel != 2 || multiTits != 2) {
+			texts += "<b>Breasts:</b>"
+			if(breastLevel != 2 && multiTits != 2) {
+				if(breastLevel == 1) texts += "NEV";
+				else texts += "ALL";
+				if(multiTits == 1) texts += "(MULTI-NEV)";
+				else texts += "(MULTI-ALL)";
+			}
+			else if(breastLevel != 2) {
+				if(breastLevel == 1) texts += "NEV";
+				else texts += "ALL";
+			}
+			else {
+				if(multiTits == 1) texts += "MULTI-NEV";
+				else texts += "MULTI-ALL";
+			}
+			texts += "/";
+		}
 		if(combiSexed == 1) texts += "<b>Combi:</b>NEV";
 		else if(combiSexed == 3) texts += "<b>Combi:</b>ALL";
 	}
@@ -148,9 +199,9 @@ function startEvents(eventNum:Number):void {
 		buttonAppearance(false);
 		inCombat = false;
 		screenClear();
-		say("<b>Character:</b>\r<a href='event:1~1.1'>Name:</a> " + playerName +"\r<a href='event:1~1.2'>Gender:</a> " + ccGender() + "\r<a href='event:1~1.3'>Stats:</a> " + ccStats() + "\r<a href='event:1~1.4'>Gender Rules:</a> " + ccGRules() + "\r<a href='event:1~1.5'>Major Feats:</a> " + majorFeatChoice + "\r<a href='event:1~1.6'>Minor Feat:</a> " + minorFeatChoice);
+		say("<b>Character:</b>\r<a href='event:1~1.1'>Name:</a> " + playerName +"\r<a href='event:1~1.2'>Gender:</a> " + ccGender() + "\r<a href='event:1~1.3'>Stats:</a> " + ccStats() + "\r<a href='event:1~1.4'>Anatomy Rules:</a> " + ccGRules() + "\r<a href='event:1~1.5'>Major Feats:</a> " + majorFeatChoice + "\r<a href='event:1~1.6'>Minor Feat:</a> " + minorFeatChoice);
 		say("\r<b>World:</b>\r<a href='event:1~1.7'>Game Type:</a> " + ccType() + "\r<a href='event:1~1.8'>Game Difficulty:</a> " + ccDiff() + "\r<a href='event:1~1.9'>Warding Options:</a> " + ccWards() + "\r<a href='event:1~1.11'>Sexual/Fetishistic Options:</a> " + ccSOpts());
-		say("\r<b>Presets:</b>\r<b>[A]</b> " + presetName("alpha") + ": <a href='event:1~1.1201'>[SAVE]</a> <a href='event:1~1.1203'>[LOAD]</a>\r<b>[B]</b> " + presetName("beta") + ": <a href='event:1~1.1204'>[SAVE]</a> <a href='event:1~1.1206'>[LOAD]</a>\r<b>[C]</b> " + presetName("gamma") + ": <a href='event:1~1.1207'>[SAVE]</a> <a href='event:1~1.1209'>[LOAD]</a>\r\rPress start when ready!");
+		say("\r<b>Presets:</b>\r<b>[A]</b> " + presetName("alpha") + ": <a href='event:1~1.1201'>[SAVE]</a> <a href='event:1~1.1203'>[LOAD]</a>\r<b>[B]</b> " + presetName("beta") + ": <a href='event:1~1.1204'>[SAVE]</a> <a href='event:1~1.1206'>[LOAD]</a>\r<b>[C]</b> " + presetName("gamma") + ": <a href='event:1~1.1207'>[SAVE]</a> <a href='event:1~1.1209'>[LOAD]</a>");
 	}
 	if(eventNum == 1.1) {	//Name Selection
 		screenClear();
@@ -161,16 +212,17 @@ function startEvents(eventNum:Number):void {
 		button5(false, "", 0);
 		button6(false, "", 0);
 		say("Name:");
-		nameInput.visible = true;
-		nameInput.x = outputWindow.x + 5;
-		nameInput.y = outputWindow.y + 3 + outputWindow.textHeight;
-		nameInput.text = playerName;
+		inputBox.visible = true;
+		inputBox.x = outputWindow.x + 5;
+		inputBox.y = outputWindow.y + 3 + outputWindow.textHeight;
+		inputBox.nameInput.text = playerName;
 	}
 	if(eventNum == 1.12) {
-		nameInput.visible = false;
-		playerName = nameInput.text;
-		nameInput.x = -99;
-		nameInput.y = -99
+		inputBox.visible = false;
+		if(inputBox.nameInput.text == "") inputBox.nameInput.text = "Survivor";
+		playerName = inputBox.nameInput.text;
+		inputBox.x = -99;
+		inputBox.y = -99
 		doEvent(1);
 	}
 	if(eventNum == 1.2) {
@@ -192,7 +244,7 @@ function startEvents(eventNum:Number):void {
 		say("<b>Endurance:</b> <a href='event:1~1.331'>[-]</a> " + ccEndurance + " <a href='event:1~1.332'>[+]</a>\rInfluences your capacity to receive abuse, as well as reduce your rate of hunger, thirst, and humanity loss\r");
 		say("<b>Charisma:</b> <a href='event:1~1.341'>[-]</a> " + ccCharisma + " <a href='event:1~1.342'>[+]</a>\rImproves your ability to command others, in and out of combat.\r");
 		say("<b>Perception:</b> <a href='event:1~1.351'>[-]</a> " + ccPerception + " <a href='event:1~1.352'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
-		say("<b>Intellect:</b> <a href='event:1~1.361'>[-]</a> " + ccIntelligence + " <a href='event:1~1.362'>[+]</a>\rReduces experience cost per level.\r");
+		say("<b>Intellect:</b> <a href='event:1~1.361'>[-]</a> " + ccIntelligence + " <a href='event:1~1.362'>[+]</a>\rIncreases the amount of experience you gain, and gives you access to certain feats.\r");
 		say("Remaining Points: (" + ccStatAllowance + ")\r");
 		say("<b>Random Stats:</b> [");
 		if(ccRandom == false) say("<b>OFF</b>/ ");
@@ -206,8 +258,11 @@ function startEvents(eventNum:Number):void {
 			queue("It cannot Go any lower!\r");
 		}
 		else {
-			--ccStrength;
-			++ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				--ccStrength;
+				++ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -216,8 +271,11 @@ function startEvents(eventNum:Number):void {
 			queue("Out of points!\r");
 		}
 		else {
-			++ccStrength;
-			--ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				++ccStrength;
+				--ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -226,8 +284,11 @@ function startEvents(eventNum:Number):void {
 			queue("It cannot Go any lower!\r");
 		}
 		else {
-			--ccDexterity;
-			++ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				--ccDexterity;
+				++ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -236,8 +297,11 @@ function startEvents(eventNum:Number):void {
 			queue("Out of points!\r");
 		}
 		else {
-			++ccDexterity;
-			--ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				++ccDexterity;
+				--ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -246,8 +310,11 @@ function startEvents(eventNum:Number):void {
 			queue("It cannot Go any lower!\r");
 		}
 		else {
-			--ccEndurance;
-			++ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				--ccEndurance;
+				++ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -256,8 +323,11 @@ function startEvents(eventNum:Number):void {
 			queue("Out of points!\r");
 		}
 		else {
-			++ccEndurance;
-			--ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				++ccEndurance;
+				--ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -266,8 +336,11 @@ function startEvents(eventNum:Number):void {
 			queue("It cannot Go any lower!\r");
 		}
 		else {
-			--ccCharisma;
-			++ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				--ccCharisma;
+				++ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -276,8 +349,11 @@ function startEvents(eventNum:Number):void {
 			queue("Out of points!\r");
 		}
 		else {
-			++ccCharisma;
-			--ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				++ccCharisma;
+				--ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -286,8 +362,11 @@ function startEvents(eventNum:Number):void {
 			queue("It cannot Go any lower!\r");
 		}
 		else {
-			--ccPerception;
-			++ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				--ccPerception;
+				++ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -296,8 +375,11 @@ function startEvents(eventNum:Number):void {
 			queue("Out of points!\r");
 		}
 		else {
-			++ccPerception;
-			--ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				++ccPerception;
+				--ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -306,8 +388,11 @@ function startEvents(eventNum:Number):void {
 			queue("It cannot Go any lower!\r");
 		}
 		else {
-			--ccIntelligence;
-			++ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				--ccIntelligence;
+				++ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
@@ -316,14 +401,34 @@ function startEvents(eventNum:Number):void {
 			queue("Out of points!\r");
 		}
 		else {
-			++ccIntelligence;
-			--ccStatAllowance;
+			if(ccRandom) queue("Stat Allocation is locked!")
+			else {
+				++ccIntelligence;
+				--ccStatAllowance;
+			}
 		}
 		doEvent(1.3);
 	}
 	if(eventNum == 1.37) {
-		if(ccRandom == false) ccRandom = true;
-		else ccRandom = false;
+		if(ccRandom == false) {
+			ccRandom = true;
+			ccIntelligence = 10;
+			ccCharisma = 10;
+			ccPerception = 10;
+			ccEndurance = 10;
+			ccDexterity = 10;
+			ccStrength = 10;
+		}
+		else {
+			ccRandom = false;
+			ccIntelligence = 12;
+			ccCharisma = 12;
+			ccPerception = 12;
+			ccEndurance = 12;
+			ccDexterity = 12;
+			ccStrength = 12;
+		}
+		ccStatAllowance = 5;
 		doEvent(1.3);
 	}
 	if(eventNum == 1.4) {
@@ -334,7 +439,7 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Anatomy Rules:</b>\r     These rules dictate your eligibility for certain anatomical features, either <b>never</b>, <b>amivalent</b>, or <b>always</b>, ensuring you never, sometimes, or always have/develop that anatomy. The lock doesn't need to align with your starting gender.\r\r");
+		say("<b>Anatomy Rules:</b>\r     These rules dictate your eligibility for certain anatomical features, either <b>never</b>, <b>amivalent</b>, or <b>always</b>, ensuring you never, sometimes, or always have/develop that anatomy. The lock doesn't need to align with your starting gender.\r");
 		say("<b>Breasts:</b> ");
 		if(breastLevel == 1) say("<b>[NEV]</b> ");
 		else say("<a href='event:1~1.41'>[NEV]</a> ");
@@ -363,7 +468,29 @@ function startEvents(eventNum:Number):void {
 		else say("<a href='event:1~1.412'>[AMBI]</a> ");
 		if(combiSexed == 3) say("<b>[ALL]</b> ");
 		else say("<a href='event:1~1.413'>[ALL]</a> ");
-		say("\r     Combi-Sexed dictates the likelihood of having both male and female genitalia. Never ensures you never become a herm, while always does the opposite. Will not work if it conflicts with gender locks.");
+		say("\r     Combi-Sexed dictates the likelihood of having both male and female genitalia. Never ensures you never become a herm, while always does the opposite. Gender Locks takes priority over this rule.");
+		say("\r\r<b>Multi-:</b>\r     These rules regard multiples of any anatomy fixture, after gender rules. For example, Never ensures you will only ever have one cock/cunt/breast pair, Ambivalent will have you reflect the strain's number, and Always will ensure you keep multiples, barring a complete gender shift.\r");
+		say("<b>Breasts:</b> ");
+		if(multiTits == 1) say("<b>[NEV]</b> ");
+		else say("<a href='event:1~1.421'>[NEV]</a> ");
+		if(multiTits == 2) say("<b>[AMBI]</b> ");
+		else say("<a href='event:1~1.422'>[AMBI]</a> ");
+		if(multiTits == 3) say("<b>[ALL]</b> ");
+		else say("<a href='event:1~1.423'>[ALL]</a> ");
+		say("\r<b>Cock:</b> ");
+		if(multiCock == 1) say("<b>[NEV]</b> ");
+		else say("<a href='event:1~1.414'>[NEV]</a> ");
+		if(multiCock == 2) say("<b>[AMBI]</b> ");
+		else say("<a href='event:1~1.415'>[AMBI]</a> ");
+		if(multiCock == 3) say("<b>[ALL]</b> ");
+		else say("<a href='event:1~1.416'>[ALL]</a> ");
+		say("\r<b>Cunt:</b> ");
+		if(multiCunt == 1) say("<b>[NEV]</b> ");
+		else say("<a href='event:1~1.417'>[NEV]</a> ");
+		if(multiCunt == 2) say("<b>[AMBI]</b> ");
+		else say("<a href='event:1~1.418'>[AMBI]</a> ");
+		if(multiCunt == 3) say("<b>[ALL]</b> ");
+		else say("<a href='event:1~1.419'>[ALL]</a> ");
 	}
 	if(eventNum == 1.41) breastLevel = 1;
 	if(eventNum == 1.42) breastLevel = 2;
@@ -377,6 +504,15 @@ function startEvents(eventNum:Number):void {
 	if(eventNum == 1.411) combiSexed = 1;
 	if(eventNum == 1.412) combiSexed = 2;
 	if(eventNum == 1.413) combiSexed = 3;
+	if(eventNum == 1.414) multiCock = 1;
+	if(eventNum == 1.415) multiCock = 2;
+	if(eventNum == 1.416) multiCock = 3;
+	if(eventNum == 1.417) multiCunt = 1;
+	if(eventNum == 1.418) multiCunt = 2;
+	if(eventNum == 1.419) multiCunt = 3;
+	if(eventNum == 1.421) multiTits = 1;
+	if(eventNum == 1.422) multiTits = 2;
+	if(eventNum == 1.423) multiTits = 3;
 	if(eventNum > 1.4 && eventNum < 1.5) {
 		doEvent(1.4);
 	}
@@ -388,10 +524,12 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
+		newGame.visible = false;
 		lastPage = eventNum;
 		inMajor = true;
 		say("<b>Choose your starting major feat:</b>\r");
-		chooseMajorFeats();
+		listMajorFeats();
+		chooseFeats();
 	}
 	if(eventNum == 1.6) {
 		screenClear();
@@ -404,7 +542,8 @@ function startEvents(eventNum:Number):void {
 		lastPage = eventNum;
 		inMajor = false;
 		say("<b>Choose your starting minor feat:</b>\r");
-		chooseMinorFeats();
+		listMinorFeats();
+		chooseFeats();
 	}
 	if(eventNum == 1.7) {
 		screenClear();
@@ -745,24 +884,49 @@ function startEvents(eventNum:Number):void {
 		doEvent(1);
 	}
 	if(eventNum == 1.99) {
-		say("Are you Sure?");
+		queue("Are you Sure?");
+		doEvent(1);
 		doYesNo(1.999, 1);
 	}
 	if(eventNum == 1.999) {
+		var tempnum:Number = 0;
+		var validFeat:Boolean = false;
+		var fullGo:Boolean = true;
 		if(ccStatAllowance > 0 && ccRandom == false) {
 			queue("<b>Cannot Start:</b> You have remaining stat allocation.\r");
-			doEvent(1);
+			fullGo = false;
+			
 		}
-		else if(maleWard && femaleWard && hermWard){
+		if(maleWard && femaleWard && hermWard){
 			queue("<b>Cannot Start:</b> You have one too many gender bans.\r");
-			doEvent(1);
+			fullGo = false;
 		}
-		else {
+		listMajorFeats();
+		var arrayLength:Number = featsListing.length;
+		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
+			if(featsListing[tempnum][0] == majorFeatChoice) validFeat = true;
+		}
+		if(validFeat == false) {
+			queue("<b>Cannot Start:</b> The major feat you have selected is invalid.\r");
+			fullGo = false;
+		}
+		listMinorFeats();
+		arrayLength = featsListing.length;
+		validFeat = false
+		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
+			if(featsListing[tempnum][0] == minorFeatChoice) validFeat = true;
+		}
+		if(validFeat == false) {
+			queue("<b>Cannot Start:</b> The minor feat you have selected is invalid.\r");
+			fullGo = false;
+		}
+		if(fullGo) {
 			gameStart();
 			statDisplay();
 			newGame.visible = true;
 			doNext(2.1);
 		}
+		else doEvent(1);
 	}
 	outputQueue();
 }
@@ -783,6 +947,8 @@ function newGameStart(e:MouseEvent):void
 	ccCharisma = 12;
 	ccIntelligence = 12;
 	ccStatAllowance = 5;
+	memoryPurge();
+	inCreation = true;
 	doEvent(1);
 }
 
@@ -875,13 +1041,14 @@ function gameStart():void {
 	perception = ccPerception;
 	charisma = ccCharisma;
 	intelligence = ccIntelligence;
-	HP=(endurance*2)+5;
-	MAXHP=HP;
 	bunkerinvent = [];
 	abbeyinvent = [];
+	listMajorFeats();
 	addFeat(majorFeatChoice);
+	listMinorFeats();
 	addFeat(minorFeatChoice);
 	screenClear();
+	inCreation = false;
 	if(ccFate == 5) {
 		say("     You vividly recall being told how it went down. First it was satellites, then the Internet. The power was the last thing to go. Thankfully, you weren't in one of the outbreak zones when it happened, but your life's been thrown upside down like everyone else's by the ensuing chaos.\r\r");
 		say("     Seeing an opportunity in a planned rescue mission, you volunteer under the guise of one of the medical staff, and it's not long before a helicpoter brings you with them into the devestated city. It's apparent that they're wholly ill-equipped to handle the task at hand, and split before everything goes south, knowing the perfect place to hide... \r\r");
@@ -918,10 +1085,14 @@ function gameStart():void {
 		bunkerinvent.push([ "Food", 5 ]);
 	}
 	say("     Regardless of the circumstance, it seems you're alone out here. Ah well, you're an American of the 21st century. What's a little Apocalypse to keep you down? Steeling your nerves and readying what you have, you cautiously break the seal and prepare to set out.\r");
+	refreshPlayer();
+	HP=MAXHP;
 }
 
 function memoryPurge():void {
 	pFeats = [];
+	vmFeatCount = 1;
+	vlFeatCount = 1;
 	pheadname = "Human";
 	pheaddesc = "Your head remains charmingly human";
 	pheadtype = "<one of>human||unchanged<random>";
@@ -957,6 +1128,8 @@ function memoryPurge():void {
 	hunger=0;
 	thirst=0;
 	level=1;
+	XP=0;
+	MAXXP=200;
 	gametime = 720;
 	timer = -10080;
 	passivetimer = Math.floor(Math.random()*1080)+360;

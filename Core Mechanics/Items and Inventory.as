@@ -41,15 +41,20 @@ itemTable.push([ "Bottled Water", 1, "A bottle of water. Good for slaking thirst
 itemTable.push([ "Journal", 1, "A small, leather-clad book. Spending some time writing in it can help clear your thoughts and recenter your troubled mind.", 2, useJournal, 2 ]);
 
 
+var adFood:Number = 0;
+var adWater:Number = 0;
+
 function consumeFood():void {
 	queue("You feel less hungry after wolfing down some food, yum!");
-	hunger -= 20; //12
+	if(hasFeat("Adaptive Metabolism") && adFood < 30) adFood++;
+	hunger -= 20 + Math.floor(adFood/3); //12
 	if(hunger < 0) hunger = 0;
 }
 
 function consumeWater():void {
 	queue("You feel less thirsty after guzzling some water, yum!");
-	thirst -= 20; //35
+	if(hasFeat("Adaptive Metabolism") && adWater < 30) adWater++;
+	thirst -= 20 + Math.floor(adWater/3); //35
 	if(thirst < 0) thirst = 0;
 }
 
