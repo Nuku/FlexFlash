@@ -1,6 +1,6 @@
 ﻿//Time to get to work!
 
-var gametime:Number = 720; //0 - 1440
+var gametime:Number = 720; //0 - 1440 -- 1-720 = DAY -- 721 - 1440 = NIGHT
 var timer:Number = -10080; //Pull into a negative integer and tick up
 
 function displayTime():String {
@@ -69,7 +69,7 @@ function passTime(minutes:Number):void {
 			}
 		}
 	}
-	timer +=minutes
+	timer += minutes;
 	if(humanity < 34) {
 		queue("Some otherworldly influence inside you works at changing your stubborn brain, leaving you with " + brainDescr() + "\r\r");
 		if(Math.random()*100 <= 50) say("Maybe you should write in your journal to help collect your thoughts.\r\r");
@@ -169,10 +169,12 @@ function assessEnding():void {
 		button6(false, "", 0);
 		buttonScavCity(false);
 		buttonExploreCity(false);
-		buttonScavLocal(false);
-		buttonExploreLocal(false);
+		buttonScavLocal(false, "", false);
+		buttonExploreLocal(false, "");
 		buttonInventory(false);
 		buttonAppearance(false);
+		buttonHuntCity(false);
+		buttonHuntLocal(false, "");
 		newGame.visible = true;
 	}
 }

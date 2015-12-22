@@ -50,10 +50,10 @@ function chooseFeats():void {
 function listMinorFeats():void {
 	featsListing = [];
 	if(hasFeat("Submissive") == false && hasFeat("Dominant") == false) {
-		featsListing.push(["Submissive", "You gain more experience when you submit or lose to a monster, (50%, from 10%), but the base experience you receive from a monster is reduced overall. You can’t help but oblige every dark whim a creature subjects you to."]);
-		featsListing.push(["Dominant", "If there's any to be had, you'll always receive the option to have sex with a defeated monster. You revel in having your every whim satisfied."]);
+		featsListing.push(["Submissive", "You can’t help but oblige every dark whim a creature subjects you to. You gain more experience when you submit or lose to a monster, (50%, from 25%), but the base experience you receive from a monster is reduced overall."]);
+		featsListing.push(["Dominant", "You revel in having your every whim satisfied. If there's any to be had, you'll always receive the option to have sex with a defeated monster. "]);
 	}
-	if((hasFeat("Submissive") && hasFeat("Dominant") == false) || (hasFeat("Dominant") && hasFeat("Submissive") == false)) featsListing.push(["Switch", "You’re now comfortable in any sexual role. You gain the effect of both Dominant and Submissive, and you act upon whichever is the most relevant at the time."]);
+	if((hasFeat("Submissive") && hasFeat("Dominant") == false) || (hasFeat("Dominant") && hasFeat("Submissive") == false)) featsListing.push(["Switch", "You’re now comfortable in any sexual role. You gain the effect of both Dominant and Submissive, and you act upon whichever is the most relevant at the time. Just remember that the XP reduction from Submissive still applies!"]);
 	if(hasFeat("Street Smart") == false && inCreation) featsListing.push(["Street Smart", "You’re familiar with the city and many of its significant fixtures, allowing you to navigate to a number of them without having to first find them. This can only be selected during game start. [Dev note: Since there's no locations to find yet, this feat does nothing]"]);
 	if(hasFeat("Kinky") == false) featsListing.push(["Kinky", "As if able to sense your more peculiar desires, monsters are now much more likely to do weird things to you, if they manage to get a hold of you."]);
 }
@@ -75,7 +75,7 @@ function volunteer():void {
 		buttonInventory(false);
 		buttonAppearance(false);
 		lastPage = lastRoom;
-		say("<b>Choose your major feat:</b>\r");
+		say("<bold>Choose your major feat:</bold>\r");
 		volunteering = true;
 		lastPage = lastRoom;
 		listMajorFeats();
@@ -95,7 +95,7 @@ function volunsleep():void {
 		buttonInventory(false);
 		buttonAppearance(false);
 		lastPage = lastRoom;
-		say("<b>Choose your minor feat:</b>\r");
+		say("<bold>Choose your minor feat:</bold>\r");
 		volunsleeping = true;
 		lastPage = lastRoom;
 		listMinorFeats();
@@ -142,13 +142,13 @@ function assessExp():void {
 			buttonInventory(false);
 			buttonAppearance(false);
 			newGame.visible = false;
-			say("<b>Choose a stat to increase:</b>\r");
-			say("<b>Strength:</b> " + strength + " <a href='event:1~9.11'>[+]</a>\rDetermines your raw physical strength, and the damage of your physical attacks.\r");
-			say("<b>Dexterity:</b> " + dexterity + " <a href='event:1~9.12'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
-			say("<b>Endurance:</b> " + endurance + " <a href='event:1~9.13'>[+]</a>\rInfluences your capacity to receive abuse, as well as reduce your rate of hunger, thirst, and humanity loss\r");
-			say("<b>Charisma:</b> " + charisma + " <a href='event:1~9.14'>[+]</a>\rImproves your ability to command others, in and out of combat.\r");
-			say("<b>Perception:</b> " + perception + " <a href='event:1~9.15'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
-			say("<b>Intellect:</b> " + intelligence + " <a href='event:1~9.16'>[+]</a>\rReduces experience cost per level.\r");
+			say("<bold>Choose a stat to increase:</bold>\r");
+			say("<bold>Strength:</bold> " + strength + " <a href='event:1~9.11'>[+]</a>\rDetermines your raw physical strength, and the damage of your physical attacks.\r");
+			say("<bold>Dexterity:</bold> " + dexterity + " <a href='event:1~9.12'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
+			say("<bold>Endurance:</bold> " + endurance + " <a href='event:1~9.13'>[+]</a>\rInfluences your capacity to receive abuse, as well as reduce your rate of hunger, thirst, and humanity loss\r");
+			say("<bold>Charisma:</bold> " + charisma + " <a href='event:1~9.14'>[+]</a>\rImproves your ability to command others, in and out of combat.\r");
+			say("<bold>Perception:</bold> " + perception + " <a href='event:1~9.15'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
+			say("<bold>Intellect:</bold> " + intelligence + " <a href='event:1~9.16'>[+]</a>\rReduces experience cost per level.\r");
 		}
 		else say("You levelled up! You are now at level " + level + ".\r\r");
 	}

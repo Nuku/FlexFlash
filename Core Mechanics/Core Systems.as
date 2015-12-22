@@ -66,7 +66,7 @@ var nextButton:Boolean = false;
 //Setup Buttons & Window
 statDisplay();
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <b>Iteration 3: Progression</b> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 4: World Navigation</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);
@@ -86,8 +86,18 @@ inventoryText.addEventListener(MouseEvent.CLICK, doInvent);
 inventoryBox.addEventListener(MouseEvent.CLICK, doInvent);
 exploreCityText.addEventListener(MouseEvent.CLICK, doCitExpl);
 exploreCityBox.addEventListener(MouseEvent.CLICK, doCitExpl);
+exploreLocalText.addEventListener(MouseEvent.CLICK, doLocalExpl);
+exploreLocalBox.addEventListener(MouseEvent.CLICK, doLocalExpl);
 scavCityText.addEventListener(MouseEvent.CLICK, doCitScav);
 scavCityBox.addEventListener(MouseEvent.CLICK, doCitScav);
+scavLocalText.addEventListener(MouseEvent.CLICK, doLocalScav);
+scavLocalBox.addEventListener(MouseEvent.CLICK, doLocalScav);
+huntCityText.addEventListener(MouseEvent.CLICK, doCityHunt); //dohuntlist
+huntCityBox.addEventListener(MouseEvent.CLICK, doCityHunt);
+huntLocalText.addEventListener(MouseEvent.CLICK, doLocalHunt);
+huntLocalBox.addEventListener(MouseEvent.CLICK, doLocalHunt);
+navigationText.addEventListener(MouseEvent.CLICK, doNavigate);
+navigationBox.addEventListener(MouseEvent.CLICK, doNavigate);
 //dataBox.addEventListener(MouseEvent.CLICK, dataButton);
 //dataText.addEventListener(MouseEvent.CLICK, dataButton);
 appearanceText.visible = false;
@@ -102,6 +112,12 @@ scavCityText.visible = false;
 scavCityBox.alpha = .25;
 scavLocalText.visible = false;
 scavLocalBox.alpha = .25;
+huntCityText.visible = false;
+huntCityBox.alpha = .25;
+huntLocalText.visible = false;
+huntLocalBox.alpha = .25;
+navigationText.visible = false;
+navigationBox.alpha = .25;
 Choice1Outline.alpha = .25;
 Choice2Outline.alpha = .25;
 Choice3Outline.alpha = .25;
@@ -118,8 +134,9 @@ statPane.visible = true;
 dataBox.visible = false;
 dataText.visible = false;
 newGame.visible = true;
-inputBox.nameInput.restrict = "A-Z a-z 0-9";
-inputBox.visible = false;
+nameInput.restrict = "A-Z a-z 0-9";
+nameInput.maxChars = 12;
+nameInput.visible = false;
 
 var allowInventory:Boolean = false;
 var allowAppearance:Boolean = false;
@@ -127,22 +144,64 @@ var allowScavCity:Boolean = false;
 var allowScavLocal:Boolean = false;
 var allowExploreLocal:Boolean = false;
 var allowExploreCity:Boolean = false;
+var allowNavigation:Boolean = false;
+var isLocal:Boolean = false;
 
 function doInvent(e:MouseEvent):void {
 	if(allowInventory) doEvent(3);
 }
 
 function doCitExpl(e:MouseEvent):void {
-	if(allowExploreCity) doEvent(4);
+	if(allowExploreCity) {
+		exploration("Outside");
+		isLocal = false;
+	}
 }
 
-function doCitScav(e:MouseEvent):void {
-	if(allowScavCity) doEvent(5);
+function doLocalExpl(e:MouseEvent):void {
+	if(allowExploreLocal) {
+		exploration(explZone);
+		isLocal = true;
+	}
 }
+
+
+function doCitScav(e:MouseEvent):void {
+	if(allowScavCity) {
+		scavenge("Outside");
+		isLocal = false;
+	}
+}
+
+function doLocalScav(e:MouseEvent):void {
+	if(allowScavLocal) {
+		scavenge(scavZone);
+		isLocal = true;
+	}
+}
+
+function doNavigate(e:MouseEvent):void {
+	if(allowNavigation) listNav();
+}
+
+function doCityHunt(e:MouseEvent):void {
+	if(allowHuntCity) {
+		huntList("Outside");
+		isLocal = false;
+	}
+}
+
+function doLocalHunt(e:MouseEvent):void {
+	if(allowHuntLocal) {
+		huntList(huntZone);
+		isLocal = true;
+	}
+}
+
 
 //Update Stat Display
 function statDisplay():void {
-	statPane.htmlText = "HP: " + HP + " Level: " + level + "\rHunger: " + hunger + " Thirst: " + thirst + "\rHumanity: " + Math.floor(humanity) + " Libido: " + libido + " Time Left: " + translatetimer() + " XP: " + XP + "/" + MAXXP;
+	statPane.htmlText = "HP: " + HP + "/" + MAXHP + " Level: " + level + "\rHunger: " + hunger + " Thirst: " + thirst + "\rHumanity: " + Math.floor(humanity) + " Libido: " + libido + " Time Left: " + translatetimer() + " XP: " + XP + "/" + MAXXP;
 }
 
 function screenClear():void {
@@ -576,12 +635,19 @@ function buttonScavCity(sw:Boolean):void {
 	}
 }
 
-function buttonScavLocal(sw:Boolean):void {
+var scavZone:String = "";
+var scavHostile:Boolean = false;
+var explZone:String = "";
+var huntZone:String = "";
+
+function buttonScavLocal(sw:Boolean, zone:String, hostile:Boolean):void {
 	lastButtonScavLocal = scavLocalText.visible;
 	if(sw) {
 		scavLocalBox.alpha = 1;
 		scavLocalText.visible = true;
 		allowScavLocal = true;
+		scavZone = zone;
+		scavHostile = hostile;
 	}
 	else {
 		scavLocalBox.alpha = .25;
@@ -604,12 +670,13 @@ function buttonExploreCity(sw:Boolean):void {
 	}
 }
 
-function buttonExploreLocal(sw:Boolean):void {
+function buttonExploreLocal(sw:Boolean, zone:String):void {
 	lastButtonExploreLocal = exploreLocalText.visible;
 	if(sw) {
 		exploreLocalBox.alpha = 1;
 		exploreLocalText.visible = true;
 		allowExploreLocal = true;
+		explZone = zone;
 	}
 	else {
 		exploreLocalBox.alpha = .25;
@@ -618,6 +685,54 @@ function buttonExploreLocal(sw:Boolean):void {
 	}
 }
 
+var allowHuntCity:Boolean = false;
+var allowHuntLocal:Boolean = false;
+
+function buttonHuntCity(sw:Boolean):void {
+	//lastButtonExploreCity = exploreCityText.visible;
+	if(sw) {
+		huntCityBox.alpha = 1;
+		huntCityText.visible = true;
+		allowHuntCity = true;
+	}
+	else {
+		huntCityBox.alpha = .25;
+		huntCityText.visible = false;
+		allowHuntCity = false;
+	}
+}
+
+function buttonHuntLocal(sw:Boolean, zone:String):void {
+	//lastButtonExploreLocal = exploreLocalText.visible;
+	if(sw) {
+		huntLocalBox.alpha = 1;
+		huntLocalText.visible = true;
+		allowHuntLocal = true;
+		huntZone = zone;
+	}
+	else {
+		huntLocalBox.alpha = .25;
+		huntLocalText.visible = false;
+		allowHuntLocal = false;
+	}
+}
+
+
+var lastButtonNavigation:Boolean = false
+
+function buttonNavigation(sw:Boolean):void {
+	lastButtonNavigation = navigationText.visible;
+	if(sw) {
+		navigationBox.alpha = 1;
+		navigationText.visible = true;
+		allowNavigation = true;
+	}
+	else {
+		navigationBox.alpha = .25;
+		navigationText.visible = false;
+		allowNavigation = false;
+	}
+}
 
 function outputTexts(texts:String):void {
 	currentText = currentText + texts;
@@ -860,8 +975,10 @@ function doNext(eventNum:Number):void {
 	buttonAppearance(false);
 	buttonScavCity(false);
 	buttonExploreCity(false);
-	buttonScavLocal(false);
-	buttonExploreLocal(false);
+	buttonHuntCity(false);
+	buttonHuntLocal(false, "");
+	buttonScavLocal(false, "", false);
+	buttonExploreLocal(false, "");
 	nextButton = true;
 }
 
@@ -877,8 +994,10 @@ function doBack(eventNum:Number):void {
 	buttonAppearance(false);
 	buttonScavCity(false);
 	buttonExploreCity(false);
-	buttonScavLocal(false);
-	buttonExploreLocal(false);
+	buttonHuntCity(false);
+	buttonHuntLocal(false, "");
+	buttonScavLocal(false, "", false);
+	buttonExploreLocal(false, "");
 	nextButton = true;
 }
 
@@ -894,7 +1013,9 @@ function doYesNo(yesNum:Number, noNum:Number) {
 	buttonAppearance(false);
 	buttonScavCity(false);
 	buttonExploreCity(false);
-	buttonScavLocal(false);
-	buttonExploreLocal(false);
+	buttonScavLocal(false, "", false);
+	buttonExploreLocal(false, "");
+	buttonHuntCity(false);
+	buttonHuntLocal(false, "");
 	nextButton = true;
 }

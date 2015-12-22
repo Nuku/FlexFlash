@@ -7,9 +7,9 @@ function scavengeEvents(eventNum:Number):void {
 	var output:Number = 0;
 	screenClear();
 	if(eventNum == 5) {
-		scavenge();
+		scavenge("Outside");
 	}
-	if(eventNum == 5.1) {
+	if(eventNum == 5.01) {
 		say("You search around for for some hidden supplies...\r\r");
 		difficulty = Math.floor(Math.random()*(16-6+1))+6;
 		bonus = (perception+level-10)/2;
@@ -24,7 +24,7 @@ function scavengeEvents(eventNum:Number):void {
 			givePlayer(scavenged, 1);
 		}
 	}
-	if(eventNum == 5.2) {
+	if(eventNum == 5.02) {
 		say("You easily spot something worthwhile, but it's in a hard-to-reach spot...\r\r");
 		difficulty = Math.floor(Math.random()*(16-6+1))+6;
 		bonus = (dexterity+level-10)/2;
@@ -39,7 +39,7 @@ function scavengeEvents(eventNum:Number):void {
 			givePlayer(scavenged, 1);
 		}
 	}
-	if(eventNum == 5.3) {
+	if(eventNum == 5.03) {
 		say("You almost immediately spot something possibly useful, but something heavy bars your way...\r\r");
 		difficulty = Math.floor(Math.random()*(16-6+1))+6;
 		bonus = (strength+level-10)/2;
@@ -54,7 +54,7 @@ function scavengeEvents(eventNum:Number):void {
 			givePlayer(scavenged, 1);
 		}
 	}
-	if(eventNum == 5.4) {
+	if(eventNum == 5.04) {
 		say("You encounter a creature! Thankfully, this one still appears lucid, though you feel it'd be unwise to stick around for very long...\r\r");
 		difficulty = Math.floor(Math.random()*(16-6+1))+6;
 		bonus = (charisma+level-10)/2;
@@ -68,5 +68,13 @@ function scavengeEvents(eventNum:Number):void {
 			say("You manage to talk your way into getting it to hand you some " + scavenged + ". You decide to high tail it out of there before it <one of>changes its mind||decides to enact a sordid payment||slips into a wanton fenzy<random>.");
 			givePlayer(scavenged, 1);
 		}
+	}
+	if(eventNum == 5.1) {
+		localScavenge(scavZone);
+	}
+	if(eventNum == 5.11) {
+		say("Test Event.");
+		cullEvent = true;
+		something = 1;
 	}
 }

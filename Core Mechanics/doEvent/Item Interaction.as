@@ -15,8 +15,8 @@ function inventEvents(eventNum:Number):void {
 		button6(true, "Back", lastRoom);
 		buttonScavCity(false);
 		buttonExploreCity(false);
-		buttonScavLocal(false);
-		buttonExploreLocal(false);
+		buttonScavLocal(false, "", false);
+		buttonExploreLocal(false, "");
 		buttonInventory(false);
 		buttonAppearance(true);
 	}

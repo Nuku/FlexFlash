@@ -44,8 +44,8 @@ var horrorWard:Boolean = false;
 var genderBias:Number = 3;
 
 function ccStats():String {
-	var texts:String = "<b>STR:</b>" + ccStrength + "/<b>DEX:</b>" + ccDexterity + "/<b>END:</b>" + ccEndurance + "/<b>CHA:</b>" + ccCharisma + "/<b>PER:</b>" + ccPerception + "/<b>INT:</b>" + ccIntelligence;
-	if(ccStatAllowance != 0) texts += " [<b>" + ccStatAllowance + " points remaining!</b>]"
+	var texts:String = "<bold>STR:</bold>" + ccStrength + "/<bold>DEX:</bold>" + ccDexterity + "/<bold>END:</bold>" + ccEndurance + "/<bold>CHA:</bold>" + ccCharisma + "/<bold>PER:</bold>" + ccPerception + "/<bold>INT:</bold>" + ccIntelligence;
+	if(ccStatAllowance != 0) texts += " [<bold>" + ccStatAllowance + " points remaining!</bold>]"
 	if(ccRandom) texts = "???"
 	return(texts)
 }
@@ -55,7 +55,7 @@ function ccGRules():String {
 	if(cockLevel != 2 || cuntLevel != 2 || breastLevel != 2 || combiSexed != 2 || multiCock != 2 || multiCunt != 2 || multiTits != 2) {
 		texts = "";
 		if(cockLevel != 2 || multiCock != 2) {
-			texts += "<b>Cock:</b>"
+			texts += "<bold>Cock:</bold>"
 			if(cockLevel != 2 && multiCock != 2) {
 				if(cockLevel == 1) texts += "NEV";
 				else texts += "ALL";
@@ -73,7 +73,7 @@ function ccGRules():String {
 			texts += "/";
 		}
 		if(cuntLevel != 2 || multiCunt != 2) {
-			texts += "<b>Cunt:</b>"
+			texts += "<bold>Cunt:</bold>"
 			if(cuntLevel != 2 && multiCunt != 2) {
 				if(cuntLevel == 1) texts += "NEV";
 				else texts += "ALL";
@@ -91,7 +91,7 @@ function ccGRules():String {
 			texts += "/";	
 		}
 		if(breastLevel != 2 || multiTits != 2) {
-			texts += "<b>Breasts:</b>"
+			texts += "<bold>Breasts:</bold>"
 			if(breastLevel != 2 && multiTits != 2) {
 				if(breastLevel == 1) texts += "NEV";
 				else texts += "ALL";
@@ -108,8 +108,8 @@ function ccGRules():String {
 			}
 			texts += "/";
 		}
-		if(combiSexed == 1) texts += "<b>Combi:</b>NEV";
-		else if(combiSexed == 3) texts += "<b>Combi:</b>ALL";
+		if(combiSexed == 1) texts += "<bold>Combi:</bold>NEV";
+		else if(combiSexed == 3) texts += "<bold>Combi:</bold>ALL";
 	}
 	return(texts);
 }
@@ -126,8 +126,8 @@ function ccType():String {
 function ccDiff():String {
 	var texts:String = "";
 	if(hardMode || ironMan) {
-		if(hardMode) texts = "<b>[HARD MODE ON]</b> ";
-		if(ironMan) texts = texts + "<b>[IRON MAN ON]</b>";
+		if(hardMode) texts = "<bold>[HARD MODE ON]</bold> ";
+		if(ironMan) texts = texts + "<bold>[IRON MAN ON]</bold>";
 	}
 	else texts = "None";
 	return(texts);
@@ -136,7 +136,7 @@ function ccDiff():String {
 function ccWards():String {
 	var texts:String = "";
 	if(maleWard || femaleWard || hermWard || furryWard || feralWard || horrorWard || humanWard || sillyWard) {
-		texts = "[ <b>WARD:</b> "
+		texts = "[ <bold>WARD:</bold> "
 		if(maleWard) texts += "MALE ";
 		if(femaleWard) texts += "FEM' ";
 		if(hermWard) texts += "HERM ";
@@ -147,21 +147,21 @@ function ccWards():String {
 		if(sillyWard) texts += "SILLY "
 		texts += "]";
 		if(genderBias != 3) {
-			texts += " <b>[";
+			texts += " <bold>[";
 			if(genderBias == 1) texts += "MALE BIAS";
 			else if(genderBias == 2) texts += "MALE LEAN";
 			else if(genderBias == 4) texts += "FEMALE LEAN";
 			else if(genderBias == 5) texts += "FEMALE BIAS";
-			texts += "]</b>";
+			texts += "]</bold>";
 		}
 	}
 	else if(genderBias != 3) {
-		texts = "<b>[";
+		texts = "<bold>[";
 		if(genderBias == 1) texts += "MALE BIAS";
 		else if(genderBias == 2) texts += "MALE-LEANING";
 		else if(genderBias == 4) texts += "FEMALE-LEANING";
 		else if(genderBias == 5) texts += "FEMALE BIAS";
-		texts += "]</b>";
+		texts += "]</bold>";
 	}
 	else texts = "None";
 	return(texts);
@@ -171,16 +171,16 @@ function ccSOpts():String {
 	var texts:String = "None";
 	if(analLevel != 2 || oviLevel != 2 || wsLevel != 2 || voreLevel != 2 || ubLevel != 2){
 		texts = "";
-		if(analLevel == 1) texts += "<b>Anal:</b>LOW/";
-		else if(analLevel == 3) texts += "<b>Anal:</b>HIGH/";
-		if(oviLevel == 1) texts += "<b>Ovi:</b>NONE/";
-		else if(oviLevel == 3) texts += "<b>Ovi:</b>HIGH/";
-		if(wsLevel == 1) texts += "<b>WS:</b>NONE/";
-		else if(wsLevel == 3) texts += "<b>WS:</b>HIGH/";
-		if(voreLevel == 1) texts += "<b>Vore:</b>NONE/";
-		else if(voreLevel == 3) texts += "<b>Vore:</b>HIGH/";
-		if(ubLevel == 1) texts += "<b>UB:</b>NONE";
-		else if(ubLevel == 3) texts += "<b>UB:</b>HIGH";
+		if(analLevel == 1) texts += "<bold>Anal:</bold>LOW/";
+		else if(analLevel == 3) texts += "<bold>Anal:</bold>HIGH/";
+		if(oviLevel == 1) texts += "<bold>Ovi:</bold>NONE/";
+		else if(oviLevel == 3) texts += "<bold>Ovi:</bold>HIGH/";
+		if(wsLevel == 1) texts += "<bold>WS:</bold>NONE/";
+		else if(wsLevel == 3) texts += "<bold>WS:</bold>HIGH/";
+		if(voreLevel == 1) texts += "<bold>Vore:</bold>NONE/";
+		else if(voreLevel == 3) texts += "<bold>Vore:</bold>HIGH/";
+		if(ubLevel == 1) texts += "<bold>UB:</bold>NONE";
+		else if(ubLevel == 3) texts += "<bold>UB:</bold>HIGH";
 	}
 	return(texts);
 }
@@ -199,9 +199,9 @@ function startEvents(eventNum:Number):void {
 		buttonAppearance(false);
 		inCombat = false;
 		screenClear();
-		say("<b>Character:</b>\r<a href='event:1~1.1'>Name:</a> " + playerName +"\r<a href='event:1~1.2'>Gender:</a> " + ccGender() + "\r<a href='event:1~1.3'>Stats:</a> " + ccStats() + "\r<a href='event:1~1.4'>Anatomy Rules:</a> " + ccGRules() + "\r<a href='event:1~1.5'>Major Feats:</a> " + majorFeatChoice + "\r<a href='event:1~1.6'>Minor Feat:</a> " + minorFeatChoice);
-		say("\r<b>World:</b>\r<a href='event:1~1.7'>Game Type:</a> " + ccType() + "\r<a href='event:1~1.8'>Game Difficulty:</a> " + ccDiff() + "\r<a href='event:1~1.9'>Warding Options:</a> " + ccWards() + "\r<a href='event:1~1.11'>Sexual/Fetishistic Options:</a> " + ccSOpts());
-		say("\r<b>Presets:</b>\r<b>[A]</b> " + presetName("alpha") + ": <a href='event:1~1.1201'>[SAVE]</a> <a href='event:1~1.1203'>[LOAD]</a>\r<b>[B]</b> " + presetName("beta") + ": <a href='event:1~1.1204'>[SAVE]</a> <a href='event:1~1.1206'>[LOAD]</a>\r<b>[C]</b> " + presetName("gamma") + ": <a href='event:1~1.1207'>[SAVE]</a> <a href='event:1~1.1209'>[LOAD]</a>");
+		say("<bold>Character:</bold>\r<a href='event:1~1.1'>Name:</a> " + playerName +"\r<a href='event:1~1.2'>Gender:</a> " + ccGender() + "\r<a href='event:1~1.3'>Stats:</a> " + ccStats() + "\r<a href='event:1~1.4'>Anatomy Rules:</a> " + ccGRules() + "\r<a href='event:1~1.5'>Major Feats:</a> " + majorFeatChoice + "\r<a href='event:1~1.6'>Minor Feat:</a> " + minorFeatChoice);
+		say("\r<bold>World:</bold>\r<a href='event:1~1.7'>Game Type:</a> " + ccType() + "\r<a href='event:1~1.8'>Game Difficulty:</a> " + ccDiff() + "\r<a href='event:1~1.9'>Warding Options:</a> " + ccWards() + "\r<a href='event:1~1.11'>Sexual/Fetishistic Options:</a> " + ccSOpts());
+		say("\r<bold>Presets:</bold>\r<bold>[A]</bold> " + alphaSS + ": <a href='event:1~1.1201'>[SAVE]</a> <a href='event:1~1.1203'>[LOAD]</a>\r<bold>[B]</bold> " + betaSS + ": <a href='event:1~1.1204'>[SAVE]</a> <a href='event:1~1.1206'>[LOAD]</a>\r<bold>[C]</bold> " + gammaSS + ": <a href='event:1~1.1207'>[SAVE]</a> <a href='event:1~1.1209'>[LOAD]</a>");
 	}
 	if(eventNum == 1.1) {	//Name Selection
 		screenClear();
@@ -212,17 +212,17 @@ function startEvents(eventNum:Number):void {
 		button5(false, "", 0);
 		button6(false, "", 0);
 		say("Name:");
-		inputBox.visible = true;
-		inputBox.x = outputWindow.x + 5;
-		inputBox.y = outputWindow.y + 3 + outputWindow.textHeight;
-		inputBox.nameInput.text = playerName;
+		nameInput.visible = true;
+		nameInput.x = outputWindow.x + 5;
+		nameInput.y = outputWindow.y + 3 + outputWindow.textHeight;
+		nameInput.text = playerName;
 	}
 	if(eventNum == 1.12) {
-		inputBox.visible = false;
-		if(inputBox.nameInput.text == "") inputBox.nameInput.text = "Survivor";
-		playerName = inputBox.nameInput.text;
-		inputBox.x = -99;
-		inputBox.y = -99
+		nameInput.visible = false;
+		if(nameInput.text == "") nameInput.text = "Survivor";
+		playerName = nameInput.text;
+		nameInput.x = -99;
+		nameInput.y = -99
 		doEvent(1);
 	}
 	if(eventNum == 1.2) {
@@ -238,18 +238,18 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Allocate Your Stats:</b>\r");
-		say("<b>Strength:</b> <a href='event:1~1.311'>[-]</a> " + ccStrength + " <a href='event:1~1.312'>[+]</a>\rDetermines your raw physical strength, and the damage of your physical attacks.\r");
-		say("<b>Dexterity:</b> <a href='event:1~1.321'>[-]</a> " + ccDexterity + " <a href='event:1~1.322'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
-		say("<b>Endurance:</b> <a href='event:1~1.331'>[-]</a> " + ccEndurance + " <a href='event:1~1.332'>[+]</a>\rInfluences your capacity to receive abuse, as well as reduce your rate of hunger, thirst, and humanity loss\r");
-		say("<b>Charisma:</b> <a href='event:1~1.341'>[-]</a> " + ccCharisma + " <a href='event:1~1.342'>[+]</a>\rImproves your ability to command others, in and out of combat.\r");
-		say("<b>Perception:</b> <a href='event:1~1.351'>[-]</a> " + ccPerception + " <a href='event:1~1.352'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
-		say("<b>Intellect:</b> <a href='event:1~1.361'>[-]</a> " + ccIntelligence + " <a href='event:1~1.362'>[+]</a>\rIncreases the amount of experience you gain, and gives you access to certain feats.\r");
+		say("<bold>Allocate Your Stats:</bold>\r");
+		say("<bold>Strength:</bold> <a href='event:1~1.311'>[-]</a> " + ccStrength + " <a href='event:1~1.312'>[+]</a>\rDetermines your raw physical strength, and the damage of your physical attacks.\r");
+		say("<bold>Dexterity:</bold> <a href='event:1~1.321'>[-]</a> " + ccDexterity + " <a href='event:1~1.322'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
+		say("<bold>Endurance:</bold> <a href='event:1~1.331'>[-]</a> " + ccEndurance + " <a href='event:1~1.332'>[+]</a>\rInfluences your capacity to receive abuse, as well as reduce your rate of hunger, thirst, and humanity loss\r");
+		say("<bold>Charisma:</bold> <a href='event:1~1.341'>[-]</a> " + ccCharisma + " <a href='event:1~1.342'>[+]</a>\rImproves your ability to influence and command others, in and out of combat.\r");
+		say("<bold>Perception:</bold> <a href='event:1~1.351'>[-]</a> " + ccPerception + " <a href='event:1~1.352'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
+		say("<bold>Intellect:</bold> <a href='event:1~1.361'>[-]</a> " + ccIntelligence + " <a href='event:1~1.362'>[+]</a>\rIncreases the amount of experience you gain from combat, and gives you access to certain feats.\r");
 		say("Remaining Points: (" + ccStatAllowance + ")\r");
-		say("<b>Random Stats:</b> [");
-		if(ccRandom == false) say("<b>OFF</b>/ ");
+		say("<bold>Random Stats:</bold> [");
+		if(ccRandom == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.37'>OFF</a>/ ");
-		if(ccRandom == true) say("<b>ON</b>] ");
+		if(ccRandom == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.37'>ON</a>] ");
 		say("\rCompletely Randomizes your stats upon character creation.");
 	}
@@ -439,57 +439,57 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Anatomy Rules:</b>\r     These rules dictate your eligibility for certain anatomical features, either <b>never</b>, <b>amivalent</b>, or <b>always</b>, ensuring you never, sometimes, or always have/develop that anatomy. The lock doesn't need to align with your starting gender.\r");
-		say("<b>Breasts:</b> ");
-		if(breastLevel == 1) say("<b>[NEV]</b> ");
+		say("<bold>Anatomy Rules:</bold>\r     These rules dictate your eligibility for certain anatomical features, either <bold>never</bold>, <bold>amivalent</bold>, or <bold>always</bold>, ensuring you never, sometimes, or always have/develop that anatomy. The lock doesn't need to align with your starting gender.\r");
+		say("<bold>Breasts:</bold> ");
+		if(breastLevel == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.41'>[NEV]</a> ");
-		if(breastLevel == 2) say("<b>[AMBI]</b> ");
+		if(breastLevel == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.42'>[AMBI]</a> ");
-		if(breastLevel == 3) say("<b>[ALL]</b> ");
+		if(breastLevel == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.43'>[ALL]</a> ");
-		say("\r<b>Cock:</b> ");
-		if(cockLevel == 1) say("<b>[NEV]</b> ");
+		say("\r<bold>Cock:</bold> ");
+		if(cockLevel == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.44'>[NEV]</a> ");
-		if(cockLevel == 2) say("<b>[AMBI]</b> ");
+		if(cockLevel == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.45'>[AMBI]</a> ");
-		if(cockLevel == 3) say("<b>[ALL]</b> ");
+		if(cockLevel == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.46'>[ALL]</a> ");
-		say("\r<b>Cunt:</b> ");
-		if(cuntLevel == 1) say("<b>[NEV]</b> ");
+		say("\r<bold>Cunt:</bold> ");
+		if(cuntLevel == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.47'>[NEV]</a> ");
-		if(cuntLevel == 2) say("<b>[AMBI]</b> ");
+		if(cuntLevel == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.48'>[AMBI]</a> ");
-		if(cuntLevel == 3) say("<b>[ALL]</b> ");
+		if(cuntLevel == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.49'>[ALL]</a> ");
-		say("\r\r<b>Combi-Sexed:</b> ");
-		if(combiSexed == 1) say("<b>[NEV]</b> ");
+		say("\r\r<bold>Combi-Sexed:</bold> ");
+		if(combiSexed == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.411'>[NEV]</a> ");
-		if(combiSexed == 2) say("<b>[AMBI]</b> ");
+		if(combiSexed == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.412'>[AMBI]</a> ");
-		if(combiSexed == 3) say("<b>[ALL]</b> ");
+		if(combiSexed == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.413'>[ALL]</a> ");
 		say("\r     Combi-Sexed dictates the likelihood of having both male and female genitalia. Never ensures you never become a herm, while always does the opposite. Gender Locks takes priority over this rule.");
-		say("\r\r<b>Multi-:</b>\r     These rules regard multiples of any anatomy fixture, after gender rules. For example, Never ensures you will only ever have one cock/cunt/breast pair, Ambivalent will have you reflect the strain's number, and Always will ensure you keep multiples, barring a complete gender shift.\r");
-		say("<b>Breasts:</b> ");
-		if(multiTits == 1) say("<b>[NEV]</b> ");
+		say("\r\r<bold>Multi-:</bold>\r     These rules regard multiples of any anatomy fixture, after gender rules. For example, Never ensures you will only ever have one cock/cunt/breast pair, Ambivalent will have you reflect the strain's number, and Always will ensure you keep multiples, barring a complete gender shift.\r");
+		say("<bold>Breasts:</bold> ");
+		if(multiTits == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.421'>[NEV]</a> ");
-		if(multiTits == 2) say("<b>[AMBI]</b> ");
+		if(multiTits == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.422'>[AMBI]</a> ");
-		if(multiTits == 3) say("<b>[ALL]</b> ");
+		if(multiTits == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.423'>[ALL]</a> ");
-		say("\r<b>Cock:</b> ");
-		if(multiCock == 1) say("<b>[NEV]</b> ");
+		say("\r<bold>Cock:</bold> ");
+		if(multiCock == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.414'>[NEV]</a> ");
-		if(multiCock == 2) say("<b>[AMBI]</b> ");
+		if(multiCock == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.415'>[AMBI]</a> ");
-		if(multiCock == 3) say("<b>[ALL]</b> ");
+		if(multiCock == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.416'>[ALL]</a> ");
-		say("\r<b>Cunt:</b> ");
-		if(multiCunt == 1) say("<b>[NEV]</b> ");
+		say("\r<bold>Cunt:</bold> ");
+		if(multiCunt == 1) say("<bold>[NEV]</bold> ");
 		else say("<a href='event:1~1.417'>[NEV]</a> ");
-		if(multiCunt == 2) say("<b>[AMBI]</b> ");
+		if(multiCunt == 2) say("<bold>[AMBI]</bold> ");
 		else say("<a href='event:1~1.418'>[AMBI]</a> ");
-		if(multiCunt == 3) say("<b>[ALL]</b> ");
+		if(multiCunt == 3) say("<bold>[ALL]</bold> ");
 		else say("<a href='event:1~1.419'>[ALL]</a> ");
 	}
 	if(eventNum == 1.41) breastLevel = 1;
@@ -527,7 +527,7 @@ function startEvents(eventNum:Number):void {
 		newGame.visible = false;
 		lastPage = eventNum;
 		inMajor = true;
-		say("<b>Choose your starting major feat:</b>\r");
+		say("<bold>Choose your starting major feat:</bold>\r");
 		listMajorFeats();
 		chooseFeats();
 	}
@@ -541,7 +541,7 @@ function startEvents(eventNum:Number):void {
 		button6(false, "", 0);
 		lastPage = eventNum;
 		inMajor = false;
-		say("<b>Choose your starting minor feat:</b>\r");
+		say("<bold>Choose your starting minor feat:</bold>\r");
 		listMinorFeats();
 		chooseFeats();
 	}
@@ -553,20 +553,20 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Choose Your Fate:</b> \r\r");
-		if(ccFate == 1) say("<b>The Stranded:</b> ");
+		say("<bold>Choose Your Fate:</bold> \r\r");
+		if(ccFate == 1) say("<bold>The Stranded:</bold> ");
 		else say("<a href='event:1~1.71'>The Stranded:</a> ");
 		say("Standard game type. You begin with supplies. You have an opportunity to escape after 30 days. Failing that, the game ends in another 30.\r");
-		if(ccFate == 2) say("<b>The Infected:</b> ");
+		if(ccFate == 2) say("<bold>The Infected:</bold> ");
 		else say("<a href='event:1~1.72'>The Infected:</a> ");
 		say("Basic rules apply. You received a random infection on your way to the bunker. Your early exposure gives you a bonus to Endurance.\r");
-		if(ccFate == 3) say("<b>The Rescuer:</b> ");
+		if(ccFate == 3) say("<bold>The Rescuer:</bold> ");
 		else say("<a href='event:1~1.73'>The Rescuer:</a> ");
 		say("Basic rules apply. You start off with no supplies, but a bonus point in Charisma.\r");
-		if(ccFate == 4) say("<b>The Forgotten:</b> ");
+		if(ccFate == 4) say("<bold>The Forgotten:</bold> ");
 		else say("<a href='event:1~1.74'>The Forgotten:</a> ");
 		say("You're in for the long haul. No starting supplies, and there's no early rescue event.\r");
-		if(ccFate == 5) say("<b>The Researcher:</b> ");
+		if(ccFate == 5) say("<bold>The Researcher:</bold> ");
 		else say("<a href='event:1~1.75'>The Researcher:</a> ");
 		say("In this game type you're immune to casual infection and can acquire sample vials after defeating monsters. You receive some starting supplies and are not eligible for the early rescue event.\r");
 		say("\r\r<i>[DEVNOTE: Day length remains 7 regardless of choice for now]</i>");
@@ -587,17 +587,17 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Additional Callenges:</b> ");
-		say("\r<b>Hard Mode:</b> [");
-		if(hardMode == false) say("<b>OFF</b>/ ");
+		say("<bold>Additional Callenges:</bold> ");
+		say("\r<bold>Hard Mode:</bold> [");
+		if(hardMode == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.81'>OFF</a>/ ");
-		if(hardMode == true) say("<b>ON</b>] ");
+		if(hardMode == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.81'>ON</a>] ");
 		say("\r     Restricts the use of your journal, and inflicts escelating difficulty immediately, rather than after 30 days.\r");
-		say("<b>Iron Man[NYI]:</b> [");
-		if(ironMan == false) say("<b>OFF</b>/ ");
+		say("<bold>Iron Man[NYI]:</bold> [");
+		if(ironMan == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.82'>OFF</a>/ ");
-		if(ironMan == true) say("<b>ON</b>] ");
+		if(ironMan == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.82'>ON</a>] ");
 		say("\r     Contains all your save data in a single 'Continuity' which is wiped after game end or starting a new run.\r");
 	}
@@ -619,59 +619,59 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Monster Warding:</b>\r     Monster warding prevents certain encounters from occuring randomly. You can still hunt for these monster, and this can be turned on/off at any time in the options menu. Warding is temporarily disabled when there's no un-warded monster available for a given zone.");
-		say("\r\r<b>Male:</b> [");
-		if(maleWard == false) say("<b>OFF</b>/ ");
+		say("<bold>Monster Warding:</bold>\r     Monster warding prevents certain encounters from occuring randomly. You can still hunt for these monster, and this can be turned on/off at any time in the options menu. Warding is temporarily disabled when there's no un-warded monster available for a given zone.");
+		say("\r\r<bold>Male:</bold> [");
+		if(maleWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.91'>OFF</a>/ ");
-		if(maleWard == true) say("<b>ON</b>] ");
+		if(maleWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.91'>ON</a>] ");
-		say("\r<b>Female:</b> [");
-		if(femaleWard == false) say("<b>OFF</b>/ ");
+		say("\r<bold>Female:</bold> [");
+		if(femaleWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.92'>OFF</a>/ ");
-		if(femaleWard == true) say("<b>ON</b>] ");
+		if(femaleWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.92'>ON</a>] ");
-		say("\r<b>Hybrid/Exotic:</b> [");
-		if(hermWard == false) say("<b>OFF</b>/ ");
+		say("\r<bold>Hybrid/Exotic:</bold> [");
+		if(hermWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.93'>OFF</a>/ ");
-		if(hermWard == true) say("<b>ON</b>] ");
+		if(hermWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.93'>ON</a>] ");
 		say("\r     This category entails Herms, Male Herms, cuntboys, shemales, and neuters.")
-		say("\r     <b>Note:</b> You can only ward two of three genders.")
-		say("\r\r<b>Furry:</b> [");
-		if(furryWard == false) say("<b>OFF</b>/ ");
+		say("\r     <bold>Note:</bold> You can only ward two of three genders.")
+		say("\r\r<bold>Furry:</bold> [");
+		if(furryWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.94'>OFF</a>/ ");
-		if(furryWard == true) say("<b>ON</b>] ");
+		if(furryWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.94'>ON</a>] ");
-		say("\r<b>Feral:</b> [");
-		if(feralWard == false) say("<b>OFF</b>/ ");
+		say("\r<bold>Feral:</bold> [");
+		if(feralWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.95'>OFF</a>/ ");
-		if(feralWard == true) say("<b>ON</b>] ");
+		if(feralWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.95'>ON</a>] ");
-		say("\r<b>Grotesque:</b> [");
-		if(horrorWard == false) say("<b>OFF</b>/ ");
+		say("\r<bold>Grotesque:</bold> [");
+		if(horrorWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.96'>OFF</a>/ ");
-		if(horrorWard == true) say("<b>ON</b>] ");
+		if(horrorWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.96'>ON</a>] ");
-		say("\r<b>Humanoid:</b> [");
-		if(humanWard == false) say("<b>OFF</b>/ ");
+		say("\r<bold>Humanoid:</bold> [");
+		if(humanWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.97'>OFF</a>/ ");
-		if(humanWard == true) say("<b>ON</b>] ");
+		if(humanWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.97'>ON</a>] ");
-		say("\r<b>Silly:</b> [");
-		if(sillyWard == false) say("<b>OFF</b>/ ");
+		say("\r<bold>Silly:</bold> [");
+		if(sillyWard == false) say("<bold>OFF</bold>/ ");
 		else say("<a href='event:1~1.98'>OFF</a>/ ");
-		if(sillyWard == true) say("<b>ON</b>] ");
+		if(sillyWard == true) say("<bold>ON</bold>] ");
 		else say("<a href='event:1~1.98'>ON</a>] ");
-		say("\r\r<b>Bi-Gender Bias:</b> [");
-		if(genderBias == 1) say("<b>MALE</b>] [");
+		say("\r\r<bold>Bi-Gender Bias:</bold> [");
+		if(genderBias == 1) say("<bold>MALE</bold>] [");
 		else say("<a href='event:1~1.9901'>MALE</a>] [");
-		if(genderBias == 2) say("<b>MALE-LEANING<</b>] [");
+		if(genderBias == 2) say("<bold>MALE-LEANING<</bold>] [");
 		else say("<a href='event:1~1.9902'>MALE-LEANING</a>] [");
-		if(genderBias == 3) say("<b>AMBI</b>] [");
+		if(genderBias == 3) say("<bold>AMBI</bold>] [");
 		else say("<a href='event:1~1.9903'>AMBI</a>] [");
-		if(genderBias == 4) say("<b>FEM-LEANING<</b>] [");
+		if(genderBias == 4) say("<bold>FEM-LEANING<</bold>] [");
 		else say("<a href='event:1~1.9904'>FEM-LEANING</a>] [");
-		if(genderBias == 5) say("<b>FEMALE</b>]");
+		if(genderBias == 5) say("<bold>FEMALE</bold>]");
 		else say("<a href='event:1~1.9905'>FEMALE</a>]");
 		say("\r     Some Monsters may have multiple genders, this option dictates the frequency one encounters a particular gender. Warding takes precedent over this.");
 	}
@@ -743,42 +743,42 @@ function startEvents(eventNum:Number):void {
 		button4(false, "", 0);
 		button5(false, "", 0);
 		button6(false, "", 0);
-		say("<b>Sexual/Fetishistic Rules:</b>\r     The following rules dictate the extent and frequency of certain sexual and fetishitic content.\r\r");
-		say("<b>Anal Sex:</b> ");
-		if(analLevel == 1) say("<b>[LOW]</b> ");
+		say("<bold>Sexual/Fetishistic Rules:</bold>\r     The following rules dictate the extent and frequency of certain sexual and fetishitic content.\r\r");
+		say("<bold>Anal Sex:</bold> ");
+		if(analLevel == 1) say("<bold>[LOW]</bold> ");
 		else say("<a href='event:1~1.1111'>[LOW]</a> ");
-		if(analLevel == 2) say("<b>[MED]</b> ");
+		if(analLevel == 2) say("<bold>[MED]</bold> ");
 		else say("<a href='event:1~1.1112'>[MED]</a> ");
-		if(analLevel == 3) say("<b>[HIGH]</b>");
+		if(analLevel == 3) say("<bold>[HIGH]</bold>");
 		else say("<a href='event:1~1.1113'>[HIGH]</a>");
 		say("\r     Note that, unlike other options, you can't fully remove anal sex. At low, it'll only go for this content if there is no other scene to offer.");
-		say("\r<b>Ovi Pregnancy:</b> ");
-		if(oviLevel == 1) say("<b>[NONE]</b> ");
+		say("\r<bold>Ovi Pregnancy:</bold> ");
+		if(oviLevel == 1) say("<bold>[NONE]</bold> ");
 		else say("<a href='event:1~1.1121'>[NONE]</a> ");
-		if(oviLevel == 2) say("<b>[LOW]</b> ");
+		if(oviLevel == 2) say("<bold>[LOW]</bold> ");
 		else say("<a href='event:1~1.1122'>[LOW]</a> ");
-		if(oviLevel == 3) say("<b>[HIGH]</b>");
+		if(oviLevel == 3) say("<bold>[HIGH]</bold>");
 		else say("<a href='event:1~1.1123'>[HIGH]</a>");
-		say("\r<b>Watersports:</b> ");
-		if(wsLevel == 1) say("<b>[NONE]</b> ");
+		say("\r<bold>Watersports:</bold> ");
+		if(wsLevel == 1) say("<bold>[NONE]</bold> ");
 		else say("<a href='event:1~1.1131'>[NONE]</a> ");
-		if(wsLevel == 2) say("<b>[LOW]</b> ");
+		if(wsLevel == 2) say("<bold>[LOW]</bold> ");
 		else say("<a href='event:1~1.1132'>[LOW]</a> ");
-		if(wsLevel == 3) say("<b>[HIGH]</b>");
+		if(wsLevel == 3) say("<bold>[HIGH]</bold>");
 		else say("<a href='event:1~1.1133'>[HIGH]</a>");
-		say("\r<b>Vore:</b> ");
-		if(voreLevel == 1) say("<b>[NONE]</b> ");
+		say("\r<bold>Vore:</bold> ");
+		if(voreLevel == 1) say("<bold>[NONE]</bold> ");
 		else say("<a href='event:1~1.1141'>[NONE]</a> ");
-		if(voreLevel == 2) say("<b>[LOW]</b> ");
+		if(voreLevel == 2) say("<bold>[LOW]</bold> ");
 		else say("<a href='event:1~1.1142'>[LOW]</a> ");
-		if(voreLevel == 3) say("<b>[HIGH]</b>");
+		if(voreLevel == 3) say("<bold>[HIGH]</bold>");
 		else say("<a href='event:1~1.1143'>[HIGH]</a>");
-		say("\r<b>Unbirth:</b> ");
-		if(ubLevel == 1) say("<b>[NONE]</b> ");
+		say("\r<bold>Unbirth:</bold> ");
+		if(ubLevel == 1) say("<bold>[NONE]</bold> ");
 		else say("<a href='event:1~1.1151'>[NONE]</a> ");
-		if(ubLevel == 2) say("<b>[LOW]</b> ");
+		if(ubLevel == 2) say("<bold>[LOW]</bold> ");
 		else say("<a href='event:1~1.1152'>[LOW]</a> ");
-		if(ubLevel == 3) say("<b>[HIGH]</b>");
+		if(ubLevel == 3) say("<bold>[HIGH]</bold>");
 		else say("<a href='event:1~1.1153'>[HIGH]</a>");
 	}
 	if(eventNum == 1.1111) {
@@ -893,12 +893,12 @@ function startEvents(eventNum:Number):void {
 		var validFeat:Boolean = false;
 		var fullGo:Boolean = true;
 		if(ccStatAllowance > 0 && ccRandom == false) {
-			queue("<b>Cannot Start:</b> You have remaining stat allocation.\r");
+			queue("<bold>Cannot Start:</bold> You have remaining stat allocation.\r");
 			fullGo = false;
 			
 		}
 		if(maleWard && femaleWard && hermWard){
-			queue("<b>Cannot Start:</b> You have one too many gender bans.\r");
+			queue("<bold>Cannot Start:</bold> You have one too many gender bans.\r");
 			fullGo = false;
 		}
 		listMajorFeats();
@@ -907,7 +907,7 @@ function startEvents(eventNum:Number):void {
 			if(featsListing[tempnum][0] == majorFeatChoice) validFeat = true;
 		}
 		if(validFeat == false) {
-			queue("<b>Cannot Start:</b> The major feat you have selected is invalid.\r");
+			queue("<bold>Cannot Start:</bold> The major feat you have selected is invalid.\r");
 			fullGo = false;
 		}
 		listMinorFeats();
@@ -917,7 +917,7 @@ function startEvents(eventNum:Number):void {
 			if(featsListing[tempnum][0] == minorFeatChoice) validFeat = true;
 		}
 		if(validFeat == false) {
-			queue("<b>Cannot Start:</b> The minor feat you have selected is invalid.\r");
+			queue("<bold>Cannot Start:</bold> The minor feat you have selected is invalid.\r");
 			fullGo = false;
 		}
 		if(fullGo) {
@@ -959,25 +959,25 @@ function randomStats():void {
 	ccPerception = 10;
 	ccCharisma = 10;
 	ccIntelligence = 10;
-	var T:Number = Math.floor(Math.random()*6);
-	if(T == 1) ccStrength += 3;
+	var T:Number = Math.round(Math.random()*7);
+	if(T <= 1) ccStrength += 3;
 	if(T == 2) ccDexterity += 3;
 	if(T == 3) ccEndurance += 3;
 	if(T == 4) ccPerception += 3;
 	if(T == 5) ccCharisma += 3;
 	if(T == 6) ccIntelligence += 3;
-	T = Math.floor(Math.random()*6);
-	if(T == 1) ccStrength += 3;
+	T = Math.round(Math.random()*7);
+	if(T <= 1) ccStrength += 3;
 	if(T == 2) ccDexterity += 3;
 	if(T == 3) ccEndurance += 3;
 	if(T == 4) ccPerception += 3;
 	if(T == 5) ccCharisma += 3;
-	if(T == 6) ccIntelligence += 3;
+	if(T >= 6) ccIntelligence += 3;
 	var X:Number = 12;
 	while(X > 0) {
-		T = Math.floor(Math.random()*6);
+		T = Math.round(Math.random()*7);
 		--X;
-		if(T == 1) {
+		if(T <= 1) {
 			++ccStrength;
 			if(ccStrength > 18) {
 				--ccStrength;
@@ -1012,7 +1012,7 @@ function randomStats():void {
 				++X;
 			}
 		}
-		if(T == 6) {
+		if(T >= 6) {
 			++ccIntelligence;
 			if(ccIntelligence > 18) {
 				--ccIntelligence;
@@ -1048,6 +1048,20 @@ function gameStart():void {
 	listMinorFeats();
 	addFeat(minorFeatChoice);
 	screenClear();
+	if(hasFeat("Street Smart")) {
+		navList.push(["Trevor Labs", 2.3]);
+		var tempnum:Number = 0;
+		var arrayLength2:Number = zoneMasterList.length;
+		for(tempnum = 0; tempnum < arrayLength2; tempnum++) {
+			if(zoneMasterList[tempnum][0] == "Trevor Labs") {
+				trace("Culling: " + zoneMasterList[tempnum]);
+				zoneMasterList.splice([tempnum], 1);
+				tempnum = arrayLength2;
+				if(hasTarget("Trevor Labs")) removeTarget("Trevor Labs");
+				trace("New Zone Master List: " + zoneMasterList);
+			}
+		}
+	}
 	inCreation = false;
 	if(ccFate == 5) {
 		say("     You vividly recall being told how it went down. First it was satellites, then the Internet. The power was the last thing to go. Thankfully, you weren't in one of the outbreak zones when it happened, but your life's been thrown upside down like everyone else's by the ensuing chaos.\r\r");
@@ -1121,6 +1135,26 @@ function memoryPurge():void {
 	pscale=4;
 	playerinvent = [];
 	playerinvent.push([ "Journal", 1 ]);
+	huntingList = [];
+	huntingList.push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
+	huntingList.push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
+	navList = [];
+	navList.push(["Grey Abbey", 2.2]);
+	exploreMasterList = [];
+	exploreMasterList.push(["Wyvern Flight", "Outside", 4.1]);
+	exploreMasterList.push(["Cats and Dogs", "Outside", 4.2]);
+	exploreMasterList.push(["Giant Egg", "Outside", 4.3]);
+	exploreMasterList.push(["Masturbating Fox", "Outside", 4.4]);
+	exploreMasterList.push(["School Spirit", "Outside", 4.5]);
+	exploreMasterList.push(["Test Event", "Outside", 4.6]);
+	scavMasterList = [];
+	scavMasterList.push(["Local Scav Event", "Abbey", 5.11]);
+	zoneMasterList = [];
+	zoneMasterList.push(["Trevor Labs", "Outside", 4.7]);
+	var introList:Array = [];
+	introList.push([2.3, "     Trevor Labs looms over you as you approach, the sleek and tall glass building completely dark, save for some faint light in one of the windows...\r\r     You've heard of this place. They are -- or is that were? -- a biopharm setup. Kind of new on the block, they made a big stink over the local news with their willingness to skirt very close to the edge of most laws in the name of progress. Regardless, you choose to make your way inside..."]);
+	TLLobbyInvent = [];
+	TLLabInvent = [];
 	intelligence=12;
 	perception=12;
 	libido=0;

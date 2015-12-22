@@ -1,6 +1,7 @@
 ﻿//Latex Fox Version 1 -- Nuku Valente
 
-monsterTable.push([ 1, "Latex Fox", "Outside", latexFoxCombat, latexFoxInfect, "all", "nobypass", "infectious", "default"]);
+monsterTable.push([ 1, "Latex Fox", "Outside", latexFoxCombat, latexFoxInfect, "10/0", "male/furry", "Canine/Latex/Knot"]);
+monsterTable.push([ 1, "Latex Fox", "Abbey", latexFoxCombat, latexFoxInfect, "10/0", "male/furry", "Canine/Latex/Knot"]);
 
 function latexFoxCombat():void {
 	ename = "Latex Fox";
@@ -42,7 +43,7 @@ function latexFoxInfect():void {
 	eskinchange = "Your body feels terribly hot, as though a thick liquid has been poured over you. Looking yourself over, a latex substance seems to spread all over you until your skin is entirely replaced by the smooth stuff. When you get a better look, it seems that it has taken on a red, black, and white pattern, resembling that of a fox";
 	ecockdesc = "Your dick<smn> resemble<smv> that of a canine's. When unsheathed, <theyrem> a bright red, with a knot at the base";
 	ecocktype = "<one of>vulpine||canine||knotted<random>";
-	ecockchange = "You feel a strong sensation in your nethers. When you check what has happened, it looks as though your anatomy has changed to reflect that of a canine's, your cock<smn> now bright red, with a large knot at the base ";
+	ecockchange = "You feel a strong sensation in your nethers. When you check what has happened, it looks as though your anatomy has changed to reflect that of a canine's, your cock<smn> now bright red, with a large knot at the base";
 	etaildesc = "You have a long tail, resembling that of a fox's. It sways back and forth, idly";
 	etailtype = "<one of>vulpine||fox<random>";
 	etailchange = "You hear a sudden, loud FWOOMF from behind, compelling you to see what has happened and revealing to you that you now have the tail of a fox. It sways back and forth, almost seductively";
