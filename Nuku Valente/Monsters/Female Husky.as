@@ -1,6 +1,6 @@
 ﻿//Female Husky Version 1 -- Nuku Valente
 
-monsterTable.push([ 1, "Female Husky", "Outside", fhuskyCombat, fhuskyInfect, "all", "nobypass", "infectious", "default"]);
+monsterTable.push([ 1, "Female Husky", "Outside", fhuskyCombat, fhuskyInfect, "10/0", "female/furry", "Canine/Knot"]);
 
 function fhuskyCombat():void {
 	ename = "Female Husky";

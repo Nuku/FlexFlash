@@ -1,6 +1,6 @@
 ﻿//Hermaphrodite Gryphon Version 1 -- Nuku Valente
 
-monsterTable.push([ 1, "Hermaphrodite Gryphon", "Outside",  hermGryphonCombat, hermGryphonInfect, "all", "nobypass", "infectious", "default"]);
+monsterTable.push([ 1, "Hermaphrodite Gryphon", "Outside",  hermGryphonCombat, hermGryphonInfect, "10/0", "herm/furry", "Knot/Avian/AvianPred"]);
 
 function hermGryphonCombat():void {
 	ename = "Hermaphrodite Gryphon";
@@ -60,7 +60,7 @@ function hermgryphvictory():void {
 	if(anallevel != 1 && (pcunts == 0 || anallevel == 3) && (Math.random()*100 < 34 || (anallevel == 3 && Math.random()*100 < 34))) {
 		say("     She’s, at the very least, gentle when she forces you to bend over, pulling free any obstruction in her path until your <bodytype> ass is freely exposed before the monster’s lewd gaze. You have some doubts over whether she’ll remain gentle when ");
 		if(pscale >= 7) say("she climbs atop your larger, <bodyshape> form");
-		else say(" she closes in behind your <bodyshape> form");
+		else say("she closes in behind your <bodyshape> form");
 		say(" and you feel the oozing, black tip of her dick press against your anal ring.\r\r");
 		say("     Razor sharp talons teasingly caressing along your <skintype>, she takes a brief second to torment you before the gryphon tightens her hold on you, plunging her throbbing rod down your supple hole, ");
 		if(pscale >= 7) say("easily tieing with you");
@@ -108,8 +108,7 @@ function hermgryphvictory():void {
 		if(findLength(pscale, pcocksize) > 19) say("Barely able to fit within her tight hole, she visibly fights between the intense sensation of impaling herself with each thick inch and her overwhelming desire to see it disappear");
 		else say("She takes her time, slowly burying each successive inch down her greedy hole, until it disappears");
 		say(" entirely within her");
-		var REPLACEME:Number = 0;
-		if(REPLACEME != 0) say(", up to the knot");
+		if(isListed(pcockname, "Knot")) say(", up to the knot");
 		say(".\r\r\     Pumping her own, precum-sputtering dick, she begins riding her newfound toy proper. Her motion is rough and haphazard, far less interested in your enjoyment than satisfying her overwhelming, tainted need. With each successive descent along your length, the motion becomes more erratic and intense, up to a point where the gryphon starts using the flap of her wings to aid her, billowing up dust all around.");
 		if(libido > 39) {
 			say("     The whole ordeal is more that enough to set you off, unloading your <cum size desc> load into the monster’s tight hole");

@@ -133,10 +133,12 @@ function interact(item:String):void {
 			button6(true, "Cancel", 3.4);
 			buttonScavCity(false);
 			buttonExploreCity(false);
-			buttonScavLocal(false);
-			buttonExploreLocal(false);
+			buttonScavLocal(false, "", false);
+			buttonExploreLocal(false, "");
 			buttonInventory(false);
 			buttonAppearance(false);
+			buttonHuntCity(false);
+			buttonHuntLocal(false, "");
 			newGame.visible = false;
 			tempnum = arrayLength;
 			trace("Found Item: " + tappeditem);
@@ -160,10 +162,12 @@ function invInteract(item:String):void {
 			button6(true, "Cancel", 3.8);
 			buttonScavCity(false);
 			buttonExploreCity(false);
-			buttonScavLocal(false);
-			buttonExploreLocal(false);
+			buttonScavLocal(false, "", false);
+			buttonExploreLocal(false, "");
 			buttonInventory(false);
 			buttonAppearance(false);
+			buttonHuntCity(false);
+			buttonHuntLocal(false, "");
 			tempnum = arrayLength;
 			trace("Found Item: " + tappeditem + "From Item table: " + itemTable[tempnum])
 		}

@@ -21,6 +21,12 @@ function linkify(linkEvent:TextEvent):void {
 			say(featDesc(arr[1]) + "\rIs this your choice?");
 			doYesNo(99, lastPage);
 		}
+		else if(arr[0] == 5){
+			doNav(arr[1]);
+		}
+		else if(arr[0] == 6){
+			hunting(arr[1], arr[2]);
+		}
 		else if(arr[0] == 41){
 			passTime(180);
 			say("\r\r     Time advanced by 3 hours.");
@@ -33,6 +39,9 @@ function linkify(linkEvent:TextEvent):void {
 addEventListener(TextEvent.LINK, linkify);
 
 var myCSS:StyleSheet = new StyleSheet();
-myCSS.setStyle("a:link", {color:'#0000CC',textDecoration:'none', fontWeight: 'bold'});
-myCSS.setStyle("a:hover", {color:'#0000FF',textDecoration:'underline', fontWeight: 'bold'});
+myCSS.setStyle("a:link", {color:'#0000CC',textDecoration:'none', fontFamily: 'Verdana Bold'});
+myCSS.setStyle("a:hover", {color:'#0000FF',textDecoration:'underline', fontFamily: 'Verdana Bold'});
+myCSS.setStyle("bold", {fontFamily: 'Verdana Bold', display: 'inline'});
+myCSS.setStyle("italic", {fontFamily: 'Verdana Italic', display: 'inline'});
 outputWindow.styleSheet = myCSS;
+

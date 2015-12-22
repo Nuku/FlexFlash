@@ -238,27 +238,27 @@ function libidoChange():void {
 function sexChange():void {
 	var prevcock = pcocksize;
 	var prevballs = pballsize;
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && ecocksize > pcocksize) {
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && ecocksize > pcocksize && cockLevel != 1) { 
 		prevcock = pcocksize;
 		++pcocksize;
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
 		pcocksize += Math.round((ecocksize - pcocksize)/3);
 		if(prevcock < pcocksize) {
-			say("     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random> as <theym> <one of>grow||expand<random> in size, becoming <cock size desc>!\r\r");
+			say("     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random><smv> as <theym> <one of>grow||expand<random><smv> in size, becoming <cock size desc>!\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocksize > ecocksize) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocksize > ecocksize) {
 		prevcock = pcocksize;
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
 		if(prevcock > pcocksize) {
-			say("     Strong <one of>erotic tingles||cold waves||hot flashes<random> run along the length of your <cocktype> <one of>cock||dick||shaft||poles<random> as <theym> begin<smv> to diminish somewhat to better suit your new infection. "); 
+			say("     Strong <one of>erotic tingles||cold waves||hot flashes<random> run along the length of your <cocktype> <one of>cock||dick||shaft||pole<random><smv> as <theym> begin<smv> to diminish somewhat to better suit your new infection. "); 
 			if(pcocks > 1) say("They");
 			else say("It");
 			say(" dwindle<smv> in size, becoming <cock size desc>.\r\r");
 		}
 	}
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && eballsize > pballsize && pcocks >= 1) {
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && eballsize > pballsize && pcocks >= 1 && cockLevel != 1) {
 		prevballs = pballsize;
 		++pballsize;
 		if(pballsize < eballsize && Math.random()*100 < 51) ++pballsize;
@@ -266,7 +266,7 @@ function sexChange():void {
 			say("     You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pballsize > eballsize) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pballsize > eballsize) { //Gender-reinforcing re-adjusting of ball size to match strain
 		prevballs = pballsize;
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
@@ -274,7 +274,7 @@ function sexChange():void {
 			say("     You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r");
 		}
 	}
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks < ecocks) {
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocks < ecocks) { //Gender-trending addition of cocks
 		var prevcocks = pcocks;
 		if(pcocks == 0) {
 			pcocks = 1;
@@ -290,7 +290,7 @@ function sexChange():void {
 			say("     Your groin throbs with intense sensations as a <cock size desc> <cocktype> <one of>cock||penis||shaft||maleness<random> erupts from you, spurting a few excited streams of fluid as it settles into place.\r\r");
 		}
 	}
-	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy")) {
+	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy" || cockLevel == 1)) { //I'm not sure how this whole things works(?). ASSESS ME
 		prevcock = pcocksize;
 		prevballs = pballsize;
 		--pcocksize;
@@ -298,8 +298,8 @@ function sexChange():void {
 		if(pcocksize >= 2 && Math.random()*100 < 34) --pcocksize;
 		if(pballsize >= 2 && Math.random()*100 < 34) --pballsize;
 		if(pballsize < 1 && pcocksize > 1) pballsize == 1;
-		if(prevcock > pcocksize || prevballs > pballsize) {
-			say("     Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cocks||member||shafts||poles<random> as they begin< to shrink in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
+		if(prevcock > pcocksize || prevballs > pballsize) { 
+			say("     Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cock||member||shaft||pole<random><smn> as <theym> begin<smv> to shrink in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
 			if(pcocksize < 1) {
 				pcocks = 0;
 				say("     You barely have time to give a whimper as you cease to be a male.\r\r");
@@ -310,11 +310,11 @@ function sexChange():void {
 			say("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks > ecocks && Math.random()*100 < 34) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocks > ecocks && Math.random()*100 < 34 && (multiCock != 3 || pcocks > 2)) { //Gender-reinforcing re-alignment of cocks to match strain
 		--pcocks;
 		say("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 	}
-	if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && (pcunts < ecunts || (pcunts == ecunts && vaginity <= 2))) {
+	if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm" || cuntLevel == 3) && (pcunts < ecunts || (pcunts == ecunts && vaginity <= 2)) && (multiCunt != 1 || pcunts == 0) && cuntLevel != 1) { //Gender-trending adding of cunt
 		var prevcunts = pcunts;
 		if(pcunts == 0) {
 			pcunts = 1;
@@ -326,7 +326,7 @@ function sexChange():void {
 			say("     Your groin throbs with intense sensations as a <bodytype> <one of>cunt||pussy||vagina||cleft<random> wetly forms, Leaking along a thigh as you quiver.\r\r");
 		}
 	}
-	if(pcunts != 0 && (sextrend == "Male" || sextrend == "Shemale" || sextrend == "Femneuter" || sextrend == "Neuter")) {
+	if(pcunts != 0 && (sextrend == "Male" || sextrend == "Shemale" || sextrend == "Femneuter" || sextrend == "Neuter" ) && ((multiCunt != 3 && cuntLevel != 1) || pcunts > 2)) { //Gender-trending removal of cunt
 		if(pcunts == 1) {
 			--vaginity;
 			if(vaginity <= 0) {
@@ -339,7 +339,7 @@ function sexChange():void {
 			say("     An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 		}
 	}
-	else if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && pcunts > ecunts && Math.random()*100 < 34) {
+	else if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm" || cuntLevel == 3) && pcunts > ecunts && Math.random()*100 < 34 && (multiCunt != 3 || pcunts > 2)) { //Gender-reinforced re-alignment of cunts to match strain
 		--pcunts;
 		say("An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 	}
@@ -348,7 +348,7 @@ function sexChange():void {
 function queueSexChange():void {
 	var prevcock = pcocksize;
 	var prevballs = pballsize;
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && ecocksize > pcocksize) {
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && ecocksize > pcocksize && cockLevel != 1) { 
 		prevcock = pcocksize;
 		++pcocksize;
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
@@ -357,7 +357,7 @@ function queueSexChange():void {
 			queue("     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random> as <theym> <one of>grow||expand<random> in size, becoming <cock size desc>!\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocksize > ecocksize) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocksize > ecocksize) {
 		prevcock = pcocksize;
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
@@ -368,7 +368,7 @@ function queueSexChange():void {
 			queue(" dwindle<smv> in size, becoming <cock size desc>.\r\r");
 		}
 	}
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && eballsize > pballsize && pcocks >= 1) {
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && eballsize > pballsize && pcocks >= 1 && cockLevel != 1) {
 		prevballs = pballsize;
 		++pballsize;
 		if(pballsize < eballsize && Math.random()*100 < 51) ++pballsize;
@@ -376,7 +376,7 @@ function queueSexChange():void {
 			queue("     You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pballsize > eballsize) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pballsize > eballsize) { //Gender-reinforcing re-adjusting of ball size to match strain
 		prevballs = pballsize;
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
@@ -384,7 +384,7 @@ function queueSexChange():void {
 			queue("     You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r");
 		}
 	}
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks < ecocks) {
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocks < ecocks) { //Gender-trending addition of cocks
 		var prevcocks = pcocks;
 		if(pcocks == 0) {
 			pcocks = 1;
@@ -400,7 +400,7 @@ function queueSexChange():void {
 			queue("     Your groin throbs with intense sensations as a <cock size desc> <cocktype> <one of>cock||penis||shaft||maleness<random> erupts from you, spurting a few excited streams of fluid as it settles into place.\r\r");
 		}
 	}
-	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy")) {
+	if(pcocks != 0 && (sextrend == "Female" || sextrend == "Neuter" || sextrend == "Femneuter" || sextrend == "Cuntboy" || cockLevel == 1)) { //I'm not sure how this whole things works(?). ASSESS ME
 		prevcock = pcocksize;
 		prevballs = pballsize;
 		--pcocksize;
@@ -408,7 +408,7 @@ function queueSexChange():void {
 		if(pcocksize >= 2 && Math.random()*100 < 34) --pcocksize;
 		if(pballsize >= 2 && Math.random()*100 < 34) --pballsize;
 		if(pballsize < 1 && pcocksize > 1) pballsize == 1;
-		if(prevcock > pcocksize || prevballs > pballsize) {
+		if(prevcock > pcocksize || prevballs > pballsize) { 
 			queue("     Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cocks||member||shafts||poles<random> as they begin to shrink in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r");
 			if(pcocksize < 1) {
 				pcocks = 0;
@@ -420,11 +420,11 @@ function queueSexChange():void {
 			queue("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm") && pcocks > ecocks && Math.random()*100 < 34) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocks > ecocks && Math.random()*100 < 34 && (multiCock != 3 || pcocks > 2)) { //Gender-reinforcing re-alignment of cocks to match strain
 		--pcocks;
 		queue("     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r");
 	}
-	if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && (pcunts < ecunts || (pcunts == ecunts && vaginity <= 2))) {
+	if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm" || cuntLevel == 3) && (pcunts < ecunts || (pcunts == ecunts && vaginity <= 2)) && (multiCunt != 1 || pcunts == 0) && cuntLevel != 1) { //Gender-trending adding of cunt
 		var prevcunts = pcunts;
 		if(pcunts == 0) {
 			pcunts = 1;
@@ -436,7 +436,7 @@ function queueSexChange():void {
 			queue("     Your groin throbs with intense sensations as a <bodytype> <one of>cunt||pussy||vagina||cleft<random> wetly forms, Leaking along a thigh as you quiver.\r\r");
 		}
 	}
-	if(pcunts != 0 && (sextrend == "Male" || sextrend == "Shemale" || sextrend == "Femneuter" || sextrend == "Neuter")) {
+	if(pcunts != 0 && (sextrend == "Male" || sextrend == "Shemale" || sextrend == "Femneuter" || sextrend == "Neuter") && ((multiCunt != 3 && cuntLevel != 1) || pcunts > 2)) { //Gender-trending removal of cunt
 		if(pcunts == 1) {
 			--vaginity;
 			if(vaginity <= 0) {
@@ -449,9 +449,9 @@ function queueSexChange():void {
 			queue("     An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 		}
 	}
-	else if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm") && pcunts > ecunts && Math.random()*100 < 34) {
+	else if((sextrend == "Female" || sextrend == "Cuntboy" || sextrend == "Herm" || sextrend == "Maleherm" || cuntLevel == 3) && pcunts > ecunts && Math.random()*100 < 34 && (multiCunt != 3 || pcunts > 2)) { //Gender-reinforced re-alignment of cunts to match strain
 		--pcunts;
-		queue("     An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
+		queue("An odd, wet noise has you peeking in time to see one of your <one of>cunts||pussies<random> has vanished!\r\r");
 	}
 }
 
@@ -473,14 +473,14 @@ function bodyChange():void {
 		say(".\r\r");
 	}
 	if(pbreastpairs != ebreastpairs) {
-		if(pbreastpairs < ebreastpairs) {
+		if(pbreastpairs < ebreastpairs && (multiTits != 1 || pbreastpairs == 0)) {
 			if(pbreastsize > 0) {
 				say("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r");
 			}
 			else say("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of nipples, pressing out of your <skintype>\r\r");
 			++pbreastpairs;
 		}
-		else {
+		else if((multiTits != 3 || pbreastpairs > 2) && (breastLevel != 3 || pbreastpairs > 1)){
 			if(pbreastsize > 0) {
 				say("     You look down just in time to see two nipples, breasts included, be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
 			}
@@ -488,8 +488,8 @@ function bodyChange():void {
 			--pbreastpairs;
 		}
 	}
-	if((sextrend == "Female" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Femneuter") && pbreastpairs >= 1) {
-		if(pbreastsize < ebreastsize) {
+	if((sextrend == "Female" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Femneuter" || breastLevel == 3) && pbreastpairs >= 1) {
+		if(pbreastsize < ebreastsize && breastLevel != 1) {
 			var prevbreasts:Number = pbreastsize;
 			++pbreastsize;
 			if(pbreastsize < ebreastsize && Math.random()*100 < 51) ++pbreastsize;
@@ -522,14 +522,14 @@ function queueBodyChange():void {
 		queue(".\r\r");
 	}
 	if(pbreastpairs != ebreastpairs) {
-		if(pbreastpairs < ebreastpairs) {
+		if(pbreastpairs < ebreastpairs && (multiTits != 1 || pbreastpairs == 0)) {
 			if(pbreastsize > 0) {
 				queue("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r");
 			}
 			else queue("     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of nipples, pressing out of your <skintype>\r\r");
 			++pbreastpairs;
 		}
-		else {
+		else if((multiTits != 3 || pbreastpairs > 2) && (breastLevel != 3 || pbreastpairs > 1)){
 			if(pbreastsize > 0) {
 				queue("     You look down just in time to see two nipples, breasts included, be reabsorbed into your body, leaving nothing but your <skintype> behind.\r\r");
 			}
@@ -537,7 +537,7 @@ function queueBodyChange():void {
 			--pbreastpairs;
 		}
 	}
-	if((sextrend == "Female" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Femneuter") && pbreastpairs >= 1) {
+	if((sextrend == "Female" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Femneuter" || breastLevel == 3) && pbreastpairs >= 1) {
 		if(pbreastsize < ebreastsize) {
 			var prevbreasts:Number = pbreastsize;
 			++pbreastsize;
@@ -551,4 +551,20 @@ function queueBodyChange():void {
 			queue("     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> shrink until they're <breast size desc>!\r\r");
 		}
 	}
+}
+
+function isListed(strain:String, tag:String):Boolean {
+	var arrayLength:Number = monsterTable.length;
+	var i = 0;
+	for(i = 0; i < arrayLength; i++) {
+		if(monsterTable[i][1] == strain) {
+			var arr:Array = monsterTable[i][7].split("/");
+			var arrLength:Number = arr.length;
+			var o = 0;
+			for(o = 0; o < arrLength; o++) {
+				if(arr[o] == tag) return(true);
+			}
+		}
+	}
+	return(false);
 }

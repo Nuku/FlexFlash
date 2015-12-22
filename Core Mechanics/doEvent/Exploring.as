@@ -8,6 +8,8 @@ exploreMasterList.push(["Giant Egg", "Outside", 4.3]);
 exploreMasterList.push(["Masturbating Fox", "Outside", 4.4]);
 exploreMasterList.push(["School Spirit", "Outside", 4.5]);
 exploreMasterList.push(["Test Event", "Outside", 4.6]);
+scavMasterList.push(["Local Scav Event", "Abbey", 5.11]);
+zoneMasterList.push(["Trevor Labs", "Outside", 2.3]);
 
 function exploreEvents(eventNum:Number):void {
 	if(eventNum == 4) {

@@ -34,8 +34,8 @@ function doCombatEvent(eventNum:Number)
 		button6(true, "Throw", 100);
 		buttonScavCity(false);
 		buttonExploreCity(false);
-		buttonScavLocal(false);
-		buttonExploreLocal(false);
+		buttonScavLocal(false, "", false);
+		buttonExploreLocal(false, "");
 		buttonInventory(false);
 		buttonAppearance(false);
 		button1Choice = 1; 
@@ -70,7 +70,7 @@ function doCombatEvent(eventNum:Number)
 		infect(ename);
 		libido += 2;
 		if(hasFeat("Submissive")) XP += Math.round(((elevel*10)*0.8)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
-		else XP += Math.round(((elevel*20)*0.2)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
+		else XP += Math.round(((elevel*20)*0.25)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
 		doNext(lastRoom);
 	}
 	if(eventNum == 150) { //Enemy Victory (Submission)
@@ -80,7 +80,7 @@ function doCombatEvent(eventNum:Number)
 		infect(ename);
 		libido += 2;
 		if(hasFeat("Submissive")) XP += Math.round(((elevel*10)*0.8)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
-		else XP += Math.round(((elevel*20)*0.2)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
+		else XP += Math.round(((elevel*20)*0.25)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
 		doNext(lastRoom);
 	}
 		//statDisplay();
@@ -106,7 +106,7 @@ function doCombatEvent(eventNum:Number)
 function display():void {
 	var percent:String = "";
 	var math:Number = eHP/eMAXHP
-	percent = "(<b>" + String(int(eHP*1000/eMAXHP)/10) + "% HP</b>)";
+	percent = "(<bold>" + String(int(eHP*1000/eMAXHP)/10) + "% HP</bold>)";
 	screenClear();
 	enemydesc();
 	say("\r");

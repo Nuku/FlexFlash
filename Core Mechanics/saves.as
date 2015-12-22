@@ -1,5 +1,9 @@
 ﻿//Now implemented into the game -- inasfar as CC presets are concerned.
 
+var alphaSS:String = "";
+var betaSS:String = "";
+var gammaSS:String = "";
+
 function savePreset(slot:String):Boolean {
     //Initialize the save file
     var saveFile = SharedObject.getLocal(slot);
@@ -39,15 +43,23 @@ function savePreset(slot:String):Boolean {
 	saveFile.data.humanWard = humanWard;
 	saveFile.data.sillyWard = sillyWard;
 	saveFile.data.genderBias = genderBias;
+	if(slot == "alpha") alphaSS = saveFile.data.playerName;
+	else if(slot == "beta") betaSS = saveFile.data.playerName;
+	else if(slot == "gamma") gammaSS = saveFile.data.playerName;
     if(saveFile.flush()) return true;
     return false;
 }
 
-function presetName(slot:String):String {
-	var texts:String = "Empty";
-	var saveFile = SharedObject.getLocal(slot);
-    if(saveFile.data.exists) texts = saveFile.data.playerName;
-	return(texts);
+function presetName():void {
+	var saveFile = SharedObject.getLocal("alpha");
+    if(saveFile.data.exists) alphaSS = saveFile.data.playerName;
+	else alphaSS = "Empty";
+	saveFile = SharedObject.getLocal("beta");
+    if(saveFile.data.exists) betaSS = saveFile.data.playerName;
+	else betaSS = "Empty";
+	saveFile = SharedObject.getLocal("gamma");
+    if(saveFile.data.exists) gammaSS = saveFile.data.playerName;
+	else gammaSS = "Empty";
 }
 	
 	

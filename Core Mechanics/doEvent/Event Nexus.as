@@ -7,6 +7,7 @@ function doEvent(eventNum:Number):void {
 	trace("doEvent called. Eventnum " + eventNum + " triggered.");
 	newGame.visible = false;
 	if(doBypass != 0) {
+		trace("Doing Bypass");
 		var Bypass:Number = doBypass;
 		doBypass = 0;
 		doEvent(Bypass);
