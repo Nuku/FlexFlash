@@ -19,6 +19,8 @@ var MAXHP:Number = 100;
 var libido:Number = 0;
 var XP:Number = 0;
 var MAXXP:Number = 0;
+var CAP:Number = 0;
+var MAXCAP:Number = 0;
 var freecred:Number = 0;
 var level:Number = 1;
 
@@ -50,6 +52,8 @@ var eperception:Number = 10;
 var eHP:Number   = 100;
 var eMAXHP:Number = 100;
 var elibido:Number = 0;
+var edrops:String = "";
+var edropchance:String = "";
 var anallevel:Number = 2;
 
 //MISC VARIABLES
@@ -66,7 +70,7 @@ var nextButton:Boolean = false;
 //Setup Buttons & Window
 statDisplay();
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 4: World Navigation</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 5: Pregnancy+Items&Inv.2</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);
@@ -152,49 +156,77 @@ function doInvent(e:MouseEvent):void {
 }
 
 function doCitExpl(e:MouseEvent):void {
-	if(allowExploreCity) {
+	if(allowExploreCity && CAP <= MAXCAP) {
 		exploration("Outside");
 		isLocal = false;
+	}
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
 	}
 }
 
 function doLocalExpl(e:MouseEvent):void {
-	if(allowExploreLocal) {
+	if(allowExploreLocal && CAP <= MAXCAP) {
 		exploration(explZone);
 		isLocal = true;
+	}
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
 	}
 }
 
 
 function doCitScav(e:MouseEvent):void {
-	if(allowScavCity) {
+	if(allowScavCity && CAP <= MAXCAP) {
 		scavenge("Outside");
 		isLocal = false;
+	}
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
 	}
 }
 
 function doLocalScav(e:MouseEvent):void {
-	if(allowScavLocal) {
+	if(allowScavLocal && CAP <= MAXCAP) {
 		scavenge(scavZone);
 		isLocal = true;
+	}
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
 	}
 }
 
 function doNavigate(e:MouseEvent):void {
-	if(allowNavigation) listNav();
+	if(allowNavigation && CAP <= MAXCAP) listNav();
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
+	}
 }
 
 function doCityHunt(e:MouseEvent):void {
-	if(allowHuntCity) {
+	if(allowHuntCity && CAP <= MAXCAP) {
 		huntList("Outside");
 		isLocal = false;
+	}
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
 	}
 }
 
 function doLocalHunt(e:MouseEvent):void {
-	if(allowHuntLocal) {
+	if(allowHuntLocal && CAP <= MAXCAP) {
 		huntList(huntZone);
 		isLocal = true;
+	}
+	else if(CAP > MAXCAP) {
+		queue("You're carrying too much to do that!");
+		doEvent(lastRoom);
 	}
 }
 
@@ -461,6 +493,61 @@ function button6(sw:Boolean, btitle:String, bnumber:Number):void {
 		Choice6Outline.alpha = .25;
 		Choice6.visible = false;
 	}
+}
+
+var buttonf1Choice:Function = undefined;
+var buttonf2Choice:Function = undefined;
+var buttonf3Choice:Function = undefined;
+var buttonf4Choice:Function = undefined;
+var buttonf5Choice:Function = undefined;
+var buttonf6Choice:Function = undefined;
+
+function buttonf1(btitle:String, bfunction:Function):void {
+	Choice1Outline.alpha = 1;
+	Choice1.visible = true;
+	Choice1.htmlText = btitle;
+	button1Choice = -9001;
+	buttonf1Choice = bfunction;
+}
+
+function buttonf2(btitle:String, bfunction:Function):void {
+	Choice2Outline.alpha = 1;
+	Choice2.visible = true;
+	Choice2.htmlText = btitle;
+	button2Choice = -9001;
+	buttonf2Choice = bfunction;
+}
+
+function buttonf3(btitle:String, bfunction:Function):void {
+	Choice3Outline.alpha = 1;
+	Choice3.visible = true;
+	Choice3.htmlText = btitle;
+	button3Choice = -9001;
+	buttonf3Choice = bfunction;
+}
+
+function buttonf4(btitle:String, bfunction:Function):void {
+	Choice4Outline.alpha = 1;
+	Choice4.visible = true;
+	Choice4.htmlText = btitle;
+	button4Choice = -9001;
+	buttonf4Choice = bfunction;
+}
+
+function buttonf5(btitle:String, bfunction:Function):void {
+	Choice5Outline.alpha = 1;
+	Choice5.visible = true;
+	Choice5.htmlText = btitle;
+	button5Choice = -9001;
+	buttonf5Choice = bfunction;
+}
+
+function buttonf6(btitle:String, bfunction:Function):void {
+	Choice6Outline.alpha = 1;
+	Choice6.visible = true;
+	Choice6.htmlText = btitle;
+	button6Choice = -9001;
+	buttonf6Choice = bfunction;
 }
 
 function revertButtons():void {
@@ -752,6 +839,12 @@ function outputQueue():void {
 		queueTime = 0;
 	}
 	say("\r\r" + queuedText);
+	if(queuedInfect) {
+		say("\r\r");
+		infect(queuedIStrain);
+		queuedInfect = false;
+		queuedIStrain = "";
+	}
 	queuedText = "";
 }
 /*
@@ -899,7 +992,10 @@ function buttonEvent1(e:MouseEvent):void
 	}
 	currEvent = button1Choice;
 	if(inCombat) doCombatEvent(currEvent);
-	else doEvent(currEvent);
+	else {
+		if(currEvent == -9001) buttonf1Choice();
+		else doEvent(currEvent);
+	}
 }
 ///perform button2's current action
 function buttonEvent2(e:MouseEvent):void
@@ -911,7 +1007,10 @@ function buttonEvent2(e:MouseEvent):void
 	}
 	currEvent = button2Choice;
 	if(inCombat) doCombatEvent(currEvent);
-	else doEvent(currEvent);
+	else {
+		if(currEvent == -9001) buttonf2Choice();
+		else doEvent(currEvent);
+	}
 }
 //perform the action currently associated with a button!
 function buttonEvent3(e:MouseEvent):void
@@ -923,7 +1022,10 @@ function buttonEvent3(e:MouseEvent):void
 	}
 	currEvent = button3Choice;
 	if(inCombat) doCombatEvent(currEvent);
-	else doEvent(currEvent);
+	else {
+		if(currEvent == -9001) buttonf3Choice();
+		else doEvent(currEvent);
+	}
 }
 //perform the action currently associated with a button!
 function buttonEvent4(e:MouseEvent):void
@@ -935,7 +1037,10 @@ function buttonEvent4(e:MouseEvent):void
 	}
 	currEvent = button4Choice;
 	if(inCombat) doCombatEvent(currEvent);
-	else doEvent(currEvent);
+	else {
+		if(currEvent == -9001) buttonf4Choice();
+		else doEvent(currEvent);
+	}
 }
 
 function buttonEvent5(e:MouseEvent):void
@@ -947,7 +1052,10 @@ function buttonEvent5(e:MouseEvent):void
 	}
 	currEvent = button5Choice;
 	if(inCombat) doCombatEvent(currEvent);
-	else doEvent(currEvent);
+	else {
+		if(currEvent == -9001) buttonf5Choice();
+		else doEvent(currEvent);
+	}
 }
 
 function buttonEvent6(e:MouseEvent):void
@@ -959,7 +1067,27 @@ function buttonEvent6(e:MouseEvent):void
 	}
 	currEvent = button6Choice;
 	if(inCombat) doCombatEvent(currEvent);
-	else doEvent(currEvent);
+	else {
+		if(currEvent == -9001) buttonf6Choice();
+		else doEvent(currEvent);
+	}
+}
+
+function clearButtons():void {
+	button1(false, "", 0);
+	button2(false, "", 0);
+	button3(false, "", 0);
+	button4(false, "", 0);
+	button5(false, "", 0);
+	button6(false, "", 0);
+	buttonInventory(false);
+	buttonAppearance(false);
+	buttonScavCity(false);
+	buttonExploreCity(false);
+	buttonHuntCity(false);
+	buttonHuntLocal(false, "");
+	buttonScavLocal(false, "", false);
+	buttonExploreLocal(false, "");
 }
 
 //Hide most buttons and display 'next' and call new event.

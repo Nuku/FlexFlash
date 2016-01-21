@@ -34,7 +34,9 @@ function listMajorFeats():void {
 	if(hasFeat("Survivalist") == false && (perception > 12 || ccPerception > 11)) featsListing.push(["Survivalist", "You’re now more likely to find scavenging events tailored to your highest relevant stat. Scavenging also takes less time."]);
 	if(hasFeat("Explorer") == false && (perception > 11 || ccPerception > 11)) featsListing.push(["Explorer", "You’re more likely to find events or new places when exploring (or monsters, when neither remain). Exploring also takes less time."]);
 	if(hasFeat("Hunter") == false && (perception > 11 || ccPerception > 11)) featsListing.push(["Hunter", "It's now easier to hunt for things. Hunting also takes less time."]);
-	if(hasFeat("Adaptive Metabolism") == false) featsListing.push(["Adaptive Metabolism", "It gradually becomes easier to maintain yourself on what food you can scavenge. For every three of any type of food you consume, its effectivenes is permanently increased by 1, up to a maximum of 50% its original effect."]);
+	if((hasFeat("Hunter") || hasFeat("Explorer") || hasFeat("Survivalist")) && hasFeat("Pathfinder") == false && perception > 14 && level > 5) featsListing.push(["Pathfinder", "You'll now benefit from the reduced travel time of Explorer, Survivalist, and Hunter, if you don't already have them. Navigating now also takes less time."]);
+	if(hasFeat("Adaptive Metabolism") == false) featsListing.push(["Adaptive Metabolism", "It gradually becomes easier to maintain yourself on what food and water you can scavenge. For every three you consume, its effectivenes is permanently increased by 1, up to a maximum of 50% its original effect. Only applies to standard food/water, and junk food/soda."]);
+	if(hasFeat("Iron Stomach") == false && (endurance > 14 || ccEndurance > 14)) featsListing.push(["Iron Stomach", "Under normal circumstances, you'll never suffer the infectious effects from consuming tainted items."]);
 }
 
 function chooseFeats():void {
@@ -56,6 +58,11 @@ function listMinorFeats():void {
 	if((hasFeat("Submissive") && hasFeat("Dominant") == false) || (hasFeat("Dominant") && hasFeat("Submissive") == false)) featsListing.push(["Switch", "You’re now comfortable in any sexual role. You gain the effect of both Dominant and Submissive, and you act upon whichever is the most relevant at the time. Just remember that the XP reduction from Submissive still applies!"]);
 	if(hasFeat("Street Smart") == false && inCreation) featsListing.push(["Street Smart", "You’re familiar with the city and many of its significant fixtures, allowing you to navigate to a number of them without having to first find them. This can only be selected during game start. [Dev note: Since there's no locations to find yet, this feat does nothing]"]);
 	if(hasFeat("Kinky") == false) featsListing.push(["Kinky", "As if able to sense your more peculiar desires, monsters are now much more likely to do weird things to you, if they manage to get a hold of you."]);
+	if(hasFeat("Fertile") == false && hasFeat("Sterile") == false) {
+		featsListing.push(["Fertile", "You're now far more likely to become pregnant."]);
+		featsListing.push(["Sterile", "Under \"Normal\" circumstances, you'll never become pregnant."]);
+	}
+	if(hasFeat("MPreg") == false && hasFeat("Sterile") == false) featsListing.push(["MPreg", "You now have a chance to become pregnant from anal sex, regardless of your actual gender. The effect is nullified by Sterile."]);
 }
 
 var volunteering:Boolean = false;

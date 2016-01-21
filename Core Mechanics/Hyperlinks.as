@@ -11,10 +11,10 @@ function linkify(linkEvent:TextEvent):void {
 			doEvent(arr[1]);
 		}
 		else if(arr[0] == 2){
-			interact(arr[1]);
+			interact(arr[1], arr[2]);
 		}
 		else if(arr[0] == 3){
-			invInteract(arr[1]);
+			invInteract(arr[1], arr[2]);
 		}
 		else if(arr[0] == 4){
 			tappedFeat = arr[1];
@@ -26,6 +26,11 @@ function linkify(linkEvent:TextEvent):void {
 		}
 		else if(arr[0] == 6){
 			hunting(arr[1], arr[2]);
+		}
+		else if(arr[0] == 7){
+			clearButtons();
+			arr[1]();
+			button6(true, "Nevermind", lastRoom);
 		}
 		else if(arr[0] == 41){
 			passTime(180);

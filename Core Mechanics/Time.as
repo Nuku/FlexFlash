@@ -68,6 +68,11 @@ function passTime(minutes:Number):void {
 				passivetimer = Math.floor(Math.random()*1080)+360;
 			}
 		}
+		var arrLen:Number = playerinvent.length;
+		var i:Number = 0;
+		for(i = 0; i < arrLen; i++) {
+			if(playerinvent[i][2] == 3) runEquipPassive(playerinvent[i][2], minutes);
+		}
 	}
 	timer += minutes;
 	if(humanity < 34) {
@@ -100,6 +105,7 @@ function passTime(minutes:Number):void {
 	else if(hunger > 33 && Math.random()*100 <=50) {
 		queue("You feel very thirsty...\r\r");
 	}
+	occuCheck(minutes);
 	statDisplay();
 }
 

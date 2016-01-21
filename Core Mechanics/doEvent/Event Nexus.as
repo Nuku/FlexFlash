@@ -23,15 +23,15 @@ function doEvent(eventNum:Number):void {
 		if(eventNum >= 9 && eventNum < 10) miscellaneousEvents(eventNum);
 		if(eventNum == 11) {
 			queue("Resting...\r\r");
-			/*var route1:Number = MAXHP/2;
-			var route2:Number = (Math.round(endurance*1.5)+level)*10;
-			if(route1 > route2) HP += route1;
-			else HP += route2;
-			if(HP > MAXHP) HP = MAXHP;*/
 			HP = MAXHP;
 			passTime(120);
 			if(vlFeatCount <= (level/5)) volunsleep();
 			else doEvent(lastRoom);
+		}
+		if(eventNum == 11.1) {
+			queue("You pull out your cot and take a quick nap...\r\r");
+			HP = MAXHP;
+			passTime(120);
 		}
 		if(eventNum == 99) {
 			if(inCreation) {
@@ -51,8 +51,15 @@ function doEvent(eventNum:Number):void {
 			tappedFeat = "";
 		}
 		if(eventNum == 100) {
-			XP += 100;
-			trace("XP raised.");
+			latexFoxInfect();
+			impregChance();
+		}
+		if(eventNum == 102) {
+			latexFoxInfect();
+			mimpregChance();
+		}
+		if(eventNum == 1011) {
+			defineOffspring();
 		}
 		if(eventNum == 101) {
 			volunteer();
