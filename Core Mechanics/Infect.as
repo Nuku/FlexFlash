@@ -28,6 +28,7 @@ var etaildesc:String = "";
 var etailtype:String = "";
 var etailchange:String = "";
 var etailloss:String = "";
+var etailless:Boolean = false;
 /*
 var goalcocks:Number = 0;
 var goalcocksize:Number = 0;
@@ -46,14 +47,25 @@ function randomInfect():void {
 	applyInfect();
 }
 
+var queuedIStrain:String = "";
+var queuedInfect:Boolean = false;
+
+function queueInfect(str:String):void {
+	queuedIStrain = str;
+	queuedInfect = true;
+}
+
 function infect(str:String): void {
-	var tempnum:Number = 0;
-	var arrayLength:Number = monsterTable.length;
-	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(monsterTable[tempnum][1] == str) {
-			monsterTable[tempnum][4]();
-			applyInfect();
-			return;
+	if(str == "Random") randomInfect();
+	else {
+		var tempnum:Number = 0;
+		var arrayLength:Number = monsterTable.length;
+		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
+			if(monsterTable[tempnum][1] == str) {
+				monsterTable[tempnum][4]();
+				applyInfect();
+				return;
+			}
 		}
 	}
 }
@@ -129,6 +141,7 @@ function applyInfect(): void {
 			pbodytype = ebodytype;
 			pbodyshape = ebodyshape;
 			pstrainending = estrainending;
+			pGenTren = sextrend;
 		}
 		bodyChange();
 		libidoChange();
@@ -147,6 +160,7 @@ function applyInfect(): void {
 		ptaildesc = etaildesc;
 		ptailtype = etailtype;
 		ptailloss = etailloss;
+		ptailless = etailless;
 		libidoChange();
 	}
 	if(infectpoint == 5) {
@@ -196,6 +210,7 @@ function passiveInfect():void {
 						pbodytype = ebodytype;
 						pbodyshape = ebodyshape;
 						pstrainending = estrainending;
+						pGenTren = sextrend;
 						queueBodyChange();
 					}
 					else if(pskinname == "Human") {
@@ -216,6 +231,7 @@ function passiveInfect():void {
 						ptaildesc = etaildesc;
 						ptailtype = etailtype;
 						ptailloss = etailloss;
+						ptailless = etailless;
 					}
 					else if(pcockname == "Human" && pcocks >= 1) {
 						queue("     " + ecockchange + ".\r\r");
@@ -238,7 +254,7 @@ function libidoChange():void {
 function sexChange():void {
 	var prevcock = pcocksize;
 	var prevballs = pballsize;
-	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && ecocksize > pcocksize && cockLevel != 1) { 
+	if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && ecocksize > pcocksize && cockLevel != 1 && pcocks > 0) { 
 		prevcock = pcocksize;
 		++pcocksize;
 		if(pcocksize < ecocksize && Math.random()*100 < 51) ++pcocksize;
@@ -247,7 +263,7 @@ function sexChange():void {
 			say("     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random><smv> as <theym> <one of>grow||expand<random><smv> in size, becoming <cock size desc>!\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocksize > ecocksize) {
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pcocksize > ecocksize && pcocks > 0) {
 		prevcock = pcocksize;
 		--pcocksize;
 		if(pcocksize > ecocksize && Math.random()*100 < 26) --pcocksize;
@@ -266,7 +282,7 @@ function sexChange():void {
 			say("     You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r");
 		}
 	}
-	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pballsize > eballsize) { //Gender-reinforcing re-adjusting of ball size to match strain
+	else if((sextrend == "Male" || sextrend == "Shemale" || sextrend == "Herm" || sextrend == "Maleherm" || cockLevel == 3) && pballsize > eballsize && pcocks > 0) { //Gender-reinforcing re-adjusting of ball size to match strain
 		prevballs = pballsize;
 		--pballsize;
 		if(pballsize > eballsize && Math.random()*100 < 26) --pballsize;
@@ -463,6 +479,7 @@ function bodyChange():void {
 		if(pscale > 5) say("<one of>You imagine finding new clothes that fit will be a challenge, if even your altered form will abide them||Getting into smaller rooms feels slightly more of a challenge||Hopefully you won't constantly hit your head while indoors<random>");
 		else say("<one of>It feels like your size is slightly more reasonable now||Finding clothes that don't fit so loosely should be easier now, if your altered form will even allow it||It should be easier to reach things higher up, you imagine<random>");
 		say(".\r\r");
+		equipScaleShift(true);
 	}
 	if(pscale > escale) {
 		--pscale;
@@ -471,6 +488,7 @@ function bodyChange():void {
 		if(pscale > 5) say("<one of>Perhaps it'll be less of a hassle moving around indoors now||Finding clothes that don't fit so tightly should be easier now, if your altered form will even allow it||It feels like your size is slightly more reasonable now<random>");
 		else say("<one of>You figure this won't make your life any easier when you need to fetch something high up||Most clothes you find will probably be too large for you, assuming your altered form will even allow them to fit||Thankfully, it doesn't seem to inhibit your strength or speed<random>");
 		say(".\r\r");
+		equipScaleShift(true);
 	}
 	if(pbreastpairs != ebreastpairs) {
 		if(pbreastpairs < ebreastpairs && (multiTits != 1 || pbreastpairs == 0)) {
@@ -512,6 +530,7 @@ function queueBodyChange():void {
 		if(pscale > 5) queue("<one of>You imagine finding new clothes that fit will be a challenge, if even your altered form will abide them||Getting into smaller rooms feels slightly more of a challenge||Hopefully you won't constantly hit your head while indoors<random>");
 		else queue("<one of>It feels like your size is slightly more reasonable now||Finding clothes that don't fit so loosely should be easier now, if your altered form will even allow it||It should be easier to reach things higher up, you imagine<random>");
 		queue(".\r\r");
+		equipScaleShift(false);
 	}
 	if(pscale > escale) {
 		--pscale;
@@ -520,6 +539,7 @@ function queueBodyChange():void {
 		if(pscale > 5) queue("<one of>Perhaps it'll be less of a hassle moving around indoors now||Finding clothes that don't fit so tightly should be easier now, if your altered form will even allow it||It feels like your size is slightly more reasonable now<random>");
 		else queue("<one of>You figure this won't make your life any easier when you need to fetch something high up||Most clothes you find will probably be too large for you, assuming your altered form will even allow them to fit||Thankfully, it doesn't seem to inhibit your strength or speed<random>");
 		queue(".\r\r");
+		equipScaleShift(false);
 	}
 	if(pbreastpairs != ebreastpairs) {
 		if(pbreastpairs < ebreastpairs && (multiTits != 1 || pbreastpairs == 0)) {

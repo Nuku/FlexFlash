@@ -15,6 +15,8 @@ function latexFoxCombat():void {
 	ewdam = 40;
 	enemyloss = latexfoxloss;
 	enemyvic = latexfoxvictory;
+	edrops = "Latex Fox Sludge||Dirty Water||Bottled Water||Food";
+	edropchance = "55||25||10||10";
 	enemyattack = latexfoxattack;
 	enemydesc = latexfoxdesc;
 	enemyentry = latexfoxentry;
@@ -48,6 +50,7 @@ function latexFoxInfect():void {
 	etailtype = "<one of>vulpine||fox<random>";
 	etailchange = "You hear a sudden, loud FWOOMF from behind, compelling you to see what has happened and revealing to you that you now have the tail of a fox. It sways back and forth, almost seductively";
 	etailloss = "Your fox tail shrinks down until it disappears completely";
+	etailless = false;
 	estrainending = latexFoxEnding;
 }
 
@@ -89,6 +92,7 @@ function latexfoxvictory():void {
 		}
 		else say(". Writhing in a lust-fuelled haze, his climax isn't enough to set you off along with him, not that he seems to notice or care");
 		say(".\r\r     He continues to feverishly rail you for a while longer, though eventually the monster completely exhausts itself and falls to the ground. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.");
+		mimpregChance();
 	}
 	else if(pcunts > 0 && Math.random()*100 > 50) {
 		say("     The monster barely checks to see if there's anything in his way before thrusting his tainted, precum-slicked dick between your cheeks, audibly creaking as it's squeezed through<onef> your cunt<sfn>, its smooth, precum-slicked motion making you squirm and writhe under his");
@@ -99,10 +103,11 @@ function latexfoxvictory():void {
 		else say("stuffed cunt squeezes against the supple and very yielding intrusion");
 		say(".\r\r     The monster doesn't need long in his desperate dash toward bliss");
 		if(pscale < 6) say(", body visibly rocking against each motion");
-		say(". With one final thrust he forces his thick knot through your supple folds, loudly yipping as your bowels are pumped full with the twisted fox's rubbery seed. More than enough to set you off as well, you ");
+		say(". With one final thrust he forces his thick knot through your supple folds, loudly yipping as your womb is pumped full with the twisted fox's rubbery seed. More than enough to set you off as well, you ");
 		if(pcocks > 0) say("waste your <cum size desc> load impotently against the ground");
 		else say("writhe as your whole body is wracked with tainted bliss");
 		say(".\r\r     He continues to feverishly rail you for a while longer, though eventually the monster completely exhausts itself and falls to the ground. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.");
+		impregChance();
 	}
 	else {
 		say("     The monster wastes no time rubbing his oozing, canine dick against your face, desperate to have you satisfy him orally. ");

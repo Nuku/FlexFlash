@@ -97,6 +97,7 @@ function doCombatEvent(eventNum:Number)
 		if(hasFeat("Submissive")) XP += Math.round(((elevel*20)*0.8)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
 		else XP += Math.round((elevel*20)*((100+(((70)/Math.PI)*Math.atan((((intelligence-10)*1.2)+((intelligence-10)/2.25))/6)*1.75))/100));
 		fightOutcome = 10;
+		dropRoll();
 		doNext(lastRoom);
 	}
 	statDisplay();
@@ -240,3 +241,32 @@ var hardMode:Boolean = false;
 var wdam:Number = 40;
 var plydodgebonus:Number = 0;
 var monhitbonus:Number = 0;
+
+function dropRoll():void {
+	if(edrops != "") {
+		var dropPool:Array = edrops.split("||");
+		var dropWeight:Array = edropchance.split("||");
+		trace("Rolling for a Drop: " + dropPool + "//" + dropWeight);
+		var loneWeight:Number = -1;
+		if(dropPool.length != dropWeight.length) loneWeight = Number(dropWeight[1]);
+		var arrayLength:Number = dropPool.length;
+		var i:Number = 0;
+		var sumWeight:Number = 0;
+		for(i = 0; i < arrayLength; i++) {
+			if(loneWeight == -1) sumWeight += Number(dropWeight[i]);
+			else sumWeight += loneWeight;
+		}
+		if(sumWeight > Math.random()*200) {
+			for(i = 0; i < arrayLength; i++) {
+				if((Math.random()*sumWeight < dropWeight[i] && loneWeight == -1) || (Math.random()*sumWeight < loneWeight && loneWeight != -1)) {
+					say("\r\rYou were able to recover " + dropPool[i] + " following the encounter.");
+					givePlayer(dropPool[i], 1);
+					return;
+				}
+				else if(loneWeight == -1) sumWeight -= dropWeight[i];
+				else sumWeight -= loneWeight;
+			}
+		}
+	}
+}
+	

@@ -91,6 +91,7 @@ var pbodyname:String = "Human";
 var pbodydesc:String = "Your body is still its normal, unaltered self";
 var pbodytype:String = "<one of>human||unchanged<random>";
 var pbodyshape:String = "<one of>human||unchanged<random>";
+var pGenTren:String = "";
 
 var pskinname:String = "Human";
 var pskindesc:String = "You're covered in smooth, unchanged skin";
@@ -104,9 +105,13 @@ var ptailname:String = "Human";
 var ptaildesc:String = "";
 var ptailtype:String = "";
 var ptailloss:String = "";
+var ptailless:Boolean = true;
 
 var pstrainending:Function = humanEnding;
 var estrainending:Function = humanEnding;
+
+var vaginalElasticity:Number = 0;
+var analElasticity:Number = 0;
 
 function findLength(scale:Number, cock:Number):Number {
 	var inchHeight:Number = (scale*16)+8;

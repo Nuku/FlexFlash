@@ -19,6 +19,8 @@ include "Core Mechanics/doEvent/Scavenging.as"
 include "Core Mechanics/doEvent/Exploring.as"
 include "Core Mechanics/doEvent/Monster Nexus.as"
 include "Core Mechanics/saves.as"
+include "Core Mechanics/Pregnancy.as"
+include "Core Mechanics/NPCs and Pets.as"
 
 
 //Monsters

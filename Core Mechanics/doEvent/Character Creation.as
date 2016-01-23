@@ -1032,6 +1032,7 @@ function gameStart():void {
 	else {
 		pcunts=1;
 		pbreastsize=2;
+		vaginity=2;
 	}
 	if(ccRandom) randomStats();
 	pbreastpairs=1;
@@ -1041,12 +1042,17 @@ function gameStart():void {
 	perception = ccPerception;
 	charisma = ccCharisma;
 	intelligence = ccIntelligence;
+	MAXCAP = strength*5
+	weightShift();
 	bunkerinvent = [];
 	abbeyinvent = [];
 	listMajorFeats();
 	addFeat(majorFeatChoice);
 	listMinorFeats();
 	addFeat(minorFeatChoice);
+	childrenPool = [];
+	expectedPool = [];
+	childCount = 0;
 	screenClear();
 	if(hasFeat("Street Smart")) {
 		navList.push(["Trevor Labs", 2.3]);
@@ -1087,20 +1093,22 @@ function gameStart():void {
 		say("     You remember seeing that stupid bunker sign for years, who knew remembering it would save your life? You waited for others to come. Surely you were not the only one to remember? Quietly, you waited in the dark for someone, anyone to rescue you, but to no avail.\r\r");
 		say("     You're not sure how long you've been down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... Moreover, it seems that your direct contact with whatever horror you encountered has caused your body to change in a strange and unsettling way. You've eaten a good portion of the food and water, and while you could stay in here for a while longer, at some point you must go out and greet the city. How bad could it be?\r\r");
 		++endurance;
-		bunkerinvent.push([ "Bottled Water", 5 ]);
-		bunkerinvent.push([ "Food", 5 ]);
+		bunkerinvent.push([ "Bottled Water", 5, 1 ]);
+		bunkerinvent.push([ "Food", 5, 1 ]);
 		randomInfect();
 	}
 	else {
 		say("     You remember how it went down. First it was satellites, then the Internet. The power was the last thing to go, just a precious hour later. People wandered the streets, confused, panicked. Then they came. Monsters. Freaks. They'd grab people. Some got mauled on the spot and others were dragged off. You managed to flee to safety here -- this old bunker.\r\r");
 		say("     You remember seeing that stupid bunker sign for years, who knew remembering it would save your life? You waited for others to come. Surely you were not the only one to remember? Quietly, you waited in the dark for someone, anyone to rescue you, but to no avail.\r\r");
 		say("     You're not sure how long you've been down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... You've eaten a good portion of the food and water, and while you could stay in here for a while longer, at some point you must go out and greet the city. How bad could it be?\r\r");
-		bunkerinvent.push([ "Bottled Water", 5 ]);
-		bunkerinvent.push([ "Food", 5 ]);
+		bunkerinvent.push([ "Bottled Water", 5, 1 ]);
+		bunkerinvent.push([ "Food", 5, 1 ]);
 	}
 	say("     Regardless of the circumstance, it seems you're alone out here. Ah well, you're an American of the 21st century. What's a little Apocalypse to keep you down? Steeling your nerves and readying what you have, you cautiously break the seal and prepare to set out.\r");
 	refreshPlayer();
 	HP=MAXHP;
+	bunkerinvent.push([ "Sling", 1, 2 ]);
+	bunkerinvent.push([ "Cot", 1, 1 ]);
 }
 
 function memoryPurge():void {
@@ -1114,6 +1122,7 @@ function memoryPurge():void {
 	pbodydesc = "Your body is still its normal, unaltered self";
 	pbodytype = "<one of>human||unchanged<random>";
 	pbodyshape = "<one of>human||unchanged<random>";
+	pGenTren = "";
 	pskinname = "Human";
 	pskindesc = "You're covered in smooth, unchanged skin";
 	pskintype = "<one of>human||unchanged<random> <one of>flesh||skin<random>";
@@ -1124,6 +1133,7 @@ function memoryPurge():void {
 	ptaildesc = "";
 	ptailtype = "";
 	ptailloss = "";
+	ptailless = true;
 	pstrainending = humanEnding;
 	pballsize=0;
 	pcocksize=0;
@@ -1134,7 +1144,9 @@ function memoryPurge():void {
 	pbreastsize=0;
 	pscale=4;
 	playerinvent = [];
-	playerinvent.push([ "Journal", 1 ]);
+	playerinvent.push([ "Journal", 1, 1 ]);
+	playerinvent.push([ "Common Clothes", 1, 3 ]);
+	playerinvent.push([ "Wrist Watch", 1, 3 ]);
 	huntingList = [];
 	huntingList.push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
 	huntingList.push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
@@ -1155,6 +1167,12 @@ function memoryPurge():void {
 	introList.push([2.3, "     Trevor Labs looms over you as you approach, the sleek and tall glass building completely dark, save for some faint light in one of the windows...\r\r     You've heard of this place. They are -- or is that were? -- a biopharm setup. Kind of new on the block, they made a big stink over the local news with their willingness to skirt very close to the edge of most laws in the name of progress. Regardless, you choose to make your way inside..."]);
 	TLLobbyInvent = [];
 	TLLabInvent = [];
+	childrenPool = [];
+	expectedPool = [];
+	childCount = 0;
+	fpregCount = 0;
+	mpregCount = 0;
+	Aslot_State = false;
 	intelligence=12;
 	perception=12;
 	libido=0;

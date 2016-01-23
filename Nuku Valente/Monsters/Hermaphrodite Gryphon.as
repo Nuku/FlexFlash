@@ -12,6 +12,8 @@ function hermGryphonCombat():void {
 	echarisma = 12;
 	eMAXHP = 220;
 	ewdam = 45;
+	edrops = "Gryphon Milk||Dirty Water||Bottled Water||Food";
+	edropchance = "50||30||10||10";
 	enemyloss = hermgryphloss;
 	enemyvic = hermgryphvictory;
 	enemyattack = hermgryphattack;
@@ -47,6 +49,7 @@ function hermGryphonInfect():void {
 	etailtype = "<one of>feline||leonine<random>";
 	etailchange = "You feel a strange sensation from your ass as a long, writhing appendage grows from it. This newfound, seemingly leonine, tail is adorned with a distinctly blue tuft of fur at its very tip. It takes you a moment to acclimate to its presence";
 	etailloss = "Your leonine tail shrinks until it's naught but a former memory";
+	etailless = false;
 	estrainending = hermGryphEnding;
 }
 
@@ -76,6 +79,7 @@ function hermgryphvictory():void {
 		if(pscale >= 7) say(" one last time");
 		say(" before flooding your bowels with her thick, overabundant seed. Even as her fervour gradually subsides she continues to fuck you, perhaps carried by pure momentum, before finally falling off you, still-hard dick audibly popping from your cum-stuffed hole as she falls to the ground in exhaustion.\r\r");
 		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.");
+		mimpregChance();
 	}
 	else if(pcunts > 0 && Math.random()*100 > 50) {
 		say("She’s, at the very least, gentle when she forces you to bend over, pulling free any obstruction in her path until your <bodytype> ass is freely exposed before the monster’s lewd gaze. You have some doubts over whether she’ll remain gentle when ");
@@ -95,6 +99,7 @@ function hermgryphvictory():void {
 		if(pscale >= 7) say(" one last time");
 		say(" before flooding your womb with her thick, overabundant seed. Even as her fervour gradually subsides she continues to fuck you, perhaps carried by pure momentum, before finally falling off you, still-hard dick audibly popping from your cum-stuffed hole as she falls to the ground in exhaustion.\r\r");
 		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.");
+		oviChance();
 	}
 	else if(pcocks > 0 && Math.random()*100 > 50 && findLength(pscale, pcocksize) < 23) {
 		say("     Rolled onto your back, you’re left to the monster's mercy of her prying claws as they expose your nethers before her lewd gaze. Lowering her head, you feel her tongue caress along the length of<onem> your <cock size desc> dick<smn>. ");

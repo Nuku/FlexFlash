@@ -12,6 +12,8 @@ function fhuskyCombat():void {
 	echarisma = 16;
 	eMAXHP = 150;
 	ewdam = 30;
+	edrops = "Dirty Water||Bottled Water||Food";
+	edropchance = "20||10||10";
 	enemyloss = fhuskyloss;
 	enemyvic = fhuskyvictory;
 	enemyattack = fhuskyattack;
@@ -47,6 +49,7 @@ function fhuskyInfect():void {
 	etailtype = "<one of>canine||fluffy||doggy||husky<random>";
 	etailchange = "Along tail pushes from your spine, full and fluffy.  Uplifting in a stiff arc, it begins to sway slowly without your input";
 	etailloss = "Your husky tail disappears";
+	etailless = false;
 	estrainending = fhuskyending;
 }
 /*
