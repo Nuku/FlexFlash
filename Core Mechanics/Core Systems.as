@@ -1,35 +1,16 @@
 ﻿import flash.events.MouseEvent;
 
+var myCSS:StyleSheet = new StyleSheet();
+myCSS.setStyle("a:link", {color:'#0000CC',textDecoration:'none', fontFamily: 'Verdana Bold'});
+myCSS.setStyle("a:hover", {color:'#0000FF',textDecoration:'underline', fontFamily: 'Verdana Bold'});
+myCSS.setStyle("bold", {fontFamily: 'Verdana Bold', display: 'inline'});
+myCSS.setStyle("italic", {fontFamily: 'Verdana Italic', display: 'inline'});
+outputWindow.styleSheet = myCSS;
+
 /***********************
  *  VAR DEFINITIONS    *
  ***********************/
- //DEBUG - set true for infinite items and other weirdness!
-var debug:Boolean = false;
- 
-//BASE STATS
-var strength:Number  = 10;
-var dexterity:Number  = 10;
-var endurance:Number  = 10;
-var charisma:Number = 10;
-var intelligence:Number  = 10;
-var perception:Number = 10;
-var sanity:Number  = 100;
-var HP:Number   = 100;
-var MAXHP:Number = 100;
-var libido:Number = 0;
-var XP:Number = 0;
-var MAXXP:Number = 0;
-var CAP:Number = 0;
-var MAXCAP:Number = 0;
-var freecred:Number = 0;
-var level:Number = 1;
 
-var lastRoom:Number = 0;
-var lust:Number = 0;
-
-var hunger:Number = 0;
-var thirst:Number = 0;
-var humanity:Number = 100;
 
 //COMBAT STATS
 //General Stuff
@@ -42,35 +23,22 @@ var ewdam:Number = 0;
 var enemyentry:Function = undefined;
 
 //Enemy variables
-var ename:String = "enemy name";
-var estrength:Number  = 10;
-var edexterity:Number  = 10;
-var eendurance:Number  = 10;
-var echarisma:Number = 10;
-var eintelligence:Number  = 10;
-var eperception:Number = 10;
-var eHP:Number   = 100;
-var eMAXHP:Number = 100;
-var elibido:Number = 0;
-var edrops:String = "";
-var edropchance:String = "";
-var anallevel:Number = 2;
+
 
 //MISC VARIABLES
 var currentText:String = "";
-var button1Choice:Number = 0;
-var button2Choice:Number = 0;
-var button3Choice:Number = 0;
-var button4Choice:Number = 0;
-var button5Choice:Number = 0;
-var button6Choice:Number = 0;
+var button1Choice:String = "";
+var button2Choice:String = "";
+var button3Choice:String = "";
+var button4Choice:String = "";
+var button5Choice:String = "";
+var button6Choice:String = "";
 var currEvent:Number = 0;
 var nextButton:Boolean = false;
-
+var doBypass:String = "";
 //Setup Buttons & Window
-statDisplay();
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 5: Pregnancy+Items&Inv.2</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 6: NPCs&Pets+Miscellaneous</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);
@@ -152,88 +120,88 @@ var allowNavigation:Boolean = false;
 var isLocal:Boolean = false;
 
 function doInvent(e:MouseEvent):void {
-	if(allowInventory) doEvent(3);
+	if(allowInventory) playerInventory();
 }
 
 function doCitExpl(e:MouseEvent):void {
-	if(allowExploreCity && CAP <= MAXCAP) {
+	if(allowExploreCity && getStat("carryweight") <= getStat("maxcarryweight")) {
 		exploration("Outside");
 		isLocal = false;
 	}
-	else if(CAP > MAXCAP) {
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 function doLocalExpl(e:MouseEvent):void {
-	if(allowExploreLocal && CAP <= MAXCAP) {
+	if(allowExploreLocal && getStat("carryweight") <= getStat("maxcarryweight")) {
 		exploration(explZone);
 		isLocal = true;
 	}
-	else if(CAP > MAXCAP) {
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 
 function doCitScav(e:MouseEvent):void {
-	if(allowScavCity && CAP <= MAXCAP) {
+	if(allowScavCity && getStat("carryweight") <= getStat("maxcarryweight")) {
 		scavenge("Outside");
 		isLocal = false;
 	}
-	else if(CAP > MAXCAP) {
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 function doLocalScav(e:MouseEvent):void {
-	if(allowScavLocal && CAP <= MAXCAP) {
+	if(allowScavLocal && getStat("carryweight") <= getStat("maxcarryweight")) {
 		scavenge(scavZone);
 		isLocal = true;
 	}
-	else if(CAP > MAXCAP) {
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 function doNavigate(e:MouseEvent):void {
-	if(allowNavigation && CAP <= MAXCAP) listNav();
-	else if(CAP > MAXCAP) {
+	if(allowNavigation && getStat("carryweight") <= getStat("maxcarryweight")) listNav();
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 function doCityHunt(e:MouseEvent):void {
-	if(allowHuntCity && CAP <= MAXCAP) {
+	if(allowHuntCity && getStat("carryweight") <= getStat("maxcarryweight")) {
 		huntList("Outside");
 		isLocal = false;
 	}
-	else if(CAP > MAXCAP) {
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 function doLocalHunt(e:MouseEvent):void {
-	if(allowHuntLocal && CAP <= MAXCAP) {
+	if(allowHuntLocal && getStat("carryweight") <= getStat("maxcarryweight")) {
 		huntList(huntZone);
 		isLocal = true;
 	}
-	else if(CAP > MAXCAP) {
+	else if(getStat("carryweight") > getStat("maxcarryweight")) {
 		queue("You're carrying too much to do that!");
-		doEvent(lastRoom);
+		doLastRoom();
 	}
 }
 
 
 //Update Stat Display
 function statDisplay():void {
-	statPane.htmlText = "HP: " + HP + "/" + MAXHP + " Level: " + level + "\rHunger: " + hunger + " Thirst: " + thirst + "\rHumanity: " + Math.floor(humanity) + " Libido: " + libido + " Time Left: " + translatetimer() + " XP: " + XP + "/" + MAXXP;
+	statPane.htmlText = "HP: " + getStat("health") + "/" + getStat("maxhealth") + " Level: " + getStat("level") + "\rHunger: " + getStat("hunger") + " Thirst: " + getStat("thirst") + "\rHumanity: " + Math.floor(getStat("humanity")) + " Libido: " + getStat("libido") + " Time Left: " + translatetimer() + " XP: " + getStat("experience") + "/" + getStat("maxexperience");
 }
 
 function screenClear():void {
@@ -300,7 +268,7 @@ function processTexts(texts:String):void {
 	var onem = "";
 	var ssmn = "";
 	var ssfn = "";
-	if(pcocks > 1) {
+	if(getStat("cocks") > 1) {
 		smn = "s";
 		esmn = "es";
 		ymn = "ies";
@@ -308,14 +276,14 @@ function processTexts(texts:String):void {
 		esmv = "s";
 		ymv = "y";
 		onem = " one of";
-		if(pcocks > 2) ssmn = "s";
+		if(getStat("cocks") > 2) ssmn = "s";
 		theym = "they";
 		theirm = "their";
 		themm = "them";
 		theyrem = "they're";
 		arem = "are";
 	}
-	if(pcunts > 1) {
+	if(getStat("cunts") > 1) {
 		sfn = "s";
 		esfn = "es";
 		yfn = "ies";
@@ -323,7 +291,7 @@ function processTexts(texts:String):void {
 		esfv = "s";
 		yfv = "y";
 		onef = " one of";
-		if(pcunts > 2) ssfn = "s";
+		if(getStat("cunts") > 2) ssfn = "s";
 		theyf = "they";
 		theirf = "their";
 		themf = "them";
@@ -365,12 +333,12 @@ function processTexts(texts:String):void {
 	texts = texts.replace(ptheyref, theyref);
 	texts = texts.replace(parem, arem);
 	texts = texts.replace(paref, aref);
-	texts = texts.replace(headtype, pheadtype);
-	texts = texts.replace(bodytype, pbodytype);
-	texts = texts.replace(bodyshape, pbodyshape);
-	texts = texts.replace(skintype, pskintype);
-	texts = texts.replace(tailtype, ptailtype);
-	texts = texts.replace(cocktype, pcocktype);
+	texts = texts.replace(headtype, getStr("playerheadtype"));
+	texts = texts.replace(bodytype, getStr("playerbodytype"));
+	texts = texts.replace(bodyshape, getStr("playerbodyshape"));
+	texts = texts.replace(skintype, getStr("playerskintype"));
+	texts = texts.replace(tailtype, getStr("playertailtype"));
+	texts = texts.replace(cocktype, getStr("playercocktype"));
 	texts = texts.replace(breastsizedesc, breastSizeDesc());
 	texts = texts.replace(ballsizedesc, ballSizeDesc());
 	texts = texts.replace(cocksizedesc, cockSizeDesc());
@@ -380,34 +348,13 @@ function processTexts(texts:String):void {
 	outputTexts(texts);
 }
 
-var lastButton1Active:Boolean = false;
-var lastButton1Texts:String = "";
-var lastButton1Choice:Number = 0;
-var lastButton2Active:Boolean = false;
-var lastButton2Texts:String = "";
-var lastButton2Choice:Number = 0;
-var lastButton3Active:Boolean = false;
-var lastButton3Texts:String = "";
-var lastButton3Choice:Number = 0;
-var lastButton4Active:Boolean = false;
-var lastButton4Texts:String = "";
-var lastButton4Choice:Number = 0;
-var lastButton5Active:Boolean = false;
-var lastButton5Texts:String = "";
-var lastButton5Choice:Number = 0;
-var lastButton6Active:Boolean = false;
-var lastButton6Texts:String = "";
-var lastButton6Choice:Number = 0;
-
-function button1(sw:Boolean, btitle:String, bnumber:Number):void {
-	lastButton1Active = Choice1.visible;
-	lastButton1Texts = Choice1.htmlText;
-	lastButton1Choice = button1Choice;
+function button1(sw:Boolean = false, btitle:String = "", bfunction:Function = undefined, bnumber:String = ""):void {
 	if(sw) {
 		Choice1Outline.alpha = 1;
 		Choice1.visible = true;
 		Choice1.htmlText = btitle;
 		button1Choice = bnumber;
+		button1Function = bfunction;
 	}
 	else {
 		Choice1Outline.alpha = .25;
@@ -415,15 +362,13 @@ function button1(sw:Boolean, btitle:String, bnumber:Number):void {
 	}
 }
 
-function button2(sw:Boolean, btitle:String, bnumber:Number):void {
-	lastButton2Active = Choice2.visible;
-	lastButton2Texts = Choice2.htmlText;
-	lastButton2Choice = button2Choice;
+function button2(sw:Boolean = false, btitle:String = "", bfunction:Function = undefined, bnumber:String = ""):void {
 	if(sw) {
 		Choice2Outline.alpha = 1;
 		Choice2.visible = true;
 		Choice2.htmlText = btitle;
 		button2Choice = bnumber;
+		button2Function = bfunction;
 	}
 	else {
 		Choice2Outline.alpha = .25;
@@ -431,15 +376,13 @@ function button2(sw:Boolean, btitle:String, bnumber:Number):void {
 	}
 }
 
-function button3(sw:Boolean, btitle:String, bnumber:Number):void {
-	lastButton3Active = Choice3.visible;
-	lastButton3Texts = Choice3.htmlText;
-	lastButton3Choice = button3Choice;
+function button3(sw:Boolean = false, btitle:String = "", bfunction:Function = undefined, bnumber:String = ""):void {
 	if(sw) {
 		Choice3Outline.alpha = 1;
 		Choice3.visible = true;
 		Choice3.htmlText = btitle;
 		button3Choice = bnumber;
+		button3Function = bfunction;
 	}
 	else {
 		Choice3Outline.alpha = .25;
@@ -447,15 +390,13 @@ function button3(sw:Boolean, btitle:String, bnumber:Number):void {
 	}
 }
 
-function button4(sw:Boolean, btitle:String, bnumber:Number):void {
-	lastButton4Active = Choice4.visible;
-	lastButton4Texts = Choice4.htmlText;
-	lastButton4Choice = button4Choice;
+function button4(sw:Boolean = false, btitle:String = "", bfunction:Function = undefined, bnumber:String = ""):void {
 	if(sw) {
 		Choice4Outline.alpha = 1;
 		Choice4.visible = true;
 		Choice4.htmlText = btitle;
 		button4Choice = bnumber;
+		button4Function = bfunction;
 	}
 	else {
 		Choice4Outline.alpha = .25;
@@ -463,15 +404,13 @@ function button4(sw:Boolean, btitle:String, bnumber:Number):void {
 	}
 }
 
-function button5(sw:Boolean, btitle:String, bnumber:Number):void {
-	lastButton5Active = Choice5.visible;
-	lastButton5Texts = Choice5.htmlText;
-	lastButton5Choice = button5Choice;
+function button5(sw:Boolean = false, btitle:String = "", bfunction:Function = undefined, bnumber:String = ""):void {
 	if(sw) {
 		Choice5Outline.alpha = 1;
 		Choice5.visible = true;
 		Choice5.htmlText = btitle;
 		button5Choice = bnumber;
+		button5Function = bfunction;
 	}
 	else {
 		Choice5Outline.alpha = .25;
@@ -479,15 +418,13 @@ function button5(sw:Boolean, btitle:String, bnumber:Number):void {
 	}
 }
 
-function button6(sw:Boolean, btitle:String, bnumber:Number):void {
-	lastButton6Active = Choice6.visible;
-	lastButton6Texts = Choice6.htmlText;
-	lastButton6Choice = button6Choice;
+function button6(sw:Boolean = false, btitle:String = "", bfunction:Function = undefined, bnumber:String = ""):void {
 	if(sw) {
 		Choice6Outline.alpha = 1;
 		Choice6.visible = true;
 		Choice6.htmlText = btitle;
 		button6Choice = bnumber;
+		button6Function = bfunction;
 	}
 	else {
 		Choice6Outline.alpha = .25;
@@ -495,193 +432,14 @@ function button6(sw:Boolean, btitle:String, bnumber:Number):void {
 	}
 }
 
-var buttonf1Choice:Function = undefined;
-var buttonf2Choice:Function = undefined;
-var buttonf3Choice:Function = undefined;
-var buttonf4Choice:Function = undefined;
-var buttonf5Choice:Function = undefined;
-var buttonf6Choice:Function = undefined;
-
-function buttonf1(btitle:String, bfunction:Function):void {
-	Choice1Outline.alpha = 1;
-	Choice1.visible = true;
-	Choice1.htmlText = btitle;
-	button1Choice = -9001;
-	buttonf1Choice = bfunction;
-}
-
-function buttonf2(btitle:String, bfunction:Function):void {
-	Choice2Outline.alpha = 1;
-	Choice2.visible = true;
-	Choice2.htmlText = btitle;
-	button2Choice = -9001;
-	buttonf2Choice = bfunction;
-}
-
-function buttonf3(btitle:String, bfunction:Function):void {
-	Choice3Outline.alpha = 1;
-	Choice3.visible = true;
-	Choice3.htmlText = btitle;
-	button3Choice = -9001;
-	buttonf3Choice = bfunction;
-}
-
-function buttonf4(btitle:String, bfunction:Function):void {
-	Choice4Outline.alpha = 1;
-	Choice4.visible = true;
-	Choice4.htmlText = btitle;
-	button4Choice = -9001;
-	buttonf4Choice = bfunction;
-}
-
-function buttonf5(btitle:String, bfunction:Function):void {
-	Choice5Outline.alpha = 1;
-	Choice5.visible = true;
-	Choice5.htmlText = btitle;
-	button5Choice = -9001;
-	buttonf5Choice = bfunction;
-}
-
-function buttonf6(btitle:String, bfunction:Function):void {
-	Choice6Outline.alpha = 1;
-	Choice6.visible = true;
-	Choice6.htmlText = btitle;
-	button6Choice = -9001;
-	buttonf6Choice = bfunction;
-}
-
-function revertButtons():void {
-	if(lastButton1Active) {
-		Choice1Outline.alpha = 1;
-		Choice1.visible = true;
-		Choice1.htmlText = lastButton1Texts;
-		button1Choice = lastButton1Choice;
-	}
-	else {
-		Choice1Outline.alpha = .25;
-		Choice1.visible = false;
-	}
-	if(lastButton2Active) {
-		Choice2Outline.alpha = 1;
-		Choice2.visible = true;
-		Choice2.htmlText = lastButton2Texts;
-		button2Choice = lastButton2Choice;
-	}
-	else {
-		Choice2Outline.alpha = .25;
-		Choice2.visible = false;
-	}
-	if(lastButton3Active) {
-		Choice3Outline.alpha = 1;
-		Choice3.visible = true;
-		Choice3.htmlText = lastButton3Texts;
-		button3Choice = lastButton3Choice;
-	}
-	else {
-		Choice3Outline.alpha = .25;
-		Choice3.visible = false;
-	}
-	if(lastButton4Active) {
-		Choice4Outline.alpha = 1;
-		Choice4.visible = true;
-		Choice4.htmlText = lastButton4Texts;
-		button4Choice = lastButton4Choice;
-	}
-	else {
-		Choice4Outline.alpha = .25;
-		Choice4.visible = false;
-	}
-	if(lastButton5Active) {
-		Choice5Outline.alpha = 1;
-		Choice5.visible = true;
-		Choice5.htmlText = lastButton5Texts;
-		button5Choice = lastButton5Choice;
-	}
-	else {
-		Choice5Outline.alpha = .25;
-		Choice5.visible = false;
-	}
-	if(lastButton6Active) {
-		Choice6Outline.alpha = 1;
-		Choice6.visible = true;
-		Choice6.htmlText = lastButton6Texts;
-		button6Choice = lastButton6Choice;
-	}
-	else {
-		Choice6Outline.alpha = .25;
-		Choice6.visible = false;
-	}
-	if(lastButtonAppearance) {
-		appearanceBox.alpha = 1;
-		appearanceText.visible = true;
-		allowAppearance = true;
-	}
-	else {
-		appearanceBox.alpha = .25;
-		appearanceText.visible = false;
-		allowAppearance = false;
-	}
-	if(lastButtonInventory) {
-		inventoryBox.alpha = 1;
-		inventoryText.visible = true;
-		allowInventory = true;
-	}
-	else {
-		appearanceBox.alpha = .25;
-		appearanceText.visible = false;
-		allowInventory = false;
-	}
-	if(lastButtonScavCity) {
-		scavCityBox.alpha = 1;
-		scavCityText.visible = true;
-		allowScavCity = true;
-	}
-	else {
-		scavCityBox.alpha = .25;
-		scavCityText.visible = false;
-		allowScavCity = false;
-	}
-	if(lastButtonScavLocal) {
-		scavLocalBox.alpha = 1;
-		scavLocalText.visible = true;
-		allowScavLocal = true;
-	}
-	else {
-		scavLocalBox.alpha = .25;
-		scavLocalText.visible = false;
-		allowScavLocal = false;
-	}
-	if(lastButtonExploreCity) {
-		exploreCityBox.alpha = 1;
-		exploreCityText.visible = true;
-		allowExploreCity = true;
-	}
-	else {
-		exploreCityBox.alpha = .25;
-		exploreCityText.visible = false;
-		allowExploreCity = false;
-	}
-	if(lastButtonExploreLocal) {
-		exploreLocalBox.alpha = 1;
-		exploreLocalText.visible = true;
-		allowExploreLocal = true;
-	}
-	else {
-		exploreLocalBox.alpha = .25;
-		exploreLocalText.visible = false;
-		allowExploreLocal = false;
-	}
-}
-
-var lastButtonAppearance:Boolean = true;
-var lastButtonInventory:Boolean = true;
-var lastButtonScavCity:Boolean = true;
-var lastButtonScavLocal:Boolean = true;
-var lastButtonExploreCity:Boolean = true;
-var lastButtonExploreLocal:Boolean = true;
+var button1Function:Function = undefined;
+var button2Function:Function = undefined;
+var button3Function:Function = undefined;
+var button4Function:Function = undefined;
+var button5Function:Function = undefined;
+var button6Function:Function = undefined;
 
 function buttonAppearance(sw:Boolean):void {
-	lastButtonAppearance = appearanceText.visible;
 	if(sw) {
 		appearanceBox.alpha = 1;
 		appearanceText.visible = true;
@@ -695,7 +453,6 @@ function buttonAppearance(sw:Boolean):void {
 }
 
 function buttonInventory(sw:Boolean):void {
-	lastButtonInventory = inventoryText.visible;
 	if(sw) {
 		inventoryBox.alpha = 1;
 		inventoryText.visible = true;
@@ -709,7 +466,6 @@ function buttonInventory(sw:Boolean):void {
 }
 
 function buttonScavCity(sw:Boolean):void {
-	lastButtonScavCity = scavCityText.visible;
 	if(sw) {
 		scavCityBox.alpha = 1;
 		scavCityText.visible = true;
@@ -727,8 +483,7 @@ var scavHostile:Boolean = false;
 var explZone:String = "";
 var huntZone:String = "";
 
-function buttonScavLocal(sw:Boolean, zone:String, hostile:Boolean):void {
-	lastButtonScavLocal = scavLocalText.visible;
+function buttonScavLocal(sw:Boolean, zone:String = "", hostile:Boolean = true):void {
 	if(sw) {
 		scavLocalBox.alpha = 1;
 		scavLocalText.visible = true;
@@ -744,7 +499,6 @@ function buttonScavLocal(sw:Boolean, zone:String, hostile:Boolean):void {
 }
 
 function buttonExploreCity(sw:Boolean):void {
-	lastButtonExploreCity = exploreCityText.visible;
 	if(sw) {
 		exploreCityBox.alpha = 1;
 		exploreCityText.visible = true;
@@ -757,8 +511,7 @@ function buttonExploreCity(sw:Boolean):void {
 	}
 }
 
-function buttonExploreLocal(sw:Boolean, zone:String):void {
-	lastButtonExploreLocal = exploreLocalText.visible;
+function buttonExploreLocal(sw:Boolean, zone:String = ""):void {
 	if(sw) {
 		exploreLocalBox.alpha = 1;
 		exploreLocalText.visible = true;
@@ -776,7 +529,6 @@ var allowHuntCity:Boolean = false;
 var allowHuntLocal:Boolean = false;
 
 function buttonHuntCity(sw:Boolean):void {
-	//lastButtonExploreCity = exploreCityText.visible;
 	if(sw) {
 		huntCityBox.alpha = 1;
 		huntCityText.visible = true;
@@ -789,8 +541,7 @@ function buttonHuntCity(sw:Boolean):void {
 	}
 }
 
-function buttonHuntLocal(sw:Boolean, zone:String):void {
-	//lastButtonExploreLocal = exploreLocalText.visible;
+function buttonHuntLocal(sw:Boolean, zone:String = ""):void {
 	if(sw) {
 		huntLocalBox.alpha = 1;
 		huntLocalText.visible = true;
@@ -805,10 +556,7 @@ function buttonHuntLocal(sw:Boolean, zone:String):void {
 }
 
 
-var lastButtonNavigation:Boolean = false
-
 function buttonNavigation(sw:Boolean):void {
-	lastButtonNavigation = navigationText.visible;
 	if(sw) {
 		navigationBox.alpha = 1;
 		navigationText.visible = true;
@@ -847,6 +595,159 @@ function outputQueue():void {
 	}
 	queuedText = "";
 }
+
+function buttonEvent1(e:MouseEvent):void {
+	if(nextButton) nextButton = false;
+	if(!Choice1.visible) return;
+	if(inCombat) doCombatEvent(button1Choice);
+	else {
+		if(button1Choice == "") button1Function();
+		else button1Function(button1Choice);
+	}
+	statDisplay();
+}
+
+function buttonEvent2(e:MouseEvent):void {
+	if(nextButton) nextButton = false;
+	if(!Choice2.visible) return;
+	if(inCombat) doCombatEvent(button2Choice);
+	else {
+		if(button2Choice == "") button2Function();
+		else button2Function(button2Choice);
+	}
+	statDisplay();
+}
+
+function buttonEvent3(e:MouseEvent):void {
+	if(nextButton) nextButton = false;
+	if(!Choice3.visible) return;
+	if(inCombat) doCombatEvent(button3Choice);
+	else {
+		if(button3Choice == "") button3Function();
+		else button3Function(button3Choice);
+	}
+	statDisplay();
+}
+
+function buttonEvent4(e:MouseEvent):void {
+	if(nextButton) nextButton = false;
+	if(!Choice4.visible) return;
+	if(inCombat) doCombatEvent(button4Choice);
+	else {
+		if(button4Choice == "") button4Function();
+		else button4Function(button4Choice);
+	}
+	statDisplay();
+}
+
+function buttonEvent5(e:MouseEvent):void {
+	if(nextButton) nextButton = false;
+	if(!Choice5.visible) return;
+	if(inCombat) doCombatEvent(button5Choice);
+	else {
+		if(button5Choice == "") button5Function();
+		else button5Function(button5Choice);
+	}
+	statDisplay();
+}
+
+function buttonEvent6(e:MouseEvent):void {
+	if(nextButton) nextButton = false;
+	if(!Choice6.visible) return;
+	if(inCombat) doCombatEvent(button6Choice);
+	else {
+		if(button6Choice == "") button6Function();
+		else button6Function(button6Choice);
+	}
+	statDisplay();
+}
+
+function clearButtons():void {
+	button1(false);
+	button2(false);
+	button3(false);
+	button4(false);
+	button5(false);
+	button6(false);
+	buttonInventory(false);
+	buttonAppearance(false);
+	buttonNavigation(false);
+	buttonScavCity(false);
+	buttonExploreCity(false);
+	buttonHuntCity(false);
+	buttonHuntLocal(false);
+	buttonScavLocal(false);
+	buttonExploreLocal(false);
+}
+
+function doNext(eventNum:String, eventFunction:Function = undefined):void {
+	newGame.visible = false;
+	clearButtons();
+	button1(true, "Next", eventFunction, eventNum);
+	nextButton = true;
+}
+
+function doBack(eventNum:String, eventFunction:Function = undefined):void {
+	newGame.visible = false;
+	clearButtons();
+	button1(true, "Back", eventFunction, eventNum);
+	nextButton = true;
+}
+
+function doYesNo(yesNum:String, noNum:String, yesFunction:Function = null, noFunction:Function = null) {
+	newGame.visible = false;
+	clearButtons();
+	button1(true, "Yes", yesFunction, yesNum);
+	if(noFunction == null) button2(true, "No", yesFunction, noNum);
+	else button2(true, "No", noFunction, noNum);
+	nextButton = true;
+}
+
+//The system for defining hyperlink actions and stuff
+
+function linkify(linkEvent:TextEvent):void {
+	if(nextButton == false) {
+		trace(linkEvent.text);
+		var stringified:String = linkEvent.text;
+		var arr:Array = stringified.split("~");
+		trace("Linktable: " + arr);
+		if(arr.length == 3) this[arr[0]](arr[1], arr[2]);
+		else if(arr.length == 1) this[arr[0]]();
+		else this[arr[0]](arr[1]);
+	}
+	else trace("Attempted link use while in next");
+}
+
+addEventListener(TextEvent.LINK, linkify);
+
+var statMaster:Object = new Object;
+
+function getStat(tag:String):Number {
+	if(statMaster[tag] == undefined) statMaster[tag] = 0;
+	return(statMaster[tag]);
+}
+
+function setStat(tag:String, value:Number):void {
+	statMaster[tag] = value;
+}
+
+function modStat(tag:String, value:Number):void {
+	if(statMaster[tag] == undefined) statMaster[tag] = value;
+	else statMaster[tag] += value;
+}
+
+var stringMaster:Object = new Object;
+
+function getStr(tag:String):String {
+	if(stringMaster[tag] == undefined) stringMaster[tag] = "";
+	return(stringMaster[tag]);
+}
+
+function setStr(tag:String, value:String):void {
+	stringMaster[tag] = value;
+}
+
+
 /*
 //perform the action currently associated with a button!
 function keyboard1(e:KeyboardEvent):void {
@@ -979,171 +880,4 @@ function dataButton(e:MouseEvent):void {
 	else choices("Save", 9000, "Load", 9007, "blah", 0, "bleh", 0);
 	say("Save or Load a file?", true);
 }
-*/	
-
-
-
-function buttonEvent1(e:MouseEvent):void
-{
-	if(nextButton) nextButton = false;
-	if(button1Choice == 0 || Choice1.visible == false)
-	{
-		return;
-	}
-	currEvent = button1Choice;
-	if(inCombat) doCombatEvent(currEvent);
-	else {
-		if(currEvent == -9001) buttonf1Choice();
-		else doEvent(currEvent);
-	}
-}
-///perform button2's current action
-function buttonEvent2(e:MouseEvent):void
-{
-	if(nextButton) nextButton = false;
-	if(button2Choice == 0 || Choice2.visible == false)
-	{
-		return;
-	}
-	currEvent = button2Choice;
-	if(inCombat) doCombatEvent(currEvent);
-	else {
-		if(currEvent == -9001) buttonf2Choice();
-		else doEvent(currEvent);
-	}
-}
-//perform the action currently associated with a button!
-function buttonEvent3(e:MouseEvent):void
-{
-	if(nextButton) nextButton = false;
-	if(button3Choice == 0 || Choice3.visible == false)
-	{
-		return;
-	}
-	currEvent = button3Choice;
-	if(inCombat) doCombatEvent(currEvent);
-	else {
-		if(currEvent == -9001) buttonf3Choice();
-		else doEvent(currEvent);
-	}
-}
-//perform the action currently associated with a button!
-function buttonEvent4(e:MouseEvent):void
-{
-	if(nextButton) nextButton = false;
-	if(button4Choice == 0 || Choice4.visible == false)
-	{
-		return;
-	}
-	currEvent = button4Choice;
-	if(inCombat) doCombatEvent(currEvent);
-	else {
-		if(currEvent == -9001) buttonf4Choice();
-		else doEvent(currEvent);
-	}
-}
-
-function buttonEvent5(e:MouseEvent):void
-{
-	if(nextButton) nextButton = false;
-	if(button5Choice == 0 || Choice5.visible == false)
-	{
-		return;
-	}
-	currEvent = button5Choice;
-	if(inCombat) doCombatEvent(currEvent);
-	else {
-		if(currEvent == -9001) buttonf5Choice();
-		else doEvent(currEvent);
-	}
-}
-
-function buttonEvent6(e:MouseEvent):void
-{
-	if(nextButton) nextButton = false;
-	if(button6Choice == 0 || Choice6.visible == false)
-	{
-		return;
-	}
-	currEvent = button6Choice;
-	if(inCombat) doCombatEvent(currEvent);
-	else {
-		if(currEvent == -9001) buttonf6Choice();
-		else doEvent(currEvent);
-	}
-}
-
-function clearButtons():void {
-	button1(false, "", 0);
-	button2(false, "", 0);
-	button3(false, "", 0);
-	button4(false, "", 0);
-	button5(false, "", 0);
-	button6(false, "", 0);
-	buttonInventory(false);
-	buttonAppearance(false);
-	buttonScavCity(false);
-	buttonExploreCity(false);
-	buttonHuntCity(false);
-	buttonHuntLocal(false, "");
-	buttonScavLocal(false, "", false);
-	buttonExploreLocal(false, "");
-}
-
-//Hide most buttons and display 'next' and call new event.
-function doNext(eventNum:Number):void {
-	newGame.visible = false;
-	button1(true, "Next", eventNum);
-	button2(false, "", 0);
-	button3(false, "", 0);
-	button4(false, "", 0);
-	button5(false, "", 0);
-	button6(false, "", 0);
-	buttonInventory(false);
-	buttonAppearance(false);
-	buttonScavCity(false);
-	buttonExploreCity(false);
-	buttonHuntCity(false);
-	buttonHuntLocal(false, "");
-	buttonScavLocal(false, "", false);
-	buttonExploreLocal(false, "");
-	nextButton = true;
-}
-
-function doBack(eventNum:Number):void {
-	newGame.visible = false;
-	button1(true, "Back", eventNum);
-	button2(false, "", 0);
-	button3(false, "", 0);
-	button4(false, "", 0);
-	button5(false, "", 0);
-	button6(false, "", 0);
-	buttonInventory(false);
-	buttonAppearance(false);
-	buttonScavCity(false);
-	buttonExploreCity(false);
-	buttonHuntCity(false);
-	buttonHuntLocal(false, "");
-	buttonScavLocal(false, "", false);
-	buttonExploreLocal(false, "");
-	nextButton = true;
-}
-
-function doYesNo(yesNum:Number, noNum:Number) {
-	newGame.visible = false;
-	button1(true, "Yes", yesNum);
-	button2(true, "No", noNum);
-	button3(false, "", 0);
-	button4(false, "", 0);
-	button5(false, "", 0);
-	button6(false, "", 0);
-	buttonInventory(false);
-	buttonAppearance(false);
-	buttonScavCity(false);
-	buttonExploreCity(false);
-	buttonScavLocal(false, "", false);
-	buttonExploreLocal(false, "");
-	buttonHuntCity(false);
-	buttonHuntLocal(false, "");
-	nextButton = true;
-}
+*/

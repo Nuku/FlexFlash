@@ -2,6 +2,7 @@
 This file presently exists as an early, easy guide to how the AS FS operates on the code level, as far as monster creation is concerned, and with the earliest alpha build.
 
 As always, things are subject to change, and subsequently this file may be altered to reflect those changes.
+WARNING: THIS TEMPLATE IS CONSIDERABLY OUT OF DATE, DO NOT USE AT THIS TIME
 */
 
 monsterTable.push([ 1, "Name", "Zone", monsterCombat, monsterInfect, "all", "nobypass", "infectious", "default"]);
