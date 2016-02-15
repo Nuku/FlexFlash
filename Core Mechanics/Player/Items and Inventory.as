@@ -145,19 +145,19 @@ function givePlayer(item:String, stack:Number):void {
 	var arrayLength:Number = itemTable.length;
 	var found:Boolean = false;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(itemTable[tempnum][0] == item && found == false) {
+		if(itemTable[tempnum][0] == item && !found) {
 			found = true;
 			tappeditem = itemTable[tempnum][0];
-			trace("Found Item: " + tappeditem + "From Item table: " + itemTable[tempnum]);
+			trace("Found Item: " + tappeditem + " From Item table: " + itemTable[tempnum]);
 		}
 	}
-	if(found == false) {
+	if(!found) {
 		arrayLength = equipTable.length;
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-			if(equipTable[tempnum][0] == item && found == false) {
+			if(equipTable[tempnum][0] == item && !found) {
 				found = true;
 				tappeditem = equipTable[tempnum][0];
-				trace("Found Item: " + tappeditem + "From Equip table: " + equipTable[tempnum]);
+				trace("Found Item: " + tappeditem + " From Equip table: " + equipTable[tempnum]);
 			}
 		}
 	}
@@ -210,7 +210,7 @@ function interact(item:String, stack:Number):void {
 			found = true;
 		}
 	}
-	if(found == false) {
+	if(!found) {
 		arrayLength = equipTable.length;
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 			if(equipTable[tempnum][0] == item) {
@@ -237,7 +237,7 @@ function interact(item:String, stack:Number):void {
 			}
 		}	
 	}
-	if(found == false) say("ERROR: ITEM NOT FOUND IN RECORDS");
+	if(!found) say("ERROR: ITEM NOT FOUND IN RECORDS");
 }
 
 function invInteract(item:String, stack:Number):void {
@@ -247,7 +247,7 @@ function invInteract(item:String, stack:Number):void {
 	var arrayLength:Number = itemTable.length;
 	var found:Boolean = false;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(itemTable[tempnum][0] == item && found == false) {
+		if(itemTable[tempnum][0] == item && !found) {
 			isEquippable = false;
 			say("\r\r" + itemTable[tempnum][0] + " selected:");
 			button1(true, "Drop", invInteracts, "1");
@@ -269,7 +269,7 @@ function invInteract(item:String, stack:Number):void {
 			trace("Found Item: " + tappeditem + "From Item table: " + itemTable[tempnum]);
 		}
 	}
-	if(found == false) {
+	if(!found) {
 		arrayLength = equipTable.length;
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 			if(equipTable[tempnum][0] == item) {
@@ -297,7 +297,7 @@ function invInteract(item:String, stack:Number):void {
 			}
 		}	
 	}
-	if(found == false) say("ERROR: ITEM NOT FOUND IN RECORDS");
+	if(!found) say("ERROR: ITEM NOT FOUND IN RECORDS");
 }
 
 var floorMaster:Object = new Object();
@@ -377,7 +377,7 @@ function shiftstock(Flag:String):void {
 					i = floorLength;
 					takenitem = "";
 					trace("New Inventory: " + floorMaster[Flag]);
-					trace("MASTERLIST CHECK: " + itemTable);
+					found = true;
 				}
 			}
 			if(!found) {
@@ -479,7 +479,7 @@ function weightShift():void {
 				found = true;
 			}
 		}
-		if(found == false) {
+		if(!found) {
 			arrLen = equipTable.length;
 			for(o = 0; o < arrLen; o++) {
 				if(equipTable[o][0] == floorMaster["Inventory"][i][0]) {
@@ -526,7 +526,7 @@ function doEquip(equip:String, tType:Boolean):void {
 				if(equipTable[o][0] == equip) {
 					if(equipTable[o][4] == 1){
 						texts += "\r\rYou now wield " + equip + ".";
-						if(checkEquipScale(equip) == false) texts += ".. Your size makes its difficult to operate.";
+						if(!checkEquipScale(equip)) texts += ".. Your size makes its difficult to operate.";
 					}					
 					else {
 						texts += "\r\rYou put on " + equip + ".";
@@ -722,7 +722,7 @@ function roomInteract(eventStr:String) {
 	var eventNum:Number = Number(eventStr);
 	var i:Number = 0;
 	var secondLength:Number = itemTable.length;
-	if(isEquippable == false) {
+	if(!isEquippable) {
 		for(i = 0; i < secondLength; i++) {
 			if(itemTable[i][0] == tappeditem) {
 				trace("Running da things: " + itemTable[i]);
@@ -781,7 +781,7 @@ function roomInteract(eventStr:String) {
 						itemTable[i][4]();
 						if(itemTable[i][3] == 1) removeitem = tappeditem;
 						tappeditem = "";
-						if(itemTable[i][6] != "" && hasFeat("Iron Stomach") == false) queueInfect(itemTable[i][6]);
+						if(itemTable[i][6] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][6]);
 						doLastRoom();
 					}
 					else say("That item is not usable.");
@@ -865,7 +865,7 @@ function roomInteract(eventStr:String) {
 						}
 						else say("Can't be equipped.");
 					}
-					else if(checkEquipScale(equipTable[i][0]) == false) say("That item can't fit your current size.");
+					else if(!checkEquipScale(equipTable[i][0])) say("That item can't fit your current size.");
 					else say("You cannot pick that up, let alone put it on.");
 				}
 				if(eventNum == 4) { //Cancel item interaction from room
@@ -885,7 +885,7 @@ function invInteracts(eventStr:String) {
 	var arrayLength:Number = droppeditem.length
 	var tempnum:Number = 0;
 	var triplock:Boolean = false;
-	if(isEquippable == false) {
+	if(!isEquippable) {
 		for(i = 0; i < secondLength; i++) {
 			if(itemTable[i][0] == tappeditem) {
 				trace("Running da things: " + itemTable[i]);
@@ -927,7 +927,7 @@ function invInteracts(eventStr:String) {
 					triplock = false;
 					for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 						trace("Checking dropped array slot " + tempnum + ". Which has:" + droppeditem[tempnum][0]);
-						if(droppeditem[tempnum][0] == tappeditem && triplock == false) {
+						if(droppeditem[tempnum][0] == tappeditem && !triplock) {
 							trace("Found " + droppeditem[tempnum][0] + " in dropped array.");
 							removeitem = tappeditem;
 							droppeditem[tempnum][1] += variance;
@@ -935,7 +935,7 @@ function invInteracts(eventStr:String) {
 							triplock = true;
 						}
 					}
-					if(triplock == false) {
+					if(!triplock) {
 						trace("No " +  tappeditem + " in dropped array, pushing from tappeditem.");
 						removeitem = tappeditem;
 						tempnum = 0;
@@ -959,7 +959,7 @@ function invInteracts(eventStr:String) {
 							weightShift();
 						}
 						tappeditem = "";
-						if(itemTable[i][6] != "" && hasFeat("Iron Stomach") == false) queueInfect(itemTable[i][6]);
+						if(itemTable[i][6] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][6]);
 						playerInventory();
 					}
 					else say("That item is not usable.");
@@ -1054,7 +1054,7 @@ function invInteracts(eventStr:String) {
 					triplock = false;
 					for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 						trace("Checking dropped array slot " + tempnum + ". Which has:" + droppeditem[tempnum][0]);
-						if(droppeditem[tempnum][0] == tappeditem && triplock == false) {
+						if(droppeditem[tempnum][0] == tappeditem && !triplock) {
 							trace("Found " + droppeditem[tempnum][0] + " in dropped array.");
 							removeitem = tappeditem;
 							droppeditem[tempnum][1] += variance;
@@ -1062,7 +1062,7 @@ function invInteracts(eventStr:String) {
 							triplock = true;
 						}
 					}
-					if(triplock == false) {
+					if(!triplock) {
 						trace("No " +  tappeditem + " in dropped array, pushing from tappeditem.");
 						removeitem = tappeditem;
 						tempnum = 0;

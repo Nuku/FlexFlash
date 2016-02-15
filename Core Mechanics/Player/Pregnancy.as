@@ -137,7 +137,7 @@ function occuCheck(dur:Number):void {
 		}
 		else this[midWife["Aslot_Passive"]](dur);
 	}
-	if(midWife["Aslot_State"]) {
+	if(midWife["Bslot_State"]) {
 		if(midWife["Bslot_Duration"] != -1) {
 			midWife["Bslot_Duration"] -= dur;
 			if(midWife["Bslot_Duration"] < 1) {
