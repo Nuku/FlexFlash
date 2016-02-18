@@ -51,7 +51,7 @@ function latexFoxInfect():void {
 	setStr("enemytailchange", "You hear a sudden, loud FWOOMF from behind, compelling you to see what has happened and revealing to you that you now have the tail of a fox. It sways back and forth, almost seductively");
 	setStr("enemytailloss", "Your fox tail shrinks down until it disappears completely");
 	setStat("enemytailless", 0);
-	estrainending = latexFoxEnding;
+	setStr("enemystrainending", "latexFoxEnding");
 }
 
 function latexfoxloss():void {

@@ -162,15 +162,15 @@ function assessEnding():void {
 		clearButtons();
 		screenClear();
 		newGame.visible = true;
-		if(getStat("humanity") > 10) {
-			say("\r\r     The military finally manages to rally and overtake the city, though only for long enough to pull out yourself and any other still-sane occupants they could find.\r\r     Your stuck in quarantine for a time, ");
+		if(getStat("humanity") >= 10) {
+			say("\r\r     The military finally manages to rally and overtake the city, though only for long enough to pull out yourself and any other still-sane occupants they could find.\r\r     You're stuck in quarantine for a time, ");
 			if(isPure("Human")) say("though not for long, given your seemingly unaltered state.");
 			else {
 				if(getStr("playerheadname") != "Human") say("long enough for your " + getStr("playerheadname") + " form to fully overtake your body, though thankfully not infectious with the right shots, and you're eventually let off.");
 				else say("not helped by your partially infected form, though thatfully not powerful enough to overtake the rest of your body with the right shots, and you're eventually let off.");
 			}
 		}
-		pstrainending();
+		this[getStr("playerstrainending")]();
 		say("\r\r     Game Over!");
 	}
 }

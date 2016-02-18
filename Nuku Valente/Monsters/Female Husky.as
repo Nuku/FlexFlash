@@ -50,7 +50,7 @@ function fhuskyInfect():void {
 	setStr("enemytailchange", "Along tail pushes from your spine, full and fluffy.  Uplifting in a stiff arc, it begins to sway slowly without your input");
 	setStr("enemytailloss", "Your husky tail disappears");
 	setStat("enemytailless", 0);
-	estrainending = fhuskyending;
+	setStr("enemystrainending", "fhuskyending");
 }
 
 function fhuskyloss():void {
@@ -74,7 +74,7 @@ function fhuskydesc():void {
 }
 
 function fhuskyending():void {
-	if(getStat("humanity") < 10) say("     Succumbing to your husky-influenced infection, your intellect dwindles even as your baser needs take over.  You run largely on instinct and lust.  And while still capable of speech, it's used for little more than begging for sex.  Being a cute, fluffy husky means there's no shortage of willing mutants out there eager to take advantage of your needs.");
-	else say("     Managing to survive until rescue, you're brought out of the city.  Life as a dog person takes some time to adjust to at first, but you get used to it over time.  Your need for sex is high and you are pretty loose about finding a lover when the need strikes you.  Thankfully, being a cute, fluffy husky means there's no shortage of willing mutants eager to snuggle up to you.");
+	if(getStat("humanity") < 10) say("\r\r     Succumbing to your husky-influenced infection, your intellect dwindles even as your baser needs take over.  You run largely on instinct and lust.  And while still capable of speech, it's used for little more than begging for sex.  Being a cute, fluffy husky means there's no shortage of willing mutants out there eager to take advantage of your needs.");
+	else say("\r\r     Managing to survive until rescue, you're brought out of the city.  Life as a dog person takes some time to adjust to at first, but you get used to it over time.  Your need for sex is high and you are pretty loose about finding a lover when the need strikes you.  Thankfully, being a cute, fluffy husky means there's no shortage of willing mutants eager to snuggle up to you.");
 }
 

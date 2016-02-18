@@ -181,7 +181,12 @@ function assessExp():void {
 			say("<bold>Perception:</bold> " + getStat("perception") + " <a href='event:statUp~Per'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
 			say("<bold>Intellect:</bold> " + getStat("intelligence") + " <a href='event:statUp~Int'>[+]</a>\rReduces experience cost per level.\r");
 		}
-		else say("You levelled up! You are now at level " + getStat("level") + ".\r\r");
+		else {
+			say("You levelled up! You are now at level " + getStat("level") + ".\r\r");
+			refreshPlayer();
+			setStat("health", getStat("maxhealth"));
+			statDisplay();
+		}
 	}
 }
 
@@ -193,6 +198,7 @@ function refreshPlayer():void {
 	}
 	setStat("maxhealth", Math.round(((75/Math.PI)*Math.atan((getStat("level")-10+getStat("endurance"))/6)+(getStat("level")*5)+40)*4));
 }
+
 
 function statUp(eventStr):void {
 	if(eventStr == "Str") {
@@ -227,8 +233,9 @@ function statUp(eventStr):void {
 	}
 	if(eventStr == "Finish") {
 		refreshPlayer();
-		setStat("health", getStat("maxHealth"));
+		setStat("health", getStat("maxhealth"));
 		doLastRoom();
 		assessExp();
+		statDisplay();
 	}
 }

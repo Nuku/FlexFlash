@@ -100,7 +100,7 @@ function applyInfect(): void {
 			setStr("playerbodydesc", getStr("enemybodydesc"));
 			setStr("playerbodytype", getStr("enemybodytype"));
 			setStr("playerbodyshape", getStr("enemybodyshape"));
-			pstrainending = estrainending;
+			setStr("playerstrainending", getStr("enemystrainending"));
 			setStr("playergendertrend", getStr("sextrend"));
 		}
 		bodyChange(realignTrend(getStr("sextrend")));
@@ -169,7 +169,7 @@ function passiveInfect():void {
 						setStr("playerbodydesc", getStr("enemybodydesc"));
 						setStr("playerbodytype", getStr("enemybodytype"));
 						setStr("playerbodyshape", getStr("enemybodyshape"));
-						pstrainending = estrainending;
+						setStr("playerstrainending", getStr("enemystrainending"));
 						setStr("playergendertrend", getStr("sextrend"));
 						bodyChange(realignTrend(getStr("sextrend")), true);
 					}

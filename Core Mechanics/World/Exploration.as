@@ -39,7 +39,7 @@ function exploration(zone:String):void {
 	}
 	if(doBypass == "") {
 		if(getStat("foundsomething") == 0 && inCombat == false) say("     You decide to go exploring, but you encounter nothing and after wandering for what seems like forever you return to the relative safety of where you started.");
-		randomfightchance(zone);
+		if(getStat("foundsomething") != -1) randomfightchance(zone);
 		if(inCombat == false) {
 			if(getStat("foundsomething") != 2) doNext("", doLastRoom);
 			else doLastRoom();
@@ -601,7 +601,8 @@ function exploreEvent(eventNum:Number):void {
 	if(eventNum == 6) { //Test Event
 		say("     This is a test event, relating to in-event monster encounters.\r\r");
 		challenge("Latex Fox");
-		setStat("foundsomething", 1);
+		setStat("foundsomething", -1);
+		setStat("cullevent", 1);
 		bypassF = exploreEvent;
 		bypassN = "6.1"
 	}

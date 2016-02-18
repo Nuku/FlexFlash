@@ -312,15 +312,15 @@ function takestock(Flag:String, form:Boolean = false):void {
 	if(floorMaster[Flag].length > 0) {
 		trace("Working to display room inventory...");
 		if(form) {
+			var o = 0;
+			var weight = 0;
 			for(i = 0; i < floorLength; i++) {
-				var weight:Number = 0;
-				var o:Number = 0;
 				if(floorMaster[Flag][i][2] == 1) { 
 					secondLength = itemTable.length;
 					for(o = 0; o < secondLength; o++) {
 						if(itemTable[o][0] == floorMaster[Flag][i][0]) {
-							weight = itemTable[o][1]
-							o = secondLength;
+							weight = itemTable[o][1];
+							break;
 						}
 					}
 				}
@@ -328,8 +328,8 @@ function takestock(Flag:String, form:Boolean = false):void {
 					secondLength = equipTable.length;
 					for(o = 0; o < secondLength; o++) {
 						if(equipTable[o][0] == floorMaster[Flag][i][0]) {
-							weight = equipTable[o][2]
-							o = secondLength;
+							weight = equipTable[o][2];
+							break;
 						}
 					}
 				}
@@ -475,8 +475,8 @@ function weightShift():void {
 		for(o = 0; o < arrLen; o++) {
 			if(itemTable[o][0] == floorMaster["Inventory"][i][0]) {
 				CAP += floorMaster["Inventory"][i][1]*itemTable[o][1];
-				o = arrLen;
 				found = true;
+				break;
 			}
 		}
 		if(!found) {
@@ -484,7 +484,7 @@ function weightShift():void {
 			for(o = 0; o < arrLen; o++) {
 				if(equipTable[o][0] == floorMaster["Inventory"][i][0]) {
 					CAP += floorMaster["Inventory"][i][1]*equipTable[o][2];
-					o = arrLen;
+					break;
 				}
 			}
 		}

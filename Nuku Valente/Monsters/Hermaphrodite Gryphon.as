@@ -50,7 +50,7 @@ function hermGryphonInfect():void {
 	setStr("enemytailchange", "You feel a strange sensation from your ass as a long, writhing appendage grows from it. This newfound, seemingly leonine, tail is adorned with a distinctly blue tuft of fur at its very tip. It takes you a moment to acclimate to its presence");
 	setStr("enemytailloss", "Your leonine tail shrinks until it's naught but a former memory");
 	setStat("enemytailless", 0);
-	estrainending = hermGryphEnding;
+	setStr("enemystrainending", "hermGryphEnding");
 }
 
 function hermgryphloss():void {

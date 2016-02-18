@@ -337,7 +337,7 @@ function startEvents(eventStr:String):void {
 		else {
 			if(getStat("ccrandom") == 1) queue("Stat Allocation is locked!")
 			else {
-				modStat("strength", 1);
+				modStat("intelligence", 1);
 				modStat("ccallowance", -1);
 			}
 		}
@@ -364,7 +364,7 @@ function startEvents(eventStr:String):void {
 		}
 		setStat("ccallowance", 5);
 	}
-	if(eventNum >= 4.1 && eventNum <= 4.31) startEvents("4");
+	if(eventNum >= 4.1 && eventNum <= 4.9) startEvents("4");
 	if(eventNum == 5) {
 		screenClear();
 		button3(true, "Done", startEvents, "1");
@@ -925,6 +925,9 @@ function memoryPurge():void {
 	floorMaster = { };
 	statMaster = { };
 	stringMaster = { };
+	NPCList = [];
+	NPCList.push(["Abbey", "Abbey", "Doctor Bob", "pokeBob", 0]);
+	NPCList.push(["Abbey", "Abbey", "Pat", "pokePat", 0]);
 	setStat("majorfeatcount", 1)
 	setStat("minorfeatcount", 1)
 	setStr("playerheadname", "Human");
@@ -949,7 +952,7 @@ function memoryPurge():void {
 	setStat("maxexperience", (getStat("level")+1)*100);
 	setStat("playertailless", 1);
 	setStat("scale", 4);
-	pstrainending = humanEnding;
+	setStr("playerstrainending", "humanEnding");
 	resetWorld();
 	floorMaster["Inventory"] = [];
 	floorMaster["Bunker"] = [];

@@ -78,9 +78,6 @@ function selfExamine(N:String = "") {
 	button1(true, "Back", this[getStr("lastPageF")], getStr("lastroomtag"));
 }
 
-var pstrainending:Function = humanEnding;
-var estrainending:Function = humanEnding;
-
 function findLength(scale:Number, cock:Number):Number {
 	var inchHeight:Number = (scale*16)+8;
 	return(inchHeight*((cock*0.033)+0.015));
