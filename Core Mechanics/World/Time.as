@@ -1,7 +1,5 @@
 ﻿import flash.utils.Timer;
 
-//Time to get to work!
-
 //World Clock:Mintues = (0 - 1440 = CYCLE // 1-720 = DAY // 721 - 1440 = NIGHT)
 
 function clockTime():String {
@@ -27,26 +25,34 @@ function passTime(minutes:Number):void {
 	if(getStat("humanity") > 100) setStat("humanity", 100);
 	while(timeTick < minutes) {
 		++timeTick;
-		++thirstTicker;
-		++hungerTicker;
-		if(thirstTicker == 0) {
+		modStat("thirstticker", 1);
+		modStat("hungerticker", 1);
+		if(getStat("thirstticker") == 0) {
 			if(getStat("thirst") >= 99) modStat("humanity", -1);
 			else modStat("thirst", 1);
-			thirstTicker = -45;
+			setStat("thirstticker", -45);
 		}
-		if(hungerTicker == 0) {
+		if(getStat("hungerticker") == 0) {
 			if(getStat("hunger") == 99) modStat("humanity", -3);
 			else modStat("hunger", 1);
-			hungerTicker = -72; //135
+			setStat("hungerticker", -72);
 		}
 		if(getStat("health") < getStat("maxhealth")) {
-			++healthTicker;
-			if(healthTicker == 0) {
+			modStat("healthticker", 1);
+			if(getStat("healthticker") == 0) {
 				modStat("health", 1);
-				healthTicker = Math.round(-((1/((((getStat("endurance")/2)/3)/60)))/10));
+				setStat("healthticker", Math.round(-(1/(getStat("endurance")/36))));
 			}
 		}
-		else healthTicker = Math.round(-((1/((((getStat("endurance")/2)/3)/60)))/10));
+		else setStat("healthticker", Math.round(-(1/(getStat("endurance")/36))));
+		if(getStat("morale") < getStat("maxmorale")/2) {
+			modStat("moraleticker", 1);
+			if(getStat("moraleticker") == 0) {
+				modStat("morale", 1);
+				setStat("moraleticker", -288);
+			}
+		}
+		else setStat("moraleticker", -288);
 		if(isPure("Human") == false) {
 			var corruption:Number = 0;
 			if(getStr("playerheadname") != "Human") ++corruption;
@@ -54,13 +60,13 @@ function passTime(minutes:Number):void {
 			if(getStr("playerskinname") != "Human") ++corruption;
 			if(getStr("playercockname") != "Human" && getStat("cocks") > 0) ++corruption;
 			if(getStr("playertailname") != "Human" && getStr("playertaildesc") != "") ++corruption;
-			corruption = ((((corruption - Math.random()*((getStat("perception")-10)+(getStat("charisma")-10)/2))/2)/3)/60);
+			corruption = ((corruption - Math.random()*((getStat("perception")-10)+(getStat("charisma")-10)/2))/360);
 			if(corruption > 0) {
-				if(-(1/corruption) > corruptionTicker) corruptionTicker = -(1/corruption);
-				++corruptionTicker;
-				if(corruptionTicker >= 0) {
+				if(-(1/corruption) > getStat("corruptionticker")) setStat("corruptionticker", -(1/corruption));
+				modStat("corruptionticker", 1)
+				if(getStat("corruptionticker") >= 0) {
 					modStat("humanity", -1);
-					corruptionTicker = -(1/corruption);
+					setStat("corruptionticker", -(1/corruption));
 				}
 			}
 			--passivetimer;

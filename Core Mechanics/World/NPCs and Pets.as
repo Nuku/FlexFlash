@@ -4,31 +4,45 @@ var NPCList:Array = [];
 
 //0 = NIU, 1 = following -- in-slot, 2 = following -- in-slot two, 3 = following -- off-Slot, 4 = following -- do not display
 
-NPCList.push(["Abbey", "Abbey", "Doctor Bob", "pokeBob", 0]);
-NPCList.push(["Abbey", "Abbey", "Pat", "pokePat", 0]);
+function hasFollower():Boolean {
+	var arrLen = NPCList.length;
+	for(var i = 0; i < arrLen; i++) {
+		if(NPCList[i][3] > 0) {
+			return(true);
+		}
+	}
+	return(false);
+}
+
+function patCombat():void {
+	if(doHit("Pet")/2 > Math.random()*100) { 
+		say("This is pat's passive attack! The enemy takes 5 damage.");
+		modStat("enemyhealth", -5)
+	}
+}
 
 function listNPCs(room:String) {
 	var arrLen:Number = NPCList.length;
-	var i = 0;
 	var b = 0;
+	var i = 0;
 	var texts:String = "";
 	if(room == "Player") {
 		for(i = 0; i < arrLen; i++) {
-			if(NPCList[i][1] == room) {
+			if(NPCList[i][3] > 0) {
 				++b
 				if(b == 1) texts += "\r\rPeople following you: ";
 				else if(b > 1) texts += ", ";
-				texts += "<a href='event:NPCIR~" + NPCList[i][3] + "~" + NPCList[i][2] + "'>" + NPCList[i][2] + "</a>";
+				texts += "<a href='event:NPCIR~" + NPCList[i][2] + "~" + NPCList[i][1] + "'>" + NPCList[i][1] + "</a>";
 			}
 		}
 	}
 	else {
 		for(i = 0; i < arrLen; i++) {
-			if(NPCList[i][1] == room) {
+			if(NPCList[i][0] == room && NPCList[i][3] == 0) {
 				++b
 				if(b == 1) texts += "\r\rPeople in room: ";
 				else if(b > 1) texts += ", ";
-				texts += "<a href='event:NPCIR~" + NPCList[i][3] + "~" + NPCList[i][2] + "'>" + NPCList[i][2] + "</a>";
+				texts += "<a href='event:NPCIR~" + NPCList[i][2] + "~" + NPCList[i][1] + "'>" + NPCList[i][1] + "</a>";
 			}
 		}
 	}
@@ -40,38 +54,33 @@ function setFollower(nam:String):void {
 	var i = 0;
 	var arrLen:Number = NPCList.length;
 	for(i = 0; i < arrLen; i++) {
-		if(NPCList[i][1] == "Player" && NPCList[i][4] == 1) {
-			say("You send off " + NPCList[i][2] + ". ");
-			NPCList[i][4] = 0;
-			NPCList[i][1] = NPCList[i][0];
+		if(NPCList[i][3] > 0) {
+			say("You send off " + NPCList[i][1] + ". ");
+			NPCList[i][3] = 0;
 		}
 	}
 	for(i = 0; i < arrLen; i++) {
-		if(NPCList[i][2] == nam) {
-			say(NPCList[i][2] + " joins you.");
-			NPCList[i][4] = 1;
-			NPCList[i][1] = "Player";
+		if(NPCList[i][1] == nam) {
+			say(NPCList[i][1] + " joins you.");
+			NPCList[i][3] = 1;
 		}
 	}
 }
 
 function dismissFollower(nam:String):void {
-	var i = 0;
 	var arrLen:Number = NPCList.length;
-	for(i = 0; i < arrLen; i++) {
-		if(NPCList[i][1] == "Player" && NPCList[i][2] == nam) {
+	for(var i = 0; i < arrLen; i++) {
+		if(NPCList[i][3] > 0 && NPCList[i][1] == nam) {
 			say("You send off " + NPCList[i][2] + ". ");
-			NPCList[i][4] = 0;
-			NPCList[i][1] = NPCList[i][0];
+			NPCList[i][3] = 0;
 		}
 	}
 }
 
 function isFollowing(nam:String):Boolean {
-	var i = 0;
 	var arrLen:Number = NPCList.length;
-	for(i = 0; i < arrLen; i++) {
-		if(NPCList[i][1] == "Player" && NPCList[i][2] == nam) {
+	for(var i = 0; i < arrLen; i++) {
+		if(NPCList[i][3] > 0 && NPCList[i][1] == nam) {
 			return(true);
 		}
 	}

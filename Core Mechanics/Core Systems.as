@@ -38,7 +38,7 @@ var nextButton:Boolean = false;
 var doBypass:String = "";
 //Setup Buttons & Window
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 6: NPCs&Pets+Miscellaneous</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 7: Combat 2</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);
@@ -198,10 +198,16 @@ function doLocalHunt(e:MouseEvent):void {
 	}
 }
 
-
 //Update Stat Display
 function statDisplay():void {
-	statPane.htmlText = "HP: " + getStat("health") + "/" + getStat("maxhealth") + " Level: " + getStat("level") + "\rHunger: " + getStat("hunger") + " Thirst: " + getStat("thirst") + "\rHumanity: " + Math.floor(getStat("humanity")) + " Libido: " + getStat("libido") + " Time Left: " + translatetimer() + " XP: " + getStat("experience") + "/" + getStat("maxexperience");
+	if(!inCombat && getStat("lust") != 0) setStat("lust", 0);
+	var texts = "HP: " + getStat("health") + "/";
+	if(inCombat) texts += getStat("projmaxhealth") + " Lust: " + getStat("lust");
+	else texts += getStat("maxhealth");
+	texts += " Morale: " + getStat("morale") + "/" + getStat("maxmorale") + "\rHunger: " + getStat("hunger") + " Thirst: " + getStat("thirst") + "\rHumanity: " + Math.floor(getStat("humanity"))
+	if(getStat("libido") > 0) texts+= " Libido: " + getStat("libido");
+	texts += " Time Left: " + translatetimer() + " XP: " + getStat("experience") + "/" + getStat("maxexperience"); 
+	statPane.htmlText = texts;
 }
 
 function screenClear():void {
@@ -599,7 +605,6 @@ function outputQueue():void {
 function buttonEvent1(e:MouseEvent):void {
 	if(nextButton) nextButton = false;
 	if(!Choice1.visible) return;
-	if(inCombat) doCombatEvent(button1Choice);
 	else {
 		if(button1Choice == "") button1Function();
 		else button1Function(button1Choice);
@@ -610,7 +615,6 @@ function buttonEvent1(e:MouseEvent):void {
 function buttonEvent2(e:MouseEvent):void {
 	if(nextButton) nextButton = false;
 	if(!Choice2.visible) return;
-	if(inCombat) doCombatEvent(button2Choice);
 	else {
 		if(button2Choice == "") button2Function();
 		else button2Function(button2Choice);
@@ -621,7 +625,6 @@ function buttonEvent2(e:MouseEvent):void {
 function buttonEvent3(e:MouseEvent):void {
 	if(nextButton) nextButton = false;
 	if(!Choice3.visible) return;
-	if(inCombat) doCombatEvent(button3Choice);
 	else {
 		if(button3Choice == "") button3Function();
 		else button3Function(button3Choice);
@@ -632,7 +635,6 @@ function buttonEvent3(e:MouseEvent):void {
 function buttonEvent4(e:MouseEvent):void {
 	if(nextButton) nextButton = false;
 	if(!Choice4.visible) return;
-	if(inCombat) doCombatEvent(button4Choice);
 	else {
 		if(button4Choice == "") button4Function();
 		else button4Function(button4Choice);
@@ -643,7 +645,6 @@ function buttonEvent4(e:MouseEvent):void {
 function buttonEvent5(e:MouseEvent):void {
 	if(nextButton) nextButton = false;
 	if(!Choice5.visible) return;
-	if(inCombat) doCombatEvent(button5Choice);
 	else {
 		if(button5Choice == "") button5Function();
 		else button5Function(button5Choice);
@@ -654,7 +655,6 @@ function buttonEvent5(e:MouseEvent):void {
 function buttonEvent6(e:MouseEvent):void {
 	if(nextButton) nextButton = false;
 	if(!Choice6.visible) return;
-	if(inCombat) doCombatEvent(button6Choice);
 	else {
 		if(button6Choice == "") button6Function();
 		else button6Function(button6Choice);

@@ -22,5 +22,7 @@ include "Nuku Valente/Monsters/Latex Fox.as"
 include "Nuku Valente/Monsters/Hermaphrodite Gryphon.as"
 include "Nuku Valente/Monsters/Female Husky.as"
 
+include "Blue Bishop/Wyvern.as"
+
 presetName();
 

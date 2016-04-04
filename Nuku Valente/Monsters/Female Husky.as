@@ -19,6 +19,7 @@ function fhuskyCombat():void {
 	enemyattack = fhuskyattack;
 	enemydesc = fhuskydesc;
 	enemyentry = fhuskyentry;
+	comSpec = nullFunc;
 }
 
 function fhuskyInfect():void {
@@ -31,7 +32,7 @@ function fhuskyInfect():void {
 	setStat("enemybreastsize", 4);
 	setStat("enemyscale", 4);
 	setStr("sextrend", "Female");
-	setStat("enemylibido", 80);
+	setStat("enemylibido", 8);
 	setStr("enemyheaddesc", "You've got a partially canine head, with a slim, feminine muzzle and perky, overly large ears");
 	setStr("enemyheadtype", "<one of>husky||canine||doggy<random>");
 	setStr("enemyheadchange", "Your thoughts grow hazy and you can't suppress an air-headed giggle as your face draws forward into a slender canine snout.  Your elongated tongue slips free of your new lips, lolling in the air wetly a moment");
