@@ -558,7 +558,7 @@ worldMaster["Explore"].push([false, "Cats and Dogs", "Outside", 2]);
 worldMaster["Explore"].push([false, "Giant Egg", "Outside", 3]);
 worldMaster["Explore"].push([false, "Masturbating Fox", "Outside", 4]);
 worldMaster["Explore"].push([false, "School Spirit", "Outside", 5]);
-worldMaster["Explore"].push([false, "Test Event", "Outside", 6]);
+//worldMaster["Explore"].push([false, "Test Event", "Outside", 6]);
 worldMaster["Scavenge"].push([false, "Local Scav Event", "Abbey", 1]);
 worldMaster["Zone"].push([false, "Trevor Labs", "Outside", "trevorLabsRooms", "1"]);
 
@@ -608,7 +608,7 @@ function exploreEvent(eventNum:Number):void {
 	}
 	if(eventNum == 6.1) { //Test Event
 		screenClear();
-		if(fightOutcome != 10) say("You lost the Event");
+		if(getStat("fightoutcome") != 10) say("You lost the Event");
 		else say("You won the Event");
 		doNext("", doLastRoom);
 	}

@@ -197,6 +197,8 @@ function refreshPlayer():void {
 		else addFeat("Submissive");
 	}
 	setStat("maxhealth", Math.round(((75/Math.PI)*Math.atan((getStat("level")-10+getStat("endurance"))/6)+(getStat("level")*5)+40)*4));
+	setStat("maxmorale", 4+Math.floor((getStat("intelligence")-12)/2));
+	if(getStat("maxmorale") > 10) setStat("maxmorale", 10);
 }
 
 

@@ -1,8 +1,34 @@
 ﻿//All rooms are listed in here
-function doLastRoom(over:String = ""):void {
-	if(over != "") this[getStr("lastroomfunction")](over);
-	else this[getStr("lastroomfunction")](getStr("lastroomtag"));
+function doLastRoom(next:Boolean = false):void {
+	if(bypassF != null) {
+		if(next) {
+			newGame.visible = false;
+			clearButtons();
+			button1(true, "Next", bypassF, bypassN);
+			nextButton = true;
+		}
+		else bypassF(bypassN);
+		bypassN = "";
+		bypassF = null;
+	}
+	else {
+		if(next) {
+			newGame.visible = false;
+			clearButtons();
+			button1(true, "Next", this[getStr("lastroomfunction")], getStr("lastroomtag"));
+			nextButton = true;
+		}
+		else this[getStr("lastroomfunction")](getStr("lastroomtag"));
+	}
 }
+
+/*
+	if(bypassF != null) {
+		doNext(bypassN, bypassF);
+		bypassN = "";
+		bypassF = null;
+	}
+*/
 
 function setLastRoom(func:String, tag:String = ""):void {
 	setStr("lastroomfunction", func);

@@ -12,7 +12,7 @@ function isWarded(str:String):Boolean {
 	var arrayLength:Number = arr.length;
 	var tempnum:Number = 0;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if((getStat("furryward") == 1 && arr[tempnum] == "furry") || (getStat("feralward") == 1 && arr[tempnum] == "feral") || (getStat("humanward") == 1 && arr[tempnum] == "human") || (getStat("sillyward") == 1 && arr[tempnum] == "silly") || (getStat("horrorward") == 1 && arr[tempnum] == "horror") || (getStat("maleward") == 1 && arr[tempnum] == "male") || (getStat("femaleward") == 1 && arr[tempnum] == "female") || (getStat("hermward") == 1 && arr[tempnum] == "herm")) return(true);
+		if((getStat("furryward") == 1 && arr[tempnum] == "furry") || (getStat("feralward") == 1 && arr[tempnum] == "feral") || (getStat("humanward") == 1 && arr[tempnum] == "human") || (getStat("sillyward") == 1 && arr[tempnum] == "silly") || (getStat("horrorward") == 1 && arr[tempnum] == "horror") || (getStat("maleward") == 1 && arr[tempnum] == "male") || (getStat("femaleward") == 1 && arr[tempnum] == "female") || (getStat("hermward") == 1 && arr[tempnum] == "herm") || (getStat("femaleward") == 1 && getStat("maleward") == 1 && arr[tempnum] == "bigen")) return(true);
 	}
 	return(false);
 }
@@ -66,16 +66,8 @@ function encounter(zone:String): void {
 			else if(getStat("World Time") < 721 ) noctVar = -1*(arr[1]);
 			else noctVar = arr[1];
 			if(Math.random()*modWeight < arr[0] - noctVar) {
-				inCombat = true;
-				this[pulledTable[tempnum][3]]();
-				this[pulledTable[tempnum][4]]();
-				if(hasTarget(pulledTable[tempnum][1]) == false) addTarget(pulledTable[tempnum][1], pulledTable[tempnum][1], pulledTable[tempnum][2], 1);
-				say("\r\r");
-				enemyentry();
-				setStat("enemyhealth", getStat("enemymaxhealth"));
-				setStat("enemylevel", pulledTable[tempnum][0]);
-				doNext("3", doCombatEvent);
-				tempnum = arrayLength;
+				challenge(pulledTable[tempnum][1]);
+				break;
 			}
 			else if(arr[0]-noctVar > 0) modWeight -= arr[0] - noctVar
 		}
@@ -95,10 +87,14 @@ function challenge(str:String): void {
 			this[worldMaster["Monsters"][tempnum][3]]();
 			this[worldMaster["Monsters"][tempnum][4]]();
 			if(hasTarget(worldMaster["Monsters"][tempnum][1]) == false) addTarget(worldMaster["Monsters"][tempnum][1], worldMaster["Monsters"][tempnum][1], worldMaster["Monsters"][tempnum][2], 1);
+			say("\r\r");
 			enemyentry();
 			setStat("enemyhealth", getStat("enemymaxhealth"));
 			setStat("enemylevel", worldMaster["Monsters"][tempnum][0]);
-			doNext("3", doCombatEvent);
+			setStat("projmaxhealth", getStat("maxhealth"));
+			setStat("lust", getStat("libido"));
+			setStat("lustroll", 0);
+			doNext("Main", doCombat);
 			return;
 		}
 	}

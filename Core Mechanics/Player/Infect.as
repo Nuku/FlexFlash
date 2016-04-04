@@ -15,7 +15,8 @@ function queueInfect(str:String):void {
 	queuedInfect = true;
 }
 
-function infect(str:String): void {
+function infect(str:String = ""): void {
+	if(str == "") str = getStr("enemyname");
 	if(str == "Random") randomInfect();
 	else {
 		var tempnum:Number = 0;
@@ -76,7 +77,7 @@ function applyInfect(): void {
 			}
 		}
 		else if(i == 5) {
-			if(getStr("playercockname") == getStr("enemyname")) {
+			if((getStr("playercockname") == getStr("enemyname"))) {
 				i = 1;
 			}
 			else {
@@ -104,6 +105,7 @@ function applyInfect(): void {
 			setStr("playergendertrend", getStr("sextrend"));
 		}
 		bodyChange(realignTrend(getStr("sextrend")));
+		sexChange(realignTrend(getStr("sextrend")));
 		libidoChange();
 	}
 	if(infectpoint == 3 && getStr("playerskinname") != getStr("enemyname")) {
@@ -133,7 +135,7 @@ function applyInfect(): void {
 			cockcheck = true;
 		}
 		sexChange(realignTrend(getStr("sextrend")));
-		if(getStat("cocks") > 0 && cockcheck == false && getStr("playercockname") != getStr("enemyname")) {
+		if(getStat("cocks") > 0 && !cockcheck && getStr("playercockname") != getStr("enemyname")) {
 			say("     " + getStr("enemycockchange") + ".\r\r");
 			setStr("playercockname", getStr("enemyname"));
 			setStr("playercockdesc", getStr("enemycockdesc"));
@@ -208,7 +210,8 @@ function passiveInfect():void {
 }
 
 function libidoChange():void {
-	if(getStat("enemylibido") > getStat("libido")) modStat("libido", Math.round(getStat("enemylibido")/5));
+	var range = getStat("enemylibido")/2
+	modStat("libido", Math.round(range+(Math.random()*(range*2))));
 }
 
 function realignTrend(trend:String = "Neuter"):String {

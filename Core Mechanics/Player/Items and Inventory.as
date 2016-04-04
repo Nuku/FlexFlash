@@ -11,15 +11,25 @@ item values:
 -stack
 -droppability
 
-use entries:
+Use Type:
 0 = useless
-1 = consumable -- item lost on use
-2 = useable -- arbitrary, non-consuming effect
+1 = consumable
+2 = reusable
 
-drop entries:
-0 = droppable
+Drop Type:
+0 = droppable, trashable
 1 = droppable, but cannot be trashed
 2 = undroppable, untrashable
+3 = Cannot be picked up
+
+Combat Effect:
+0 = Only usable out of combat
+1 = Only usable in combat
+2 = Usable in either.
+
+Retaliation:
+Y = enemies retaliate after use.
+N = free action. 
 */
 
 var tappeditem:String = "";
@@ -31,16 +41,62 @@ var takenitem:String = "";
 
 var itemTable:Array = [];
 
-//itemTable.push([ 0:"Name", 1:Weight, 2:"Description.", 3:classification, 4:use function, 5:droppability, 6:"Infectious" ]);
-itemTable.push([ "Food", 1, "Some non-perishable food. Good to sating hunger.", 1, consumeFood, 0, "" ]);
-itemTable.push([ "Bottled Water", 1, "A bottle of water. Good for slaking thirst.", 1, consumeWater, 0, "" ]);
-itemTable.push([ "Dirty Water", 1, "A bottle questionably drinkable water. It'll slake your thirst, but at a cost...", 1, consumeDWater, 0, "Random" ]);
-itemTable.push([ "Journal", 1, "A small, leather-clad book. Spending some time writing in it can help clear your thoughts and recenter your troubled mind.", 2, useJournal, 2, "" ]);
-itemTable.push([ "Junk Food", 1, "Junk food of varying sorts. Hardly healthy, but it's better than nothing.", 1, consumeJunk, 0, "" ]);
-itemTable.push([ "Soda", 1, "Sugary beverage. Not very healthy, but the container isn't broken, and it's better than nothing.", 1, consumeSoda, 0, "" ]);
-itemTable.push([ "Gryphon Milk", 1, "Hermaphrodite Gryphon's milk. It'll somewhat satisfy hunger and thirst, but it's also obviously infectious.", 1, consumeGryMilk, 0, "Hermaphrodite Gryphon" ]);
-itemTable.push([ "Latex Fox Sludge", 1, "A tightly-sealed jar of a thick, black, latex fluid. Bits of orange and white swirl within the still-animate mass, desperate to escape its prison.\r\rConsuming this may or may not satisfy hunger and thirst, but regardless...", 1, consumeLFoxSludge, 0, "Latex Fox" ]);
-itemTable.push([ "Cot", 10, "A cheap, foldable bed of sorts. It should allow you to get some rest anywhere, just be careful where you do it.", 2, useCot, 0, "" ]);
+function chkUse(str:String):Number {
+	var arr:Array = str.split("/");
+	if(arr[0] != null) return(Number(arr[0]));
+	return(-1);
+}
+
+function chkDrp(str:String):Number {
+	var arr:Array = str.split("/");
+	if(arr[1] != null) return(Number(arr[1]));
+	return(-1);
+}
+
+function chkCmbt(str:String):Number {
+	var arr:Array = str.split("/");
+	if(arr[2] != null) return(Number(arr[2]));
+	return(-1);
+}
+
+function chkRtl(str:String):String {
+	var arr:Array = str.split("/");
+	if(arr[3] != null) return(arr[3]);
+	return("X");
+}
+
+//3 -- replaces 5, 6 down to 5.
+//itemTable.push([ 0:"Name", 1:Weight, 2:"Description.", 3:"use type/drop type/combat, non-/retaliation", 4:use function, 5:"Infectious" ]);
+itemTable.push([ "Food", 1, "Some non-perishable food. Good to sating hunger.", "1/0/0/X", consumeFood, "" ]);
+itemTable.push([ "Bottled Water", 1, "A bottle of water. Good for slaking thirst.", "1/0/0/X", consumeWater, "" ]);
+itemTable.push([ "Dirty Water", 1, "A bottle questionably drinkable water. It'll slake your thirst, but at a cost...", "1/0/0/X", consumeDWater, "Random" ]);
+itemTable.push([ "Journal", 1, "A small, leather-clad book. Spending some time writing in it can help clear your thoughts and recenter your troubled mind.", "2/2/0/X", useJournal, "" ]);
+itemTable.push([ "Junk Food", 1, "Junk food of varying sorts. Hardly healthy, but it's better than nothing.", "1/0/0/X", consumeJunk, "" ]);
+itemTable.push([ "Soda", 1, "Sugary beverage. Not very healthy, but the container isn't broken, and it's better than nothing.", "1/0/0/X", consumeSoda, "" ]);
+itemTable.push([ "Gryphon Milk", 1, "Hermaphrodite Gryphon's milk. It'll somewhat satisfy hunger and thirst, but it's also obviously infectious.", "1/0/0/X", consumeGryMilk, "Hermaphrodite Gryphon" ]);
+itemTable.push([ "Latex Fox Sludge", 1, "A tightly-sealed jar of a thick, black, latex fluid. Bits of orange and white swirl within the still-animate mass, desperate to escape its prison.\r\rConsuming this may or may not satisfy hunger and thirst, but regardless...", "1/0/0/X", consumeLFoxSludge, "Latex Fox" ]);
+itemTable.push([ "Cot", 10, "A cheap, foldable bed of sorts. It should allow you to get some rest anywhere, just be careful where you do it.", "2/0/0/X", useCot, "" ]);
+
+itemTable.push([ "Damage Stick", 1, "A wooden stick, for throwing at enemies. It hurts!", "1/0/1/Y", hurtStick, "" ]);
+itemTable.push([ "Heal Stick", 1, "A wooden stick, for hitting yourself with. It heals!(?)", "1/0/2/N", healStick, "" ]);
+itemTable.push([ "Smoke Stick", 1, "A wooden stick. Throw it on the ground, make a plume of smoke. It conceals!", "1/0/1/N", fleeStick, "" ]);
+
+function hurtStick():void {
+	say("With all your might, your hurl the stick at the enemy! They take 1 damage!\r\r");
+	modStat("enemyhealth", -1);
+}
+
+function healStick():void {
+	say("You hit yourself with the stick! The game takes pity on you, and restores you to max HP.\r\r");
+	setStat("health", getStat("maxhealth"));
+}
+
+function fleeStick():void {
+	inCombat = false;
+	say("You light the stick and toss it behind you as you run, where it smolders unimpressively on the ground. The enemy is so baffled by this gesture that you make a clean escape!\r\r");
+	setStat("lust", 0);
+	doNext("", doLastRoom);
+}
 
 function consumeGryMilk():void {
 	queue("Your stomach churns after downing the container full of the warm, tainted milk.");
@@ -189,21 +245,12 @@ function interact(item:String, stack:Number):void {
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 		if(itemTable[tempnum][0] == item) {
 			isEquippable = false;
+			clearButtons();
 			say("\r\r" + itemTable[tempnum][0] + " selected:");
 			button1(true, "Take", roomInteract, "1");
 			button2(true, "Look", roomInteract, "2");
 			button3(true, "Use", roomInteract, "3");
-			button4(false);
-			button5(false);
 			button6(true, "Cancel", roomInteract, "4");
-			buttonScavCity(false);
-			buttonExploreCity(false);
-			buttonScavLocal(false);
-			buttonExploreLocal(false);
-			buttonInventory(false);
-			buttonAppearance(false);
-			buttonHuntCity(false);
-			buttonHuntLocal(false);
 			newGame.visible = false;
 			tempnum = arrayLength;
 			trace("Found Item: " + tappeditem);
@@ -215,21 +262,12 @@ function interact(item:String, stack:Number):void {
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 			if(equipTable[tempnum][0] == item) {
 				isEquippable = true;
+				clearButtons();
 				say("\r\r" + equipTable[tempnum][0] + " selected:");
 				button1(true, "Take", roomInteract, "1");
 				button2(true, "Look", roomInteract, "2");
 				button3(true, "Equip", roomInteract, "3");
-				button4(false);
-				button5(false);
 				button6(true, "Cancel", roomInteract, "4");
-				buttonScavCity(false);
-				buttonExploreCity(false);
-				buttonScavLocal(false);
-				buttonExploreLocal(false);
-				buttonInventory(false);
-				buttonAppearance(false);
-				buttonHuntCity(false);
-				buttonHuntLocal(false);
 				newGame.visible = false;
 				tempnum = arrayLength;
 				trace("Found Item: " + tappeditem);
@@ -250,20 +288,19 @@ function invInteract(item:String, stack:Number):void {
 		if(itemTable[tempnum][0] == item && !found) {
 			isEquippable = false;
 			say("\r\r" + itemTable[tempnum][0] + " selected:");
-			button1(true, "Drop", invInteracts, "1");
-			button2(true, "Look", invInteracts, "2");
-			button3(true, "Use", invInteracts, "3");
-			button4(true, "Trash", invInteracts, "4");
-			button5(false);
-			button6(true, "Cancel", invInteracts, "5");
-			buttonScavCity(false);
-			buttonExploreCity(false);
-			buttonScavLocal(false);
-			buttonExploreLocal(false);
-			buttonInventory(false);
-			buttonAppearance(false);
-			buttonHuntCity(false);
-			buttonHuntLocal(false);
+			clearButtons();
+			if(inCombat) {
+				button2(true, "Look", invInteracts, "2");
+				button3(true, "Use", invInteracts, "3");
+				button6(true, "Cancel", invInteracts, "5");
+			}
+			else {
+				button1(true, "Drop", invInteracts, "1");
+				button2(true, "Look", invInteracts, "2");
+				button3(true, "Use", invInteracts, "3");
+				button4(true, "Trash", invInteracts, "4");
+				button6(true, "Cancel", invInteracts, "5");
+			}
 			tempnum = arrayLength;
 			found = true;
 			trace("Found Item: " + tappeditem + "From Item table: " + itemTable[tempnum]);
@@ -275,21 +312,13 @@ function invInteract(item:String, stack:Number):void {
 			if(equipTable[tempnum][0] == item) {
 				isEquippable = true;
 				say("\r\r" + equipTable[tempnum][0] + " selected:");
+				clearButtons();
 				button1(true, "Drop", invInteracts, "1");
 				button2(true, "Look", invInteracts, "2");
 				if(isEquipped(equipTable[tempnum][0])) button3(true, "Remove", invInteracts, "3");
 				else button3(true, "Equip", invInteracts, "3");
 				button4(true, "Trash", invInteracts, "4");
-				button5(false);
 				button6(true, "Cancel", invInteracts, "5");
-				buttonScavCity(false);
-				buttonExploreCity(false);
-				buttonScavLocal(false);
-				buttonExploreLocal(false);
-				buttonInventory(false);
-				buttonAppearance(false);
-				buttonHuntCity(false);
-				buttonHuntLocal(false);
 				newGame.visible = false;
 				tempnum = arrayLength;
 				trace("Found Item: " + tappeditem);
@@ -501,16 +530,37 @@ var equipMe:Boolean = false;
 
 //itemTable.push([ 0:"Name", 1:"ShortName" 2:Weight, 3:"Description.", 4:equipID, 5:Equip function, 6:Remove function, 7:Passive function, 8:Droppability, 9:Scale range ]);
 equipTable.push([ "Common Clothes", "Clothes", 2, "Some normal-looking attire. It'll provide reasonable protection against the elements, but don't expect it to be of any help if you get in a fight.", 2, nullFunc, nullFunc, nullFunc, 0, "4/4" ]);
-equipTable.push([ "Leather Harness", "Harness", 2, "A series of leather straps, metal rings, and buckles. Provides barely any protection, but can be worn over clothing, and can be adjusted to fit just about any body size and shape.\r\r Who would craft such attire?", 98, nullFunc, nullFunc, nullFunc, 0, "2/9" ]);
-equipTable.push([ "Sling", "Sling", 1, "A cobbled together sling, made of surgical tubing and bits of cloth.\r\r It allows you to attack from afar, dependant more on your perception than your dexterity to hit with.\r\r While substantially better than just throwing rocks, it's doubtful that this is weapons is very effective...", 1, nullFunc, nullFunc, nullFunc, 0, "4/4" ]);
+equipTable.push([ "Leather Harness", "Harness", 2, "A series of leather straps, metal rings, and buckles. Provides barely any protection, but can be worn over clothing, and can be adjusted to fit just about any body size and shape.\r\r Who would craft such attire?", 98, equipHarn, removeHarn, nullFunc, 0, "2/9" ]);
+equipTable.push([ "Sling", "Sling", 1, "A cobbled together sling, made of surgical tubing and bits of cloth.\r\r It allows you to attack from afar, dependant more on your perception than your dexterity to hit with.\r\r While substantially better than just throwing rocks, it's doubtful that this is weapons is very effective...", 1, equipSling, removeSling, nullFunc, 0, "4/4" ]);
 equipTable.push([ "Wrist Watch", "Watch", 0.5, watchDesc, 99, nullFunc, nullFunc, nullFunc, 0, "3/5" ]);
 
-function nullFunc(num:Number = 0):void {
+function nullFunc(n:Number = 0):void {
 	return;
 }
 
 function watchDesc():void {
-	say("\r\rIt tells the time, which says <bold>" + clockTime() + "</bold>! It's a good thing you can check it even when not attached to you, should you suddenly find your appendages less than able to wear it.")
+	say("\r\rIt tells the time, which says <bold>" + clockTime() + "</bold>! It's a good thing you can check it even when not attached to you, should you suddenly find your appendages find themselves no longer able to wear it.")
+}
+
+function equipSling():void {
+	modStat("weaponbonus", 99);
+	setStat("equiptype", 2);
+	setStr("equipattack", "You attack with the sling!");
+}
+
+function removeSling():void {
+	modStat("weaponbonus", -99);
+	setStat("equiptype", 0);
+}
+
+function equipHarn():void {
+	modStat("mitigationbase", 3);
+	modStat("mitigation%", 1);
+}
+
+function removeHarn():void {
+	modStat("mitigationbase", -3);
+	modStat("mitigation%", -1);
 }
 
 function doEquip(equip:String, tType:Boolean):void {
@@ -567,26 +617,22 @@ function doUnequip(equip:String, tType:Boolean):void {
 	}
 }
 
-var equipState:Number = 1;
 var currEquip:String = "";
 
-function checkSlot(ID:Number):void {
-	var i:Number = 0;
-	var o:Number = 0;
+function checkSlot(ID:Number):Boolean {
 	var arrayLength = floorMaster["Inventory"].length;
 	var arrLen = equipTable.length;
 	currEquip = "";
-	equipState = 1;
-	for(i = 0; i < arrayLength; i++) {
-		for(o = 0; o < arrLen; o++) {
+	for(var i = 0; i < arrayLength; i++) {
+		for(var o = 0; o < arrLen; o++) {
 			if(equipTable[o][0] == floorMaster["Inventory"][i][0] && equipTable[o][4] == ID && floorMaster["Inventory"][i][2] == 3) {
-				equipState = 2;
 				currEquip = equipTable[o][0];
-				o = arrLen;
+				return(true);
 				i = arrayLength;
 			}
 		}
 	}
+	return(false);
 }
 
 function isEquipped(nam:String):Boolean {
@@ -711,10 +757,12 @@ function runEquipPassive(equip:String, minutes:Number):void {
 function playerInventory():void {
 	screenClear();
 	clearButtons();
-	say("     Peeking into your backpack, you see:\r\r");
+	if(inCombat) say("     Quickly rummaging through your backpack, you find:\r\r");
+	else say("     Peeking into your backpack, you see:\r\r");
 	takestock("Inventory", true);
 	outputQueue();
-	button6(true, "Back", doLastRoom);
+	if(inCombat) button6(true, "Back", doCombat, "Main");
+	else button6(true, "Back", doLastRoom);
 	buttonAppearance(true);
 }
 
@@ -728,7 +776,7 @@ function roomInteract(eventStr:String) {
 				trace("Running da things: " + itemTable[i]);
 				var variance:Number = 0;
 				if(eventNum == 1) { //Taking an Item
-					if(itemTable[i][5] != 3) {
+					if(chkDrp(itemTable[i][3]) != 3) {
 						if(tappedstack != 1) {
 							say("\r\rHow many shall you take?\r\r");
 							button1(true, "1x", roomInteract, "1.1");
@@ -777,11 +825,11 @@ function roomInteract(eventStr:String) {
 				}
 				if(eventNum == 3) { //using an item in a room
 					say("\r\r");
-					if(itemTable[i][3] == 1 || itemTable[i][3] == 2) { 
+					if(chkUse(itemTable[i][3]) ==1 || chkUse(itemTable[i][3]) == 2) { 
 						itemTable[i][4]();
-						if(itemTable[i][3] == 1) removeitem = tappeditem;
+						if(chkUse(itemTable[i][3]) == 1) removeitem = tappeditem;
 						tappeditem = "";
-						if(itemTable[i][6] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][6]);
+						if(itemTable[i][5] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][5]);
 						doLastRoom();
 					}
 					else say("That item is not usable.");
@@ -850,20 +898,15 @@ function roomInteract(eventStr:String) {
 				if(eventNum == 3) { //equipping an EQUIPPABLE in a room
 					say("\r\r");
 					if(equipTable[i][8] != 3 && (checkEquipScale(equipTable[i][0]) || equipTable[i][4] == 1)) {
-						checkSlot(equipTable[i][4]);
-						if(equipState == 1 || equipState == 2) {
-							takenitem = tappeditem;
-							removeitem = tappeditem;
-							shiftstock("Inventory");
-							removeitem = tappeditem;
-							tappeditem = "";
-							equipState = 0;
-							weightShift();
-							if(equipState == 2) doUnequip(currEquip, false);
-							doEquip(equipTable[i][0], false);
-							doLastRoom();
-						}
-						else say("Can't be equipped.");
+						takenitem = tappeditem;
+						removeitem = tappeditem;
+						shiftstock("Inventory");
+						removeitem = tappeditem;
+						tappeditem = "";
+						weightShift();
+						if(checkSlot(equipTable[i][4])) doUnequip(currEquip, false);
+						doEquip(equipTable[i][0], false);
+						doLastRoom();
 					}
 					else if(!checkEquipScale(equipTable[i][0])) say("That item can't fit your current size.");
 					else say("You cannot pick that up, let alone put it on.");
@@ -891,7 +934,7 @@ function invInteracts(eventStr:String) {
 				trace("Running da things: " + itemTable[i]);
 				var variance:Number = 0;
 				if(eventNum == 1) { //Dropping an Item into a Room
-					if(itemTable[i][5] != 2) {
+					if(chkDrp(itemTable[i][3]) != 2) {
 						if(tappedstack > 1) {
 							say("\r\rHow many shall you Drop?\r\r");
 							button1(true, "1", invInteracts, "1.1");
@@ -952,20 +995,46 @@ function invInteracts(eventStr:String) {
 					else say("\r\r" + itemTable[i][2]);
 				}
 				if(eventNum == 3) { //Using item from inventory
-					if(itemTable[i][3] == 1 || itemTable[i][3] == 2) { 
-						itemTable[i][4]();
-						if(itemTable[i][3] == 1) { 
-							removeitem = tappeditem;
-							weightShift();
+					if((chkCmbt(itemTable[i][3]) != 1 && !inCombat)) {
+						if(chkUse(itemTable[i][3]) == 1 || chkUse(itemTable[i][3]) == 2) { 
+							itemTable[i][4]();
+							if(chkUse(itemTable[i][3]) == 1) { 
+								removeitem = tappeditem;
+								weightShift();
+							}
+							tappeditem = "";
+							if(itemTable[i][5] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][5]);
+							playerInventory();
 						}
-						tappeditem = "";
-						if(itemTable[i][6] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][6]);
-						playerInventory();
+						else say("\r\rThat item is not usable.");
 					}
-					else say("That item is not usable.");
+					else if(chkCmbt(itemTable[i][3]) > 0 && inCombat) {
+						if(chkUse(itemTable[i][3]) == 1 || chkUse(itemTable[i][3]) == 2) {
+							if(chkRtl(itemTable[i][3]) == "Y") {
+								doCombat("Lust");
+							}
+							if(inCombat) {
+								doCombat("Main");
+								itemTable[i][4]();
+								if(chkUse(itemTable[i][3]) == 1) { 
+									removeitem = tappeditem;
+									weightShift();
+									tappeditem = "";
+									shiftstock("Inventory")
+								}
+								if(chkRtl(itemTable[i][3]) == "Y") {
+									doCombat("Retaliate");
+								}
+							}
+							if(itemTable[i][5] != "" && !hasFeat("Iron Stomach")) queueInfect(itemTable[i][5]);
+						}
+						else say("\r\rThat item is not usable.");
+					}
+					else if(inCombat) say("\r\rThat cannot be used during combat.");
+					else say("\r\rThis item is only usable during a fight.");
 				}
 				if(eventNum == 4) { //TRASH item from inventory
-					if(itemTable[i][5] != 2) {
+					if(chkDrp(itemTable[i][3]) != 2) {
 						say("\r\rBe warned! Trashing items will permenantly destroy them!\r\r");
 						if(tappedstack == 1) button1(true, "Trash", invInteracts, "4.1");
 						else button1(true, "1x", invInteracts, "4.1");
@@ -1086,14 +1155,13 @@ function invInteracts(eventStr:String) {
 						playerInventory();
 					}
 					else {
-						checkSlot(equipTable[i][4]);
 						if(checkEquipScale(equipTable[i][0]) || equipTable[i][4] == 1) {
-							if(equipState == 1) {
+							if(!checkSlot(equipTable[i][4])) {
 								doEquip(equipTable[i][0], false);
 								tappeditem = "";
 								playerInventory();
 							}
-							else if(equipState == 2) {
+							else {
 								doUnequip(currEquip, false);
 								doEquip(equipTable[i][0], false);
 								tappeditem = "";

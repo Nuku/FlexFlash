@@ -186,14 +186,14 @@ function startEvents(eventStr:String):void {
 		say("<bold>Dexterity:</bold> <a href='event:startEvents~4.3'>[-]</a> " + getStat("dexterity") + " <a href='event:startEvents~4.4'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
 		say("<bold>Endurance:</bold> <a href='event:startEvents~4.5'>[-]</a> " + getStat("endurance") + " <a href='event:startEvents~4.6'>[+]</a>\rInfluences your capacity to receive abuse, as well as reduce your rate of hunger, thirst, and humanity loss\r");
 		say("<bold>Charisma:</bold> <a href='event:startEvents~4.7'>[-]</a> " + getStat("charisma") + " <a href='event:startEvents~4.8'>[+]</a>\rImproves your ability to influence and command others, in and out of combat.\r");
-		say("<bold>Perception:</bold> <a href='event:startEvents~4.9'>[-]</a> " + getStat("perception") + " <a href='event:startEvents~4.01'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
-		say("<bold>Intellect:</bold> <a href='event:startEvents~4.11'>[-]</a> " + getStat("intelligence") + " <a href='event:startEvents~4.21'>[+]</a>\rIncreases the amount of experience you gain from combat, and gives you access to certain feats.\r");
+		say("<bold>Perception:</bold> <a href='event:startEvents~4.9'>[-]</a> " + getStat("perception") + " <a href='event:startEvents~4.11'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
+		say("<bold>Intellect:</bold> <a href='event:startEvents~4.21'>[-]</a> " + getStat("intelligence") + " <a href='event:startEvents~4.31'>[+]</a>\rIncreases the amount of experience you gain from combat, and gives you access to certain feats.\r");
 		say("Remaining Points: (" + getStat("ccallowance") + ")\r");
 		say("<bold>Random Stats:</bold> [");
 		if(getStat("ccrandom") == 0) say("<bold>OFF</bold>/ ");
-		else say("<a href='event:startEvents~4.31'>OFF</a>/ ");
+		else say("<a href='event:startEvents~4.41'>OFF</a>/ ");
 		if(getStat("ccrandom") == 1) say("<bold>ON</bold>] ");
-		else say("<a href='event:startEvents~4.31'>ON</a>] ");
+		else say("<a href='event:startEvents~4.41'>ON</a>] ");
 		say("\rCompletely Randomizes your stats upon character creation.");
 	}
 	if(eventNum == 4.1) {
@@ -279,7 +279,6 @@ function startEvents(eventStr:String):void {
 				modStat("ccallowance", 1);
 			}
 		}
-		startEvents("4");
 	}
 	if(eventNum == 4.8) {
 		if(getStat("ccallowance") < 1) {
@@ -305,7 +304,7 @@ function startEvents(eventStr:String):void {
 			}
 		}
 	}
-	if(eventNum == 4.01) {
+	if(eventNum == 4.11) {
 		if(getStat("ccallowance") < 1) {
 			queue("Out of points!\r");
 		}
@@ -316,9 +315,8 @@ function startEvents(eventStr:String):void {
 				modStat("ccallowance", -1);
 			}
 		}
-		startEvents("4");
 	}
-	if(eventNum == 4.11) {
+	if(eventNum == 4.21) {
 		if(getStat("intelligence") < 13) {
 			queue("It cannot Go any lower!\r");
 		}
@@ -330,7 +328,7 @@ function startEvents(eventStr:String):void {
 			}
 		}
 	}
-	if(eventNum == 4.21) {
+	if(eventNum == 4.31) {
 		if(getStat("ccallowance") < 1) {
 			queue("Out of points!\r");
 		}
@@ -341,9 +339,8 @@ function startEvents(eventStr:String):void {
 				modStat("ccallowance", -1);
 			}
 		}
-		startEvents("4");
 	}
-	if(eventNum == 4.31) {
+	if(eventNum == 4.41) {
 		if(getStat("ccrandom") == 0) {
 			setStat("ccrandom", 1);
 			setStat("intelligence", 10);
@@ -364,7 +361,7 @@ function startEvents(eventStr:String):void {
 		}
 		setStat("ccallowance", 5);
 	}
-	if(eventNum >= 4.1 && eventNum <= 4.9) startEvents("4");
+	if(eventNum >= 4.1 && eventNum < 5) startEvents("4");
 	if(eventNum == 5) {
 		screenClear();
 		button3(true, "Done", startEvents, "1");
@@ -863,6 +860,10 @@ function gameStart():void {
 	addFeat(getStr("majorfeatchoice"));
 	listMinorFeats();
 	addFeat(getStr("minorfeatchoice"));
+	setStat("thirstticker", -45);
+	setStat("hungerticker", -72);
+	setStat("healthticker", Math.round(-(1/(getStat("endurance")/36))));
+	setStat("corruptionticker", 0);
 	screenClear();
 	var tempnum:Number = 0;
 	var arrayLength:Number = worldMaster["Zone"].length;
@@ -918,6 +919,7 @@ function gameStart():void {
 	setStat("health", getStat("maxhealth"));
 	floorMaster["Bunker"].push([ "Sling", 1, 2 ]);
 	floorMaster["Bunker"].push([ "Cot", 1, 1 ]);
+	floorMaster["Bunker"].push([ "Leather Harness", 1, 2 ]);
 }
 
 function memoryPurge():void {
@@ -926,8 +928,8 @@ function memoryPurge():void {
 	statMaster = { };
 	stringMaster = { };
 	NPCList = [];
-	NPCList.push(["Abbey", "Abbey", "Doctor Bob", "pokeBob", 0]);
-	NPCList.push(["Abbey", "Abbey", "Pat", "pokePat", 0]);
+	NPCList.push(["Abbey", "Doctor Bob", "pokeBob", 0, ""]);
+	NPCList.push(["Abbey", "Pat", "pokePat", 0, "patCombat"]);
 	setStat("majorfeatcount", 1)
 	setStat("minorfeatcount", 1)
 	setStr("playerheadname", "Human");
@@ -953,10 +955,11 @@ function memoryPurge():void {
 	setStat("playertailless", 1);
 	setStat("scale", 4);
 	setStr("playerstrainending", "humanEnding");
+	setStat("basedamage", 40);
 	resetWorld();
 	floorMaster["Inventory"] = [];
 	floorMaster["Bunker"] = [];
-	floorMaster["Inventory"].push([ "Journal", 1, 1 ], [ "Common Clothes", 1, 3 ], [ "Wrist Watch", 1, 3 ]);
+	floorMaster["Inventory"].push([ "Journal", 1, 1 ], [ "Common Clothes", 1, 3 ], [ "Wrist Watch", 1, 3 ], [ "Damage Stick", 1, 1 ], [ "Heal Stick", 1, 1 ], [ "Smoke Stick", 1, 1 ]);
 	worldMaster["Hunting"].push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
 	worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
 	setStat("humanity", 100);

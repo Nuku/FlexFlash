@@ -15,11 +15,6 @@ function selfExamine(N:String = "") {
 	}
 	var cocktext:String = "";
 	var cunttext:String = "";
-	if(getStr("lastroomfunction") != "selfExamine") {
-		setStr("lastPage", getStr("lastroomtag"));
-		setStr("lastPageF", getStr("lastroomfunction"));
-		setStr("lastroomfunction", "selfExamine");
-	}
 	screenClear();
 	clearButtons();
 	say("LEVEL: " + getStat("level") + "\rStrength: " + getStat("strength") + "\rDexterity:" + getStat("dexterity") + "\rEndurance: " + getStat("endurance") + "\rCharisma: " + getStat("charisma") + "\rPerception: " + getStat("perception") + "\rIntelligence: " + getStat("intelligence") + "\rFeats: " + pFeatList);
@@ -75,7 +70,20 @@ function selfExamine(N:String = "") {
 	}
 	listNPCs("Player");
 	say("\r\r");
-	button1(true, "Back", this[getStr("lastPageF")], getStr("lastroomtag"));
+	buttonInventory(true);
+	button6(true, "Back", doLastRoom);
+	if(getStat("libido") > 27 && !checkTimer("masturbate")) button1(true, "Masturbate", doMasturbate);
+}
+
+function doMasturbate():void {
+	doLastRoom();
+	say("--MASTURBATION PLACEHOLDER--\r");
+	hitLibido();
+	var s = 3;
+	if(getStat("libido") < 31) s = 12;
+	else if(getStat("libido") < 51) s = 9;
+	else if(getStat("libido") < 71) s = 6;
+	setTimer("masturbate", s*60);
 }
 
 function findLength(scale:Number, cock:Number):Number {

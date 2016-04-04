@@ -20,6 +20,7 @@ function latexFoxCombat():void {
 	enemyattack = latexfoxattack;
 	enemydesc = latexfoxdesc;
 	enemyentry = latexfoxentry;
+	comSpec = nullFunc;
 }
 
 function latexFoxInfect():void {
@@ -32,7 +33,7 @@ function latexFoxInfect():void {
 	setStat("enemybreastsize", 3);
 	setStat("enemyscale", 4);
 	setStr("sextrend", "Male");
-	setStat("enemylibido", 45);
+	setStat("enemylibido", 6);
 	setStr("enemyheaddesc", "Your head looks distinctly like that of a vulpine, in a perpetual sneer of exposed teeth");
 	setStr("enemyheadtype", "<one of>vulpine||canine||fox<random>");
 	setStr("enemyheadchange", "Your vision blurs as you feel a sharp pain all over your face. When your vision clears, you find that your head has reformed into something reslembling a fox's head, narrow snout and new, twitching ears included");

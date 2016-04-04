@@ -19,6 +19,7 @@ function hermGryphonCombat():void {
 	enemyattack = hermgryphattack;
 	enemydesc = hermgryphdesc;
 	enemyentry = hermgryphentry;
+	comSpec = nullFunc;
 }
 
 function hermGryphonInfect():void {
@@ -31,7 +32,7 @@ function hermGryphonInfect():void {
 	setStat("enemybreastsize", 3);
 	setStat("enemyscale", 5);
 	setStr("sextrend", "Herm");
-	setStat("enemylibido", 45);
+	setStat("enemylibido", 8);
 	setStr("enemyheaddesc", "You have a gryphon's head. A powerful beak that protrudes in a clean curve, and you have a pair of twitching, feline ears");
 	setStr("enemyheadtype", "<one of>avian||gryphon<random>");
 	setStr("enemyheadchange", "You're wracked with a disorienting pain, causing you to double over and momentarily lose your vision. When your vision clears, your head reveals itself to have drastically changed. You now have the head of a bird's, distinct beak and all, in additon to a pair of feline ears, atop your head");
