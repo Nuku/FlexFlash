@@ -71,18 +71,19 @@ function doCombat(seg:String = "Main") {
 		}
 		else comOvr = false;
 	}
-	if(seg == "Loss") { //Enemy Victory (Loss)
-		setStat("fighttimer", -1);
-		if(!comOvr) {
-			doLoss();
-		}
-		else comOvr = false;
-	}
+	outputQueue();
 	if(seg == "Victory") {
 		setStat("fightoutcome", 10);
 		setStat("fighttimer", -1);
 		if(!comOvr) {
 			doVictory();
+		}
+		else comOvr = false;
+	}
+	if(seg == "Loss") { //Enemy Victory (Loss)
+		setStat("fighttimer", -1);
+		if(!comOvr) {
+			doLoss();
 		}
 		else comOvr = false;
 	}
@@ -142,6 +143,7 @@ function doThrow():void {
 	doRetaliate(true);
 	doRetaliate(true);
 	if(Math.random()*10 >= 5) doRetaliate(true);
+	if(hasFeat("Misdirection")) dropRoll();
 	doLoss();
 }
 
@@ -154,7 +156,7 @@ function doLust():void {
 	}
 	if(lust/2 >= Math.random()*ceiling) modStat("libido", 1);
 	if(getStat("lustroll") > Math.random()*4) {
-		say("GENERIC LUST GAIN.\r\r");
+		say("     The creature's mere presence seems to arouse you, <one of>in spite of your better judgment||as if compelled by some unseen force||you need a second to shake it off before continuing<random>...");
 		if(getStat("enemylevel")+3 <= getStat("level")) modStat("lust", 2+Math.round(Math.random()));
 		else modStat("lust", 3+Math.round(Math.random()*3));
 		setStat("lustroll", 0);
@@ -162,15 +164,29 @@ function doLust():void {
 	else modStat("lustroll", 1);
 }
 
+var storeInfect:Boolean = false;
+/*
+trace("TEST 0: " +  Math.round(((1*20)*1)*((100+(((70)/Math.PI)*Math.atan((((2)*1.2)+((2)/2.25))/6)*1.75))/100)));
+trace("TEST 1: " +  Math.round(((1*10)*0.8)*((100+(((70)/Math.PI)*Math.atan((((2)*1.2)+((2)/2.25))/6)*1.75))/100)));
+trace("TEST 2: " +  Math.round(((1*20)*0.25)*((100+(((70)/Math.PI)*Math.atan((((2)*1.2)+((2)/2.25))/6)*1.75))/100)));
+trace("TEST 3: " +  Math.round(((1*20)*0.8)*((100+(((70)/Math.PI)*Math.atan((((2)*1.2)+((2)/2.25))/6)*1.75))/100)));
+*/
 function doLoss():void {
 	inCombat = false;
 	doLastRoom(true);
 	enemyvic();
+	isHunting = false;
 	if(getStat("health") < 1) setStat("health", 1);
 	say("\r\r");
-	infect(getStr("enemyname"));
-	if(getStat("morale") > Math.floor(-getStat("maxmorale")/2)) modStat("morale", -1);
-	if(hasFeat("Submissive")) modStat("experience", Math.round(((getStat("enemylevel")*10)*0.8)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
+	if(storeInfect) {
+		storeInfect = false;
+		queueInfect(getStr("enemyname"));
+	}
+	else infect(getStr("enemyname"));
+	if(getStat("morale") > Math.floor(-getStat("maxmorale")/2) && !hasFeat("Masochist")) modStat("morale", -1);
+	else if(hasFeat("Masochist") && Math.random()*10 > 5)  modStat("morale", 1);
+	if(hasFeat("Submissive") && !hasFeat("Servitor's Insight")) modStat("experience", Math.round(((getStat("enemylevel")*10)*0.8)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
+	else if(hasFeat("Servitor's Insight")) modStat("experience", Math.round(((getStat("enemylevel")*20)*0.25)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100))); 
 	else modStat("experience", Math.round(((getStat("enemylevel")*20)*0.25)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
 	setStat("lust", 0);
 	comCyc = false;
@@ -185,10 +201,11 @@ function doVictory():void {
 	else doNext("", doLastRoom);
 	dropRoll();
 	enemyloss();
-	say("\r\r");
+	//say("\r\r");
 	inCombat = false;
+	isHunting = false;
 	if(getStat("morale") < getStat("maxmorale")) modStat("morale", 1);
-	if(hasFeat("Submissive")) modStat("experience", Math.round(((getStat("enemylevel")*20)*0.8)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
+	if(hasFeat("Submissive") && !hasFeat("Servitor's Insight")) modStat("experience", Math.round(((getStat("enemylevel")*20)*0.8)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
 	else modStat("experience", Math.round((getStat("enemylevel")*20)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
 	setStat("lust", 0);
 	comCyc = false;
@@ -200,13 +217,13 @@ function mainDisplay():void {
 	percent = "(<bold>" + String(int(getStat("enemyhealth")*1000/getStat("enemymaxhealth"))/10) + "% HP</bold>)";
 	screenClear();
 	enemydesc();
-	say("\r");
+	say("\r\r");
 	if(math == 1) say("You see they're in perfect health.");
 	if(math > .75 && math != 1) say("You see it isn't very hurt.");
 	if(math <= .75 && math > .5) say("You see it's slightly wounded.");
 	if(math <= .5 && math > .25) say("You see it's seriously hurt.");
 	if(math <= .25) say("You see it's unsteady and close to death.");
-	say(" " + percent + "\r\r");
+	say(" " + percent + "\r");
 }
 
 function doHit(Type:String = "Player", bonus:Number = 0):Number {
@@ -266,7 +283,7 @@ function doAttack(fit:Boolean = false):void {
 		if(checkSlot(1) && getStat("equiptype") == 2) dam = ((((50)/Math.PI)*Math.atan((getStat("perception")-12)/6)+(getStat("perception")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
 		else dam = ((((50)/Math.PI)*Math.atan((getStat("strength")-12)/6)+(getStat("strength")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
 		dam = Math.round(dam*(((Math.random()*4)+8)/10));
-		if(checkSlot(1) && getStat("equiptype") != 0) say(getStr("equipattack"));
+		if(checkSlot(1) && getStat("equiptype") != 0) say(getStr("equipattack") + " You hit the monster for " + dam + " damage!");
 		else say("You attack, hitting the monster for " + dam + " damage!");
 		say("\r\r");
 		modStat("enemyhealth", -dam);
@@ -402,10 +419,15 @@ function doSpecial(atk:String):void {
 	if(ret) doCombat("Follower");
 }
 
-function hitLibido(percent:Number = 10):void {
-	if(getStat("libido") > 25) {
-		modStat("libido", -(2+(Math.round(getStat("libido")/percent))));
-		if(getStat("libido") < 25) setStat("libido", 25);
+function hitLibido(percent:Number = 10):void {	
+	if((hasFeat("Horny Bastard") && getStat("libido") > 30) || (hasFeat("Cold Fish") && getStat("libido") > 20) || (!hasFeat("Cold Fish") && getStat("libido") > 25)) {
+		var base:Number = -(2+(Math.round(getStat("libido")/percent)))
+		if(hasFeat("Cold Fish")) base = Math.round(base/2);
+		else if(hasFeat("Horny Bastard")) base = Math.round(base*1.5);
+		modStat("libido", base);
+		if(hasFeat("Horny Bastard") && getStat("libido") < 30) setStat("libido", 30);
+		else if(hasFeat("Cold Fish") && getStat("libido") < 20) setStat("libido", 20);
+		else if(!hasFeat("Cold Fish") && getStat("libido") < 25) setStat("libido", 25);
 	}
 }
 	

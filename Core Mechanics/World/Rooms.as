@@ -35,8 +35,11 @@ function setLastRoom(func:String, tag:String = ""):void {
 	setStr("lastroomtag", tag);
 }
 
-function doSleep():void {
-	queue("You pull out your cot and take a quick nap...\r\r");
+function doSleep(said:Boolean = false):void {
+	var texts = "You find a place out of the way and take a quick nap...\r\r"
+	if(said) say(texts);
+	else queue(texts);
+	if(hasFeat("Roughing It") && getStat("morale") < 0) modStat("morale", 1);
 	setStat("health", getStat("maxhealth"));
 	passTime(120);
 }
@@ -44,40 +47,47 @@ function doSleep():void {
 function doBSleep():void {
 	queue("Resting...\r\r");
 	setStat("health", getStat("maxhealth"));
+	if(hasFeat("Roughing It") && getStat("morale") < 0) modStat("morale", 1);
 	passTime(120);
 	if(getStat("minorfeatcount") <= (getStat("level")/5)) volunsleep();
-	else bunkerRooms("1");
+	else apartmentRooms("home");
 }
 
 function cheaty():void {
-	modStat("experience", 100);
+	modStat("experience", 1000);
+	//setStat("scale", 1)
+	//trace("LOAD: " + getCLoad());
+	//modStat("ballsize", -1);
+	fhuskyvictory();
 	statDisplay();
 }
 
-function bunkerRooms(eventStr:String):void {
-	var eventNum = Number(eventStr);
+function apartmentRooms(room:String):void {
 	newGame.visible = true;
-	buttonNavigation(false);
 	clearButtons();
-	setStr("lastroomtag", eventStr);
-	setStr("lastroomfunction", "bunkerRooms");
-	setStr("lastroomname", "Grey Abbey");
+	setStr("lastroomtag", room);
+	setStr("lastroomfunction", "apartmentRooms");
+	setStr("lastroomname", room);
 	screenClear();
-	if(eventNum == 1) { //Bunker
-		say("     Sparsely appointed, the bunker was built back during the Cold War, then abandoned to become a forgotten curiosity at best. Its walls are solid concrete and the shelves are at least in good repair.  There are several large storage lockers in the bunker as well. They look like a good place to store all your extra stuff. There are several cots bolted to the floor and walls for those taking shelter here to rest upon. The small sink seems to be broken, producing no water no matter how much the knob is turned. There's a large, secure-looking door leading outside. <a href='event:fimpregChance'>[+IMPREGCHANCE]</a> <a href='event:mimpregChance'>[+MIMPREGCHANCE]</a> <a href='event:cheaty'>[+XP]</a> <a href='event:saveUI'>[DATA]</a>");
-		takestock("Bunker");
-		listNPCs("Bunker");
+	if(room == "home") { //Main Apartment
+		say("     This is your apartment in the building.  It is nothing grand, but it has suited your needs.  You've got a kitchen, a washroom, an office/den and a bedroom.  Being a single-bedroom apartment, the bedroom is somewhat larger and you've got a king-sized bed in there.  Since the outbreak, you've keep the blinds closed to avoid attracting unwanted attention.\r\r");
+		say("     Your apartment has gotten somewhat messy lately, with some empty cans and jars of food sitting out and dirty clothes left lying around.  Cleaning up has been a low priority - what with the end of the world and everything.  With the power out, the only light is from some lanterns and candles you've found, which you use sparingly to avoid attracting unwanted attention to your domicile.  This place does provide somewhere to rest and to store your supplies for survival, at least.  You can exit from here and return to the ground floor foyer.");
+		say(" <a href='event:fimpregChance'>[+IMPREGCHANCE]</a> <a href='event:mimpregChance'>[+MIMPREGCHANCE]</a> <a href='event:cheaty'>[+XP]</a> <a href='event:saveUI'>[DATA]</a> ");
+		takestock(room);
+		listNPCs(room);
 		offspringDisplay();
-		button1(true, "Library", bunkerRooms, "2");
+		button1(true, "Lobby", apartmentRooms, "lobby");
 		button6(true, "Rest", doBSleep);
 		buttonInventory(true);
 		buttonAppearance(true);
 	}
-	if(eventNum == 2) { //Abbey
-		say("     This converted abbey has been made into a small library, its architecture and design revealing its origins despite the renovations. The simple columns, the wall sconces, and several of the original features have been kept to give the library some 'character'. The central room houses the stacks and a few desks, with side rooms set aside for reading and a couple of computers. The computers would be more useful if there was power in the building. You first came here because you remembered there was a disused bunker in the basement. It's kept you safe, up to this point.");
-		takestock("Abbey", false);
-		listNPCs("Abbey");
-		button1(true, "Bunker", bunkerRooms, "1");
+	if(room == "lobby") { //Lobby
+		say("     You've lived in this apartment building for several years.  The Greylawn Apartment Building dates back to the early 1900's, but it has been refurbished fairly recently.  This three-story apartment building is somewhat small by today's standards, being three stories tall and only having three or four apartments per floor.  Your apartment is on this floor along with three others.  There is a wooden-railed staircase leading upstairs.  It is sturdy and wide, a fact you're thankful for, as you've helped a few people move in and out of this place.\r\r");
+		say("     The place has some damage remaining from after the outbreak thanks to a couple of the former tenants transforming into crazed beasts.  They rushed out into the city gone mad and haven't returned.  Some of the windows are damaged and the front door is hanging off of one hinge.  Thankfully the ground floor windows have bars on them, making them somewhat secure.  You've carefully cleaned up the sticky messes that were left in the foyer to prevent accidental contamination.");
+		takestock(room);
+		listNPCs(room);
+		button1(true, "Apartment", apartmentRooms, "home");
+		button2(true, "Upstairs", apartmentRooms, "apartment2f");
 		buttonScavCity(true);
 		buttonExploreCity(true);
 		buttonScavLocal(true, "Abbey", false);
@@ -88,12 +98,32 @@ function bunkerRooms(eventStr:String):void {
 		buttonHuntCity(true);
 		buttonHuntLocal(true, "Abbey");
 	}
+	if(room == "apartment2f") { //Second floor
+		say("     The second floor of the building houses more apartments.  There's another three apartments on this floor, all unoccupied for the moment.  The central wooden staircase goes back downstairs and continues upstairs.  The apartments are also in disarray and damaged from former residents turning into monsters.  With the power out, the only light in the hall comes from the windows at each end of the short hallway.");
+		takestock(room);
+		listNPCs(room);
+		button1(true, "Downstairs", apartmentRooms, "lobby");
+		button2(true, "Upstairs", apartmentRooms, "apartment3f");
+		buttonInventory(true);
+		buttonAppearance(true);
+	}
+	if(room == "apartment3f") { //Third floor
+		say("     The top floor of the building, this one has another three apartments, the largest of which is Mr. Arboto's.  A retired computer electronics engineer, he'd converted the master bedroom of his two-bedroom apartment into an workshop for his various projects.  There's a variety of electrical and electronics tools, several old computers and a few half-finished projects on display.  The workshop is also the only one with power at present, being run by the now-cybernetic Mr. Arboto himself.");
+		takestock(room);
+		listNPCs(room);
+		button1(true, "Downstairs", apartmentRooms, "apartment2f");
+		button6(true, "Volunteer", volunteer);
+		buttonInventory(true);
+		buttonAppearance(true);
+	}
 	say("\r\r");
 	outputQueue();
 	assessExp();
 	assessEnding();
 }
 
+
+/*
 function trevorLabsRooms(eventStr:String):void {
 	if(canIntro(trevorLabsRooms)) doIntro(trevorLabsRooms);
 	else {
@@ -131,4 +161,4 @@ function trevorLabsRooms(eventStr:String):void {
 		assessExp();
 		assessEnding();
 	}
-}
+}*/

@@ -249,7 +249,7 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 	var prevcock = getStat("cocksize");
 	var prevballs = getStat("ballsize");
 	var texts = "";
-	if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("enemycocksize") > getStat("cocksize") && getStat("cocks") > 0) { 
+	if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("enemycocksize") > getStat("cocksize") && getStat("cocks") > 0 && !hasFeat("Modest Organs")) { 
 		prevcock = getStat("cocksize");
 		modStat("cocksize", 1);
 		if(getStat("cocksize") < getStat("enemycocksize") && Math.random()*100 < 51) modStat("cocksize", 1);
@@ -258,7 +258,7 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 			texts += "     You can see your <one of>cock||dick||shaft||member<random><smn> <one of>engorge||swell||throb<random><smv> as <theym> <one of>grow||expand<random><smv> in size, becoming <cock size desc>!\r\r";
 		}
 	}
-	else if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("cocksize") > getStat("enemycocksize") && getStat("cocks") > 0) {
+	else if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("cocksize") > getStat("enemycocksize") && getStat("cocks") > 0 && !hasFeat("Modest Organs") && !hasFeat("One Way")) {
 		prevcock = getStat("cocksize");
 		modStat("cocksize", -1);
 		if(getStat("cocksize") > getStat("enemycocksize") && Math.random()*100 < 26) modStat("cocksize", -1);
@@ -269,7 +269,7 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 			texts += " dwindle<smv> in size, becoming <cock size desc>.\r\r";
 		}
 	}
-	if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("enemyballsize") > getStat("ballsize") && getStat("cocks") >= 1) { //Gender-reinforcing increase in ball size
+	if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("enemyballsize") > getStat("ballsize") && getStat("cocks") > 0 && !hasFeat("Modest Organs")) { //Gender-reinforcing increase in ball size
 		prevballs = getStat("ballsize");
 		texts += "ballsize", 1;
 		if(getStat("ballsize") < getStat("enemyballsize") && Math.random()*100 < 51) modStat("ballsize", 1);
@@ -277,7 +277,7 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 			texts += "     You can see your <one of>testes||balls||orbs||nuts<random> <one of>tingle||churn audibly||throb<random> as they grow larger, your flesh growing taught with the expansion, making them <ball size desc>!\r\r";
 		}
 	}
-	else if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("ballsize") > getStat("enemyballsize") && getStat("cocks") > 0 && !hasFeat("One Way")) { //Gender-reinforcing reduction of ball size to match strain
+	else if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("ballsize") > getStat("enemyballsize") && getStat("cocks") > 0 && !hasFeat("Modest Organs") && !hasFeat("One Way")) { //Gender-reinforcing reduction of ball size to match strain
 		prevballs = getStat("ballsize");
 		modStat("ballsize", -1);
 		if(getStat("ballsize") > getStat("enemyballsize") && Math.random()*100 < 26) modStat("ballsize", -1);
@@ -285,7 +285,7 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 			texts += "     You can feel a <one of>draining of||tightness around||pressure dropping in<random> your <cocktype> <one of>balls||testes||gonads||nuts<random> as they begin to diminish somewhat to better suit your new infection.  You cum hard to drain their seed as they dwindle in size, becoming <ball size desc>.\r\r";
 		}
 	}
-	if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("cocks") < getStat("enemycocks")) { //Gender-trending addition of cocks
+	if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("cocks") < getStat("enemycocks") && ((getStat("multicock") != 1 &&!hasFeat("Modest Organs")) || getStat("cocks") == 0)) { //Gender-trending addition of cocks
 		var prevcocks = getStat("cocks");
 		if(getStat("cocks") == 0) {
 			setStat("cocks", 1);
@@ -308,6 +308,10 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 		modStat("ballsize", -1);
 		if(getStat("cocksize") >= 2 && Math.random()*100 < 34) modStat("cocksize", -1);
 		if(getStat("ballsize") >= 2 && Math.random()*100 < 34) modStat("ballsize", -1);
+		if(hasFeat("Modest Organs")) {
+			if(getStat("cocksize") == 1) setStat("cocksize", 2);
+			if(getStat("ballsize") == 1) setStat("ballsize", 2);
+		}
 		if(getStat("ballsize") < 1) setStat("ballsize", 1);
 		if(prevcock > getStat("cocksize") || prevballs > getStat("ballsize")) { 
 			texts += "     Strange <one of>erotic tingles||cold waves||hot flashes<random> run over your <one of>cock||member||shaft||pole<random><smn> as <theym> begin<smv> to shrink in size, becoming <cock size desc> while your <one of>balls||testes||nuts||gonads<random> become <ball size desc>.\r\r";
@@ -328,11 +332,11 @@ function sexChange(trend:String = "Neuter", form:Boolean = false):void {
 			texts += "     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r";
 		}
 	}
-	else if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("cocks") > getStat("enemycocks") && Math.random()*100 < 34 && (getStat("multicock") != 3 || getStat("cocks") > 2) && !hasFeat("One Way")) { //Gender-reinforcing reduction of cocks to match strain
+	else if((trend == "Male" || trend == "Shemale" || trend == "Herm" || trend == "Maleherm") && getStat("cocks") > getStat("enemycocks") && Math.random()*100 < 34 && (getStat("multicock") != 3 || getStat("cocks") > 2) && !hasFeat("One Way") && !hasFeat("Modest Organs")) { //Gender-reinforcing reduction of cocks to match strain
 		modStat("cocks", -1);
 		texts += "     Sudden pleasure runs through one of your doomed, <cocktype> cocks as it sprays the last of its seed, dwindling down to nothing at all and vanishing, leaving only the powerful orgasm to remember it by.\r\r";
 	}
-	if((trend == "Female" || trend == "Cuntboy" || trend == "Herm" || trend == "Maleherm") && (getStat("cunts") < getStat("enemycunts") || (getStat("cunts") == getStat("enemycunts") && getStat("vaginity") <= 2)) && (getStat("multicunt") != 1 || getStat("cunts") == 0)) { //Gender-trending adding of cunt
+	if((trend == "Female" || trend == "Cuntboy" || trend == "Herm" || trend == "Maleherm") && (getStat("cunts") < getStat("enemycunts") || (getStat("cunts") == getStat("enemycunts") && getStat("vaginity") <= 2)) && ((getStat("multicunt") != 1 && !hasFeat("Modest Organs")) || getStat("cunts") == 0)) { //Gender-trending adding of cunt
 		var prevcunts = getStat("cunts");
 		if(getStat("cunts") == 0) {
 			setStat("cunts", 1);
@@ -391,7 +395,7 @@ function bodyChange(trend:String = "Neuter", form:Boolean = false):void {
 		texts += ".\r\r";
 		equipScaleShift(true);
 	}
-	if(getStat("breastpairs") != getStat("enemybreastpairs")) {
+	if(getStat("breastpairs") != getStat("enemybreastpairs") && !hasFeat("Modest Organs")) {
 		if(getStat("breastpairs") < getStat("enemybreastpairs") && (getStat("multitits") != 1 || getStat("breastpairs") == 0)) {
 			if(getStat("breastsize") > 0) {
 				texts += "     Your chest tingles intensely as two new sensitive points form up, announcing the arrival of a new pair of breasts, pressing out of your <skintype>\r\r";
@@ -411,17 +415,23 @@ function bodyChange(trend:String = "Neuter", form:Boolean = false):void {
 			}
 		}
 	}
-	if((trend == "Female" || trend == "Shemale" || trend == "Herm" || trend == "Femneuter") && getStat("breastpairs") >= 1) {
+	if((trend == "Female" || trend == "Shemale" || trend == "Herm" || trend == "Femneuter") && getStat("breastpairs") > 0) {
 		if(getStat("breastsize") < getStat("enemybreastsize")) {
 			var prevbreasts:Number = getStat("breastsize");
-			modStat("breastsize", 1);
-			if(getStat("breastsize") < getStat("enemybreastsize") && Math.random()*100 < 51) modStat("breastsize", 1);
+			if(hasFeat("Modest Organs")) setStat("breastsize", 2);
+			else {
+				modStat("breastsize", 1);
+				if(getStat("breastsize") < getStat("enemybreastsize") && Math.random()*100 < 51) modStat("breastsize", 1);
+			}
 			if(prevbreasts == 0) texts += "     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your once entirely flat chest swells to develop <breast size desc> <one of>orbs||breasts||jugs||tits<random>!\r\r";
-			else texts += "     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> grow to become <breast size desc>!\r\r";
+			else if(prevbreasts < getStat("breastsize")) texts += "     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> grow to become <breast size desc>!\r\r";
 		}
 		else if(getStat("breastsize") > getStat("enemybreastsize") && !hasFeat("One Way")) {
-			modStat("breastsize", -1);
-			if(getStat("breastsize") > getStat("enemybreastsize") && Math.random()*100 < 51 && !hasFeat("One Way")) modStat("breastsize", -1);
+			if(hasFeat("Modest Organs")) setStat("breastsize", 0);
+			else {
+				modStat("breastsize", -1);
+				if(getStat("breastsize") > getStat("enemybreastsize") && Math.random()*100 < 51 && !hasFeat("One Way")) modStat("breastsize", -1);
+			}
 			texts += "     You <one of>groan and grab at your chest||give a loud moan, shuddering||almost tip forward in surprise||look down fearfully as sensation builds<random>, <skindesc> quivering as your <bodytype> <one of>orbs||breasts||jugs||tits<random> shrink until they're <breast size desc>!\r\r";
 		}
 	}

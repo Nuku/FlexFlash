@@ -753,7 +753,7 @@ function startEvents(eventStr:String):void {
 			gameStart();
 			statDisplay();
 			newGame.visible = true;
-			doNext("1", bunkerRooms);
+			doNext("home", apartmentRooms);
 		}
 		else startEvents("1");
 	}
@@ -862,13 +862,14 @@ function gameStart():void {
 	addFeat(getStr("minorfeatchoice"));
 	setStat("thirstticker", -45);
 	setStat("hungerticker", -72);
+	setStat("libidoticker", -144);
 	setStat("healthticker", Math.round(-(1/(getStat("endurance")/36))));
 	setStat("corruptionticker", 0);
 	screenClear();
 	var tempnum:Number = 0;
 	var arrayLength:Number = worldMaster["Zone"].length;
 	if(hasFeat("Street Smart")) {
-		worldMaster["Navigation"].push(["Trevor Labs", "trevorLabsRooms", "1"]);
+		/*worldMaster["Navigation"].push(["Trevor Labs", "trevorLabsRooms", "1"]);
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 			if(worldMaster["Zone"][tempnum][1] == "Trevor Labs") {
 				trace("Culling: " + worldMaster["Zone"][tempnum]);
@@ -876,7 +877,7 @@ function gameStart():void {
 				tempnum = arrayLength;
 				if(hasTarget("Trevor Labs")) removeTarget("Trevor Labs");
 			}
-		}
+		}*/
 	}
 	setStat("increation", 0)
 	if(getStat("backstory") == 5) {
@@ -903,23 +904,23 @@ function gameStart():void {
 		say("     You remember seeing that stupid bunker sign for years, who knew remembering it would save your life? You waited for others to come. Surely you were not the only one to remember? Quietly, you waited in the dark for someone, anyone to rescue you, but to no avail.\r\r");
 		say("     You're not sure how long you've been down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... Moreover, it seems that your direct contact with whatever horror you encountered has caused your body to change in a strange and unsettling way. You've eaten a good portion of the food and water, and while you could stay in here for a while longer, at some point you must go out and greet the city. How bad could it be?\r\r");
 		modStat("endurance", 1);
-		floorMaster["Bunker"].push([ "Bottled Water", 5, 1 ]);
-		floorMaster["Bunker"].push([ "Food", 5, 1 ]);
+		floorMaster["home"].push([ "Bottled Water", 5, 1 ]);
+		floorMaster["home"].push([ "Food", 5, 1 ]);
 		randomInfect();
 	}
 	else {
 		say("     You remember how it went down. First it was satellites, then the Internet. The power was the last thing to go, just a precious hour later. People wandered the streets, confused, panicked. Then they came. Monsters. Freaks. They'd grab people. Some got mauled on the spot and others were dragged off. You managed to flee to safety here -- this old bunker.\r\r");
 		say("     You remember seeing that stupid bunker sign for years, who knew remembering it would save your life? You waited for others to come. Surely you were not the only one to remember? Quietly, you waited in the dark for someone, anyone to rescue you, but to no avail.\r\r");
 		say("     You're not sure how long you've been down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... You've eaten a good portion of the food and water, and while you could stay in here for a while longer, at some point you must go out and greet the city. How bad could it be?\r\r");
-		floorMaster["Bunker"].push([ "Bottled Water", 5, 1 ]);
-		floorMaster["Bunker"].push([ "Food", 5, 1 ]);
+		floorMaster["home"].push([ "Bottled Water", 5, 1 ]);
+		floorMaster["home"].push([ "Food", 5, 1 ]);
 	}
 	say("     Regardless of the circumstance, it seems you're alone out here. Ah well, you're an American of the 21st century. What's a little Apocalypse to keep you down? Steeling your nerves and readying what you have, you cautiously break the seal and prepare to set out.\r");
 	refreshPlayer();
 	setStat("health", getStat("maxhealth"));
-	floorMaster["Bunker"].push([ "Sling", 1, 2 ]);
-	floorMaster["Bunker"].push([ "Cot", 1, 1 ]);
-	floorMaster["Bunker"].push([ "Leather Harness", 1, 2 ]);
+	floorMaster["home"].push([ "Sling", 1, 2 ]);
+	floorMaster["home"].push([ "Sleeping Bag", 1, 1 ]);
+	floorMaster["home"].push([ "Leather Harness", 1, 2 ]);
 }
 
 function memoryPurge():void {
@@ -958,7 +959,7 @@ function memoryPurge():void {
 	setStat("basedamage", 40);
 	resetWorld();
 	floorMaster["Inventory"] = [];
-	floorMaster["Bunker"] = [];
+	floorMaster["home"] = [];
 	floorMaster["Inventory"].push([ "Journal", 1, 1 ], [ "Common Clothes", 1, 3 ], [ "Wrist Watch", 1, 3 ], [ "Damage Stick", 1, 1 ], [ "Heal Stick", 1, 1 ], [ "Smoke Stick", 1, 1 ]);
 	worldMaster["Hunting"].push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
 	worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);

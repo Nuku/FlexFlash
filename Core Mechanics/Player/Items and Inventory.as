@@ -75,7 +75,7 @@ itemTable.push([ "Junk Food", 1, "Junk food of varying sorts. Hardly healthy, bu
 itemTable.push([ "Soda", 1, "Sugary beverage. Not very healthy, but the container isn't broken, and it's better than nothing.", "1/0/0/X", consumeSoda, "" ]);
 itemTable.push([ "Gryphon Milk", 1, "Hermaphrodite Gryphon's milk. It'll somewhat satisfy hunger and thirst, but it's also obviously infectious.", "1/0/0/X", consumeGryMilk, "Hermaphrodite Gryphon" ]);
 itemTable.push([ "Latex Fox Sludge", 1, "A tightly-sealed jar of a thick, black, latex fluid. Bits of orange and white swirl within the still-animate mass, desperate to escape its prison.\r\rConsuming this may or may not satisfy hunger and thirst, but regardless...", "1/0/0/X", consumeLFoxSludge, "Latex Fox" ]);
-itemTable.push([ "Cot", 10, "A cheap, foldable bed of sorts. It should allow you to get some rest anywhere, just be careful where you do it.", "2/0/0/X", useCot, "" ]);
+itemTable.push([ "Sleeping Bag", 2, "A camper's sleeping bag. Not entirely comfortable, but you can use it to get some rest anywhere. Just be careful where you do it...", "2/0/0/X", useCot, "" ]);
 
 itemTable.push([ "Damage Stick", 1, "A wooden stick, for throwing at enemies. It hurts!", "1/0/1/Y", hurtStick, "" ]);
 itemTable.push([ "Heal Stick", 1, "A wooden stick, for hitting yourself with. It heals!(?)", "1/0/2/N", healStick, "" ]);
@@ -545,7 +545,7 @@ function watchDesc():void {
 function equipSling():void {
 	modStat("weaponbonus", 99);
 	setStat("equiptype", 2);
-	setStr("equipattack", "You attack with the sling!");
+	setStr("equipattack", "You attack with the sling.");
 }
 
 function removeSling():void {

@@ -53,9 +53,39 @@ function hermGryphonInfect():void {
 	setStat("enemytailless", 0);
 	setStr("enemystrainending", "hermGryphEnding");
 }
-
+/*
 function hermgryphloss():void {
 	say("<one of>The once proud beast is knocked to the ground, her wings drawn protectively. Victorious, you move on||Succumbing to her wounds, the gryphon collapses at your feet, posing no further threat<random>.");
+}*/
+
+function hermgryphloss(str = ""):void {
+	if(str == "") {
+		say("     Gryphon Loss.\r\r");
+		if(getStat("libido") > 40|| hasFeat("Dominant")) {
+			say("     Sex?");
+			clearButtons();
+			button1(true, "Yes", hermgryphloss, "yes");
+			button2(true, "No", hermgryphloss, "no");
+		}
+		else say("     You leave.");
+	}
+	if(str == "yes") hgryphmenu();
+	if(str == "no") {
+		say("     You choose no.");
+		doNext("", doLastRoom);
+	}
+}
+
+function hgryphmenu():void {
+	//say("     What will you do?\r");
+	clearButtons();
+	button6(true, "Cancel", doLastRoom);
+	//if(getStat("cocks") > 0 /*SIZE CHECK*/) say("(1) <a href='event:wyvfem1'>Mount her</a>\r(2) <a href='event:wyvgen1'>Mount her anally</a>\r(3) <a href='event:wyvgen2'>Have her suck you off</a>\r");
+	//else say("(1) <italic>Male-specific interaction</italic>\r(2) <italic>Male-specific interaction</italic>\r(3) <italic>Male-specific interaction</italic>\r");
+	//if(getStat("cunts") > 0) say("(4) <a href='event:wyvgen3'>Have her eat your cunt</a>\r");
+	//else say("(4) <italic>Female-specific interaction</italic>\r(4) <italic>Female-specific interaction</italic>\r");
+	//say("(5) <a href='event:wyvmale2'>Attend her cunt</a>\r\r");
+	say("NYI!\r");
 }
 
 function hermgryphvictory():void {
@@ -102,7 +132,7 @@ function hermgryphvictory():void {
 		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.");
 		oviChance();
 	}
-	else if(getStat("cocks") > 0 && Math.random()*100 > 50 && findLength(getStat("scale"), getStat("cocksize")) < 23) {
+	else if(getStat("cocks") > 0 && Math.random()*100 > 50 && cockLength() < 13) {
 		say("     Rolled onto your back, you’re left to the monster's mercy of her prying claws as they expose your nethers before her lewd gaze. Lowering her head, you feel her tongue caress along the length of<onem> your <cock size desc> dick<smn>. ");
 		if(getStat("health") > 0) say("It takes little effort from her to drive");
 		else say("In spite your best efforts to resist, you can't help but");
@@ -111,7 +141,7 @@ function hermgryphvictory():void {
 		else say("moves over");
 		say(" you.\r\r");
 		say("     Lining her dripping cunt over the <cocktype> rod, the monster slowly sinks its oozing tip past her supple lips, enveloping your organ in her intense, needy heat. ");
-		if(findLength(getStat("scale"), getStat("cocksize")) > 19) say("Barely able to fit within her tight hole, she visibly fights between the intense sensation of impaling herself with each thick inch and her overwhelming desire to see it disappear");
+		if(cockLength() > 10) say("Barely able to fit within her tight hole, she visibly fights between the intense sensation of impaling herself with each thick inch and her overwhelming desire to see it disappear");
 		else say("She takes her time, slowly burying each successive inch down her greedy hole, until it disappears");
 		say(" entirely within her");
 		if(isListed(getStr("playercockname"), "Knot")) say(", up to the knot");

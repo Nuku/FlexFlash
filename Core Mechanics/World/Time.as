@@ -1,6 +1,6 @@
 ﻿import flash.utils.Timer;
 
-//World Clock:Mintues = (0 - 1440 = CYCLE // 1-720 = DAY // 721 - 1440 = NIGHT)
+//World Clock:Mintues = (0 - 1440 = CYCLE // 0-720 = DAY // 721 - 1440 = NIGHT)
 
 function clockTime():String {
 	var hours = Math.floor(getStat("World Time")/60);
@@ -10,6 +10,11 @@ function clockTime():String {
 	trace("(" + hours + ":0" + minutes + half + ")");
 	if(minutes < 10) return("(" + hours + ":0" + minutes + half + ")");
 	else return("(" + hours + ":" + minutes + half + ")");
+}
+
+function isDaytime():Boolean {
+	if(getStat("World Time") >= 0 && getStat("World Time") < 721) return(true);
+	return(false);
 }
 
 function passTime(minutes:Number):void {
@@ -79,6 +84,20 @@ function passTime(minutes:Number):void {
 		var i:Number = 0;
 		for(i = 0; i < arrLen; i++) {
 			if(floorMaster["Inventory"][i][2] == 3) runEquipPassive(floorMaster["Inventory"][i][2], minutes);
+		}
+		if(hasFeat("Horny Bastard") && getStat("libido") < 20) {
+			modStat("libidoticker", 1);
+			if(getStat("libidoticker") == 0) {
+				modStat("libido", 1);
+				setStat("libidoticker", -144);
+			}
+		}
+		else if(hasFeat("Cold Fish") && getStat("libido") > 90) {
+			modStat("libidoticker", 1);
+			if(getStat("libidoticker") == 0) {
+				modStat("libido", -1);
+				setStat("libidoticker", -144);
+			}
 		}
 	}
 	if(getStat("humanity") < 34) {

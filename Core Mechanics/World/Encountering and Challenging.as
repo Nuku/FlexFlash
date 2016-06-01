@@ -98,4 +98,5 @@ function challenge(str:String): void {
 			return;
 		}
 	}
+	isHunting = false;
 }

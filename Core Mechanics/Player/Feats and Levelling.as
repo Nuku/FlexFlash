@@ -35,8 +35,13 @@ function listMajorFeats():void {
 	if(!hasFeat("Explorer") && getStat("perception") > 11) featsListing.push(["Explorer", "You’re more likely to find events or new places when exploring (or monsters, when neither remain). Exploring also takes less time."]);
 	if(!hasFeat("Hunter") && getStat("perception") > 11) featsListing.push(["Hunter", "It's now easier to hunt for things. Hunting also takes less time."]);
 	if((hasFeat("Hunter") || hasFeat("Explorer") || hasFeat("Survivalist")) && !hasFeat("Pathfinder") && getStat("perception") > 14 && getStat("level") > 5) featsListing.push(["Pathfinder", "You'll now benefit from the reduced travel time of Explorer, Survivalist, and Hunter, if you don't already have them. Navigating now also takes less time."]);
+	if(hasFeat("Submissive") && !hasFeat("Misdirection") && getStat("level") > 5 && getStat("dexterity") > 13) featsListing.push(["Misdirection", "Throwing fights now has the same chance to drop items as winning them."]);
+	if(hasFeat("Submissive") && !hasFeat("Masochist") && getStat("level") > 1) featsListing.push(["Masochist", "Losing fights no longer reduces your morale, and may sometimes raise it instead."]);
+	if(hasFeat("Submissive") && !hasFeat("Servitor's Insight") && getStat("level") > 8) featsListing.push(["Servitor's Insight", "The experience penalty from Submissive is removed, and you now gain even more experience from losing."]);
 	if(!hasFeat("Adaptive Metabolism")) featsListing.push(["Adaptive Metabolism", "It gradually becomes easier to maintain yourself on what food and water you can scavenge. For every three you consume, its effectivenes is permanently increased by 1, up to a maximum of 50% its original effect. Only applies to standard food/water, and junk food/soda."]);
-	if(!hasFeat("Iron Stomach") && getStat("endurance") > 14) featsListing.push(["Iron Stomach", "Under normal circumstances, you'll never suffer the infectious effects from consuming tainted items."]);
+	if(!hasFeat("Iron Stomach") && getStat("endurance") > 14) featsListing.push(["Iron Stomach", "Under normal circumstances, you'll never suffer the infectious effects of consuming tainted items."]);
+	if(!hasFeat("Roughing It") && getStat("endurance") > 11) featsListing.push(["Roughing It", "You can now rest anywhere, via the status menu, and will slightly restore negative morale. Resting in dangerous places still carries a risk of being attacked."]);
+	if(!hasFeat("Strong Back") && getStat("strength") > 11) featsListing.push(["Strong Back", "Improves carry weight scaling via strength."]);
 }
 
 function chooseFeats():void {
@@ -92,7 +97,16 @@ function listMinorFeats():void {
 		featsListing.push(["Sterile", "Under \"Normal\" circumstances, you'll never become pregnant."]);
 	}
 	if(!hasFeat("MPreg") && !hasFeat("Sterile")) featsListing.push(["MPreg", "You now have a chance to become pregnant from anal sex, regardless of your actual gender. The effect is nullified by Sterile."]);
-	if(!hasFeat("One Way")) featsListing.push(["One Way", "The more the merrier! Your sexual anatomy will never reduce in size and in number, up is the only way!"]);
+	if(!hasFeat("One Way") && !hasFeat("Modest Organs")) {
+		featsListing.push(["One Way", "The more the merrier! Your sexual anatomy will never reduce in size and in number, up is the only way!"]);
+		featsListing.push(["Modest Organs", "Let's not get crazy now! You'll never grow more than one set of any piece of anatomy, and they'll always stay at an average size. Does not affect your body scale."]);
+	}	
+	if(!hasFeat("Horny Bastard") && !hasFeat("Cold Fish")) {
+		featsListing.push(["Horny Bastard", "Your minimum libido is higher, but sex does more to satisfy it. Your libido will gradually rise to 20, if less than that amount."]);
+		featsListing.push(["Cold Fish", "Your minimum libido is lower, but sex is less effective at satisfying it. Your libido will gradually decrease to 90, if over that amount."]);
+	}
+	if(!hasFeat("Blissful Ignorance")) featsListing.push(["Blissful Ignorance", "Whoever said the brightest had the highest spirits? Your base morale is increased, but intelligence is much less effective at raising it."]);
+	if(!hasFeat("Hairy Palm")) featsListing.push(["Hairy Palm", "You'd think you'd have a better outlet by now! You can now masturbate at any time regardless of benefit. Additionally, the cooldown for, and benefit from, masturbating is halved."]);
 }
 
 var volunteering:Boolean = false;
@@ -197,7 +211,10 @@ function refreshPlayer():void {
 		else addFeat("Submissive");
 	}
 	setStat("maxhealth", Math.round(((75/Math.PI)*Math.atan((getStat("level")-10+getStat("endurance"))/6)+(getStat("level")*5)+40)*4));
-	setStat("maxmorale", 4+Math.floor((getStat("intelligence")-12)/2));
+	if(!getStat("Blissful Ignorance")) setStat("maxmorale", 4+Math.floor((getStat("intelligence")-12)/2));
+	else setStat("maxmorale", 7+Math.floor((getStat("intelligence")-12)/4));
+	if(hasFeat("Strong Back")) setStat("maxcarryweight", getStat("strength")*7);
+	else setStat("maxcarryweight", getStat("strength")*5);
 	if(getStat("maxmorale") > 10) setStat("maxmorale", 10);
 }
 
