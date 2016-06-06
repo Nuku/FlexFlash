@@ -72,44 +72,77 @@ function selfExamine(N:String = "") {
 	say("\r\r");
 	buttonInventory(true);
 	button6(true, "Back", doLastRoom);
-	if(getStat("libido") > 27 && !checkTimer("masturbate")) button1(true, "Masturbate", doMasturbate);
+	if((getStat("libido") > 27 || hasFeat("Hairy Palm")) && !checkTimer("masturbate")) button1(true, "Masturbate", doMasturbate);
+	if(hasFeat("Roughing It")) button4(true, "Rest", doStatusSleep);
+}
+
+function doStatusSleep():void {
+	doLastRoom();
+	doSleep(true);
 }
 
 function doMasturbate():void {
 	doLastRoom();
 	say("--MASTURBATION PLACEHOLDER--\r");
-	hitLibido();
+	if(!hasFeat("Hairy Palm")) hitLibido(5);
+	else hitLibido();
 	var s = 3;
 	if(getStat("libido") < 31) s = 12;
 	else if(getStat("libido") < 51) s = 9;
 	else if(getStat("libido") < 71) s = 6;
-	setTimer("masturbate", s*60);
+	if(!hasFeat("Hairy Palm")) setTimer("masturbate", s*60);
+	else setTimer("masturbate", s*30);
 }
-
+/*
 function findLength(scale:Number, cock:Number):Number {
 	var inchHeight:Number = (scale*16)+8;
 	return(inchHeight*((cock*0.033)+0.015));
 }
 
-function penThreshold(str:String, ori:Boolean = false):Number {
+function penThreshold(str:String, vag:Boolean = true):Number {
 	var inchHeight:Number = 0
-	if(ori) inchHeight = ((getStat("scale") + getStat("analelasticity"))*16)+8;
+	if(!vag) inchHeight = ((getStat("scale") + getStat("analelasticity"))*16)+8;
 	else inchHeight = ((getStat("scale") + getStat("vaginalelasticity"))*16)+8;
 	if(str == "Loose") return(Math.floor(inchHeight*((1*0.033)+0.015)));
 	else if(str == "Normal") return(Math.floor(inchHeight*((2*0.033)+0.015)));
-	else if(str == "Snug") return(Math.floor(inchHeight*((3*0.033)+0.015)));
-	else if(str == "Tight") return(Math.floor(inchHeight*((4*0.033)+0.015)));
-	else if(str == "Extra Tight") return(Math.floor(inchHeight*((5*0.033)+0.015)));
-	else if(str == "Stuffed") return(Math.floor(inchHeight*((6*0.033)+0.015)));
-	else if(str == "Overstuffed") return(Math.floor(inchHeight*((7*0.033)+0.015)));
-	else if(str == "Stretched") return(Math.floor(inchHeight*((8*0.033)+0.015)));
-	else if(str == "Overstretched") return(Math.floor(inchHeight*((10*0.033)+0.015)));
-	else if(str == "Hyperstretched") return(Math.floor(inchHeight*((11*0.033)+0.015)));
-	else if(str == "Wingerstretched") return(Math.floor(inchHeight*((12*0.033)+0.015)));
+	else if(str == "Implausible") return(Math.floor(inchHeight*((6*0.033)+0.015)));
+	else if(str == "Impossible") return(Math.floor(inchHeight*((10*0.033)+0.015)));
+	else if(str == "Absurd") return(Math.floor(inchHeight*((12*0.033)+0.015)));
 	else {
 		trace("penThreshold ERROR: Invalid query.");
 		return(0);
 	}
+}
+
+
+function getCLoad():Number {
+	var scaleMod:Number = ((getStat("scale")+getStat("cummod"))*16)+8;
+	return(scaleMod*(getStat("ballsize")*0.33));
+}
+
+function getRelCLoad():Number {
+	var cumMod:Number = (getStat("cummod")*16)+8;
+	return(cumMod*(getStat("ballsize")*0.33));
+}*/
+
+function vPen():Number {
+	return(7+getStat("scale")+getStat("vaginalelasticity"));
+}
+
+function aPen():Number {
+	return(7+getStat("scale")+getStat("analelasticity"));
+}
+
+function cockLength():Number {
+	return(getStat("cocksize")+getStat("scale"));
+}
+
+function cumLoad():Number {
+	return(getStat("ballsize")+getStat("cummod")+getStat("scale"));
+}
+
+function milkLoad():Number {
+	return(getStat("breastsize")+getStat("milkmod")+getStat("scale"));
 }
 
 function cockSizeDesc():String {
@@ -143,12 +176,13 @@ function breastSizeDesc():String {
 }
 
 function cumSizeDesc():String {
-	if(getStat("ballsize") == 1) return("<one of>piddling||minuscule||meagre<random>");
-	else if(getStat("ballsize") == 2) return("<one of>average-sized||normal-sized||adequate||moderate<random>");
-	else if(getStat("ballsize") <= 5) return("<one of>ample||generous||sizable<random>");
-	else if(getStat("ballsize") <= 8) return("<one of>considerable||impressive||substantial||abundant<random>");
-	else if(getStat("ballsize") <= 10) return("<one of>drenching||giant||monstrous||heavy||immense<random>");
-	else if(getStat("ballsize") >= 11) return("<one of>torrential||devastatingly huge||colossal||near-unending<random>");
+	var cLoad:Number = getStat("ballsize")+getStat("cummod");
+	if(cLoad == 1) return("<one of>piddling||minuscule||meagre<random>");
+	else if(cLoad == 2) return("<one of>average-sized||normal-sized||adequate||moderate<random>");
+	else if(cLoad <= 5) return("<one of>ample||generous||sizable<random>");
+	else if(cLoad <= 8) return("<one of>considerable||impressive||substantial||abundant<random>");
+	else if(cLoad <= 10) return("<one of>drenching||giant||monstrous||heavy||immense<random>");
+	else if(cLoad >= 11) return("<one of>torrential||devastatingly huge||colossal||near-unending<random>");
 	else return("nonexistent");
 }
 

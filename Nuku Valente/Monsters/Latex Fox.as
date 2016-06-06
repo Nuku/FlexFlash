@@ -54,13 +54,44 @@ function latexFoxInfect():void {
 	setStat("enemytailless", 0);
 	setStr("enemystrainending", "latexFoxEnding");
 }
-
+/*
 function latexfoxloss():void {
 	if((hasFeat("Dominant") || getStat("libido") > 30) && (getStat("cunts") > 0 || getStat("cocks") > 0)) {
 		latexFoxEvents("1");
 	}
 	else say("     <one of>With one final lash, the latex fox begins to make a whining sound. It appears that the creature is deflating, flumping onto the ground as an inanimate pile of rubber. It's unclear if the thing is dead or simply pretending to be to make you leave||Striking the critter down, he yips loudly, bouncing off into the distance and away from you<random>. With the matter attended to, you move on.");
+}*/
+
+function latexfoxloss(str = ""):void {
+	if(str == "") {
+		say("     Fox Loss.\r\r");
+		if(getStat("libido") > 40|| hasFeat("Dominant")) {
+			say("     Sex?");
+			clearButtons();
+			button1(true, "Yes", latexfoxloss, "yes");
+			button2(true, "No", latexfoxloss, "no");
+		}
+		else say("     You leave.");
+	}
+	if(str == "yes") lfoxmenu();
+	if(str == "no") {
+		say("     You choose no.");
+		doNext("", doLastRoom);
+	}
 }
+
+function lfoxmenu():void {
+	//say("     What will you do?\r");
+	clearButtons();
+	button6(true, "Cancel", doLastRoom);
+	//if(getStat("cocks") > 0 /*SIZE CHECK*/) say("(1) <a href='event:wyvfem1'>Mount her</a>\r(2) <a href='event:wyvgen1'>Mount her anally</a>\r(3) <a href='event:wyvgen2'>Have her suck you off</a>\r");
+	//else say("(1) <italic>Male-specific interaction</italic>\r(2) <italic>Male-specific interaction</italic>\r(3) <italic>Male-specific interaction</italic>\r");
+	//if(getStat("cunts") > 0) say("(4) <a href='event:wyvgen3'>Have her eat your cunt</a>\r");
+	//else say("(4) <italic>Female-specific interaction</italic>\r(4) <italic>Female-specific interaction</italic>\r");
+	//say("(5) <a href='event:wyvmale2'>Attend her cunt</a>\r\r");
+	say("NYI!\r");
+}
+
 
 function latexFoxEvents(eventStr:String):void {
 	if(eventStr == "1") {

@@ -261,6 +261,8 @@ function doNav(navFunc:String, navStr:String):void {
 	}
 }
 
+var isHunting:Boolean = false;
+
 function hunting(nam:String, zone:String):void {
 	var arrayLength:Number = worldMaster["Monsters"].length;
 	var found:Number = 0;
@@ -283,6 +285,7 @@ function hunting(nam:String, zone:String):void {
 				say("     You successfully manage to hunt down your target!\r\r");
 				queueTime = 60;
 				if(hasFeat("Hunter") || hasFeat("Pathfinder")) queueTime -= 15;
+				isHunting = true;
 				challenge(nam);
 				found = 1;
 			}
@@ -560,14 +563,14 @@ worldMaster["Explore"].push([false, "Masturbating Fox", "Outside", 4]);
 worldMaster["Explore"].push([false, "School Spirit", "Outside", 5]);
 //worldMaster["Explore"].push([false, "Test Event", "Outside", 6]);
 worldMaster["Scavenge"].push([false, "Local Scav Event", "Abbey", 1]);
-worldMaster["Zone"].push([false, "Trevor Labs", "Outside", "trevorLabsRooms", "1"]);
+//worldMaster["Zone"].push([false, "Trevor Labs", "Outside", "trevorLabsRooms", "1"]);
 
 
 //worldMaster["Hunting"].push(["Hermaphrodite Gryphon", "Herm Gryphon", "Outside"]); 1 = monster, 2 = event, 3 = zone.
 worldMaster["Hunting"].push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
-worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
+//worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
 
-worldMaster["Introduction"].push([false, "1", trevorLabsRooms, "     Trevor Labs looms over you as you approach, the sleek and tall glass building completely dark, save for some faint light in one of the windows...\r\r     You've heard of this place. They are -- or is that were? -- a biopharm setup. Kind of new on the block, they made a big stink over the local news with their willingness to skirt very close to the edge of most laws in the name of progress. Regardless, you choose to make your way inside..."]);
+//worldMaster["Introduction"].push([false, "1", trevorLabsRooms, "     Trevor Labs looms over you as you approach, the sleek and tall glass building completely dark, save for some faint light in one of the windows...\r\r     You've heard of this place. They are -- or is that were? -- a biopharm setup. Kind of new on the block, they made a big stink over the local news with their willingness to skirt very close to the edge of most laws in the name of progress. Regardless, you choose to make your way inside..."]);
 
 function exploreEvent(eventNum:Number):void {
 	if(eventNum == 99) {

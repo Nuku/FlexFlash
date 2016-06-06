@@ -1,4 +1,5 @@
 ﻿import flash.events.MouseEvent;
+import flash.geom.Rectangle;
 
 var myCSS:StyleSheet = new StyleSheet();
 myCSS.setStyle("a:link", {color:'#0000CC',textDecoration:'none', fontFamily: 'Verdana Bold'});
@@ -38,7 +39,7 @@ var nextButton:Boolean = false;
 var doBypass:String = "";
 //Setup Buttons & Window
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 7: Combat 2</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 7.2: Early Husky Population + Various</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);
@@ -204,6 +205,7 @@ function statDisplay():void {
 	var texts = "HP: " + getStat("health") + "/";
 	if(inCombat) texts += getStat("projmaxhealth") + " Lust: " + getStat("lust");
 	else texts += getStat("maxhealth");
+	if(boundLust > 0) texts += " Lust: " + boundLust;
 	texts += " Morale: " + getStat("morale") + "/" + getStat("maxmorale") + "\rHunger: " + getStat("hunger") + " Thirst: " + getStat("thirst") + "\rHumanity: " + Math.floor(getStat("humanity"))
 	if(getStat("libido") > 0) texts+= " Libido: " + getStat("libido");
 	texts += " Time Left: " + translatetimer() + " XP: " + getStat("experience") + "/" + getStat("maxexperience"); 
@@ -304,6 +306,12 @@ function processTexts(texts:String):void {
 		theyref = "they're";
 		aref = "are";
 	}
+	var hisgen:RegExp = /<ghis>/g;
+	var himgen:RegExp = /<ghim>/g;
+	var hegen:RegExp = /<ghe>/g;
+	var Hegen:RegExp = /<gche>/g;
+	var drgen:RegExp = /<gdragon>/g;
+	var Drgen:RegExp = /<gcdragon>/g;
 	var headtype:RegExp = /<headtype>/g;
 	var skintype:RegExp = /<skintype>/g;
 	var cocktype:RegExp = /<cocktype>/g;
@@ -315,6 +323,12 @@ function processTexts(texts:String):void {
 	var ballsizedesc:RegExp = /<ball size desc>/g;
 	var cumsizedesc:RegExp = /<cum size desc>/g;
 	var scaledesc:RegExp = /<scale desc>/g;
+	texts = texts.replace(hisgen, hisher);
+	texts = texts.replace(hegen, heshe);
+	texts = texts.replace(Hegen, HeShe);
+	texts = texts.replace(himgen, himher);
+	texts = texts.replace(drgen, dragondragoness);
+	texts = texts.replace(Drgen, DragonDragoness);
 	texts = texts.replace(psmn, smn);
 	texts = texts.replace(pesmn, esmn);
 	texts = texts.replace(pymn, ymn);

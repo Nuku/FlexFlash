@@ -753,7 +753,7 @@ function startEvents(eventStr:String):void {
 			gameStart();
 			statDisplay();
 			newGame.visible = true;
-			doNext("1", bunkerRooms);
+			doNext("home", apartmentRooms);
 		}
 		else startEvents("1");
 	}
@@ -862,13 +862,14 @@ function gameStart():void {
 	addFeat(getStr("minorfeatchoice"));
 	setStat("thirstticker", -45);
 	setStat("hungerticker", -72);
+	setStat("libidoticker", -144);
 	setStat("healthticker", Math.round(-(1/(getStat("endurance")/36))));
 	setStat("corruptionticker", 0);
 	screenClear();
 	var tempnum:Number = 0;
 	var arrayLength:Number = worldMaster["Zone"].length;
 	if(hasFeat("Street Smart")) {
-		worldMaster["Navigation"].push(["Trevor Labs", "trevorLabsRooms", "1"]);
+		/*worldMaster["Navigation"].push(["Trevor Labs", "trevorLabsRooms", "1"]);
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 			if(worldMaster["Zone"][tempnum][1] == "Trevor Labs") {
 				trace("Culling: " + worldMaster["Zone"][tempnum]);
@@ -876,7 +877,7 @@ function gameStart():void {
 				tempnum = arrayLength;
 				if(hasTarget("Trevor Labs")) removeTarget("Trevor Labs");
 			}
-		}
+		}*/
 	}
 	setStat("increation", 0)
 	if(getStat("backstory") == 5) {
@@ -893,33 +894,38 @@ function gameStart():void {
 		say("     At this point you're absolutely spent for supplies, having just finish the last of it. It seems you have no other option but to go out and finally greet the city. After all this long... How bad could it be?\r\r");
 	}
 	else if(getStat("backstory") == 3) {
-		say("     You remember how it went down. First it was satellites, then the Internet. The power was the last thing to go, just a precious hour later. People wandered the streets, confused, panicked. Then they came. Monsters. Freaks. They'd grab people. Some got mauled on the spot and others were dragged off.\r\r");
-		say("     You made every effort to try and rally those you could find and make a break for the city's outskirts, but things quickly disintegrated into panic and you were forced to retreat. By some miracle, you happened upon what appears to be some sort of old, disused bunker, and chose to hide inside it.\r\r");
-		say("     You're not sure how long end up hiding down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... What little supplies you had on your person has been quickly consumed, leaving you with little choice but to go out and greet the city eventually. How bad could it be?\r\r");
+		say("     You were outside the city when it'd happened, but many of the effects could be felt even here.  The first thing was the power going out.  There was a distant quake and a dull-red glow from the far end of the city.  The phones were dead, both land lines and cellular.  No internet.  No satellites.  Communications were dead.  Most all electronics and technology even.  It wasn't long before crazed reports started to come in about monsters and freaks seen in the city and attacking the citizens.\r\r");
+		say("     You'd only gotten the word second-hand, told to you by some military officers as you were drafted to be part of a fast-response team.  Your group was a mix of military and rescue workers with orders to assist with the evacuation and provide some much-needed initial recon.  The hope was to set up a rally point for helicopter evacuation.  You were sent in with little preparation and no idea at all what you were truly in for.\r\r");
+		say("     It was only a few hours after the crisis had began that you were hurriedly air-dropped into the city from some specially-modified chopper.  It was well after midnight by this point and the city was almost completely dark.  But even as you were parachuting down the last few hundred feet, you could see there were signs of damage and attack.  You could also see a few of the mutants - creatures subject to odd and often perverse transformation.  Some were wandering around, but many were fornicating together or with some captured human in the streets, corrupting them as well.\r\r");
+		say("     You were thankfully one of the first on the ground and so were already getting out of your chute and moving when the shooting started.  Some of the soldiers, upon seeing the monsters, fired on them before they'd even reached the ground.  While this dealt with the targeted monsters, it also made a lot of noise and attracted the attention others.  There was no chance for your group to even coalesce back together after the air drop, each individual getting attacked by one or more of these mutants as they touched down.  The few of you on the ground tried to get back together, but the others were taken down and fucked, soon transforming into lustful creatures as well, in many cases one of a different gender.\r\r");
+		say("     Eventually, in the early morning hours, you were able to make it back to your former apartment building back when you lived in the city.  You locked yourself in your old apartment and have been living off what meagre supplies you had on you since then.  During that time, you've heard the occasional creature coming and going.  Thankfully, aside from some scratching at the door and jiggling the locked knob, your unit has been left alone.The days have become such a blur that you're unsure how long you've been in hiding, but the activity in the building has been getting less frequent and it's been completely quiet this morning.  Which is good, since you are out of food and water at this point, so something drastic will need to be done...\r\r");
 		modStat("charisma", 1);
 	}
 	else if(getStat("backstory") == 2) {
-		say("     You remember how it went down. First it was satellites, then the Internet. The power was the last thing to go, just a precious hour later. People wandered the streets, confused, panicked. Then they came. Monsters. Freaks. They'd grab people. Some got mauled on the spot and others were dragged off. You were nearly one of those to be taken, but you managed to fight them off and flee to safety here -- this old bunker.\r\r");
-		say("     You remember seeing that stupid bunker sign for years, who knew remembering it would save your life? You waited for others to come. Surely you were not the only one to remember? Quietly, you waited in the dark for someone, anyone to rescue you, but to no avail.\r\r");
-		say("     You're not sure how long you've been down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... Moreover, it seems that your direct contact with whatever horror you encountered has caused your body to change in a strange and unsettling way. You've eaten a good portion of the food and water, and while you could stay in here for a while longer, at some point you must go out and greet the city. How bad could it be?\r\r");
-		modStat("endurance", 1);
-		floorMaster["Bunker"].push([ "Bottled Water", 5, 1 ]);
-		floorMaster["Bunker"].push([ "Food", 5, 1 ]);
+		say("     Having decided to take the scenic route, you were walking home after a late evening when the crisis hit.  The power went out, cars and everything, though it wasn't until later that you learnt that most all electronics went as well.  The ground shook around you - an earthquake, you realize.  You'd been through a few of these, living in SoCal long enough gets you used to them, but this one was different.  By no means the strongest one you've felt, this one did seem to go on unusually long, with several uneven swells and lulls in the rumbling before finally settling down.  There was also a strange, dull red glow in the distance.\r\r");
+		say("     Despite the relative weakness of the quake, you started to hear a lot of screaming and yelling going on.  The sounds got worse and changed, becoming more like growls and snarls.  Around you, you could see several people changing, some in their stalled cars and others on the streets like you.  With all the lights out, it was difficult to make out the details at first, but you could see the a variety of spontaneous transformations occurring.  One woman gaining a reptilian tail.  A howling man's face twisted into a lupine muzzle.  Another man torn open his shirt to reveal a pair of growing breasts, screamed in fear, and then started to play with them in a blatant display of exhibitionist lust.\r\r");
+		say("     Lust seemed to be a common trait among many of these mutants as they started to fornicate with each other or attack unchanged humans to have sex with them.  These new victims became infected and transformed as well, becoming a sex-hungry monster like their assailant.  As you fled, you managed to avoid capture, but did end up getting several splatters of sexual fluids onto you as creatures groped and grabbed at you.  These fluids seemed to be infectious and you found yourself partially transformed.\r\r");
 		randomInfect();
+		say("     Eventually, in the early morning hours, you were able to make it back to your apartment building and you've been holed in your apartment ever since.  Though you'd been altered by your contact with the monsters and their tainted mess, you were still sane and in control.  You've been trying to resist the new sexual urges you felt, which could get especially hard when you'd hear other creatures poking around inside the apartment building.  Thankfully, aside from some scratching at the door and jiggling the locked knob, your unit has been left alone.  The days have become such a blur that you're unsure how long you've been in hiding, but the activity in the building has been getting less frequent and it's been completely quiet this morning.  Which is good, since you're almost out of food and water at this point and something drastic might need to be done...\r\r");
+		modStat("endurance", 1);
+		floorMaster["home"].push([ "Bottled Water", 5, 1 ]);
+		floorMaster["home"].push([ "Food", 5, 1 ]);
 	}
 	else {
-		say("     You remember how it went down. First it was satellites, then the Internet. The power was the last thing to go, just a precious hour later. People wandered the streets, confused, panicked. Then they came. Monsters. Freaks. They'd grab people. Some got mauled on the spot and others were dragged off. You managed to flee to safety here -- this old bunker.\r\r");
-		say("     You remember seeing that stupid bunker sign for years, who knew remembering it would save your life? You waited for others to come. Surely you were not the only one to remember? Quietly, you waited in the dark for someone, anyone to rescue you, but to no avail.\r\r");
-		say("     You're not sure how long you've been down here. For a time, things finally went quiet, but you've started to hear a faint scratching and shuffling outside... You've eaten a good portion of the food and water, and while you could stay in here for a while longer, at some point you must go out and greet the city. How bad could it be?\r\r");
-		floorMaster["Bunker"].push([ "Bottled Water", 5, 1 ]);
-		floorMaster["Bunker"].push([ "Food", 5, 1 ]);
+		say("     You'd just gotten back from a late evening when the crisis hit.  You'd barely gotten in the door of your apartment when the power went out, though it wasn't until later that you learnt that most all electronics went as well.  The ground shook - earthquake, you think.  You get to safety under the door frame to the kitchen to wait out the tremors.  You'd been through a few of these, living in SoCal long enough gets you used to them, but this one was different.  By no means the strongest one you've felt, this one does seem to go on unusually long, with several uneven swells and lulls in the rumbling before finally settling down.\r\r");
+		say("     But that was only the first and more mundane of the strange occurrences.  As you were about to go back into the hall to check if your neighbours were alright, you heard strange noises that stopped you short of opening the door.  Hearing the mix of growling and wet, meaty sounds and coming from the neighbouring apartments, you instead quietly peered through the peephole first.\r\r");
+		say("     While hard to tell in the dark, you were able to make out the figure of something large and fur-covered emerging from another apartment.  It growled again and tore away the clothing covering its expanding chest.  This sound was echoed from the other apartment as a second figure bursts from it.  This one looked more human, at least to start, but had large horns growing from its head and its feet clopped like hooves on the dark floor.  The first of them, now having gained a second pair of legs to support its now tauric body, charged at the second and they started to fight and grapple.  At first, it seemed like they were merely brawling, but at some point that changed and the bull-like monster was soon fucking the yowling panther creature.\r\r");
+		say("     It was difficult to look away from the peephole, finding the sight strangely arousing.  You crept quietly to the window, fearful of making a sound that might be heard by the beasts over the noise of their wild fucking.  And their noises weren't the only ones to be heard, more coming from upstairs and outside.  You peered through the slats of your blinds, you could see more of the same going on out in the street.  Not all were monsters, but any poor human being who got caught was fucked until they transformed into another mutant monster.\r\r");
+		say("     You've been holed up in your apartment ever since.  And while the worst of it went on through the night and into the morning, you could hear the occasional creature coming or going.  Thankfully, aside from some scratching at the door and jiggling the locked knob, your unit has been left alone.  The days have become such a blur that you're unsure how long you've been in hiding, but the activity in the building has been getting less frequent and it's been completely quiet this morning.  Which is good, since you're almost out of food and water at this point and something drastic might need to be done...\r\r");
+		floorMaster["home"].push([ "Bottled Water", 5, 1 ]);
+		floorMaster["home"].push([ "Food", 5, 1 ]);
 	}
-	say("     Regardless of the circumstance, it seems you're alone out here. Ah well, you're an American of the 21st century. What's a little Apocalypse to keep you down? Steeling your nerves and readying what you have, you cautiously break the seal and prepare to set out.\r");
+	//say("     Regardless of the circumstance, it seems you're alone out here. Ah well, you're an American of the 21st century. What's a little Apocalypse to keep you down? Steeling your nerves and readying what you have, you cautiously break the seal and prepare to set out.\r");
 	refreshPlayer();
 	setStat("health", getStat("maxhealth"));
-	floorMaster["Bunker"].push([ "Sling", 1, 2 ]);
-	floorMaster["Bunker"].push([ "Cot", 1, 1 ]);
-	floorMaster["Bunker"].push([ "Leather Harness", 1, 2 ]);
+	floorMaster["home"].push([ "Sling", 1, 2 ]);
+	floorMaster["home"].push([ "Sleeping Bag", 1, 1 ]);
+	floorMaster["home"].push([ "Leather Harness", 1, 2 ]);
 }
 
 function memoryPurge():void {
@@ -958,7 +964,7 @@ function memoryPurge():void {
 	setStat("basedamage", 40);
 	resetWorld();
 	floorMaster["Inventory"] = [];
-	floorMaster["Bunker"] = [];
+	floorMaster["home"] = [];
 	floorMaster["Inventory"].push([ "Journal", 1, 1 ], [ "Common Clothes", 1, 3 ], [ "Wrist Watch", 1, 3 ], [ "Damage Stick", 1, 1 ], [ "Heal Stick", 1, 1 ], [ "Smoke Stick", 1, 1 ]);
 	worldMaster["Hunting"].push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
 	worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
