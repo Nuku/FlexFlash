@@ -142,16 +142,14 @@ function fhuskyentry():void {
 	if(isHunting) say("     You manage to hunt down one of the female huskies, who immediately tries to pounce on you the second she's within range, forcing you to keep your distance");
 	else say("     You're suddenly pounced upon from behind! You struggle for a moment to get the assailent off you before you can get a good look at what appears to be some sort of husky girl");
 	say(". Once human, the creature has completely succumbed to her bestial nature, completely nude save for her matted coat of white fur and just as likely to crawl on all fours as walk on two. Two pairs of breasts line her chest, their pinkish, perky nipples difficult to ignore.\r\r");
-	say("     Well aware of your presence, she tries to act cute, completely oblivious to how strange this circumstance is, and it fails to hide her otherwise very apparent desire for sex. It’s a challenge just to keep your distance from her, more than eager to try and clamber on top of you");
+	say("     Well aware of your presence, she tries to act cute, completely oblivious to how strange this circumstance is, and it fails to hide her otherwise very apparent desire for sex. It’s a challenge just to keep her at arm's length, the creature all too eager to try and clamber on top of you");
 	if(getStat("scale") > 5) say(", in spite of your much larger size");
-	say(".\r\r     The air is filled with the musk of her dripping sex, to the point where simply being near here makes you dizzy, and she clearly has no intention of leaving anytime soon...");
+	say(".\r\r     The air is thick the musk of her dripping sex, to the point where simply being near here makes you dizzy, and she clearly has no intention of leaving anytime soon...");
 }
 
 function fhuskydesc():void {
 	say("     Before you appears to be some sort of husky girl. Once human, the creature has completely succumbed to her bestial nature, completely nude save for her matted coat of white fur and just as likely to crawl on all fours as walk on two. Two pairs of breasts line her chest, their pinkish, perky nipples difficult to ignore.\r");
-	say("     Well aware of your presence, she tries to act cute, completely oblivious to how strange this circumstance is, and it fails to hide her otherwise very apparent desire for sex. It’s a challenge just to keep your distance from her, more than eager to try and clamber on top of you");
-	if(getStat("scale") > 5) say(", in spite of your much larger size");
-	say(".\r     The air is filled with the musk of her dripping sex, to the point where simply being near here makes you dizzy, and she clearly has no intention of leaving anytime soon.");
+	say("     The air is thick with the musk of her dripping sex, to the point where simply being near here makes you dizzy, and she clearly has no intention of leaving anytime soon.");
 }
 
 function fhuskyending():void {

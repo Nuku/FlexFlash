@@ -42,6 +42,7 @@ function listMajorFeats():void {
 	if(!hasFeat("Iron Stomach") && getStat("endurance") > 14) featsListing.push(["Iron Stomach", "Under normal circumstances, you'll never suffer the infectious effects of consuming tainted items."]);
 	if(!hasFeat("Roughing It") && getStat("endurance") > 11) featsListing.push(["Roughing It", "You can now rest anywhere, via the status menu, and will slightly restore negative morale. Resting in dangerous places still carries a risk of being attacked."]);
 	if(!hasFeat("Strong Back") && getStat("strength") > 11) featsListing.push(["Strong Back", "Improves carry weight scaling via strength."]);
+	if(!hasFeat("Martial Artist") && getStat("dexterity") > 11) featsListing.push(["Martial Artist", "You have basic martial arts training, increasing the damage you cause when you have no weapon."]);
 }
 
 function chooseFeats():void {
@@ -106,7 +107,7 @@ function listMinorFeats():void {
 		featsListing.push(["Cold Fish", "Your minimum libido is lower, but sex is less effective at satisfying it. Your libido will gradually decrease to 90, if over that amount."]);
 	}
 	if(!hasFeat("Blissful Ignorance")) featsListing.push(["Blissful Ignorance", "Whoever said the brightest had the highest spirits? Your base morale is increased, but intelligence is much less effective at raising it."]);
-	if(!hasFeat("Hairy Palm")) featsListing.push(["Hairy Palm", "You'd think you'd have a better outlet by now! You can now masturbate at any time regardless of benefit. Additionally, the cooldown for, and benefit from, masturbating is halved."]);
+	if(!hasFeat("Hairy Palm")) featsListing.push(["Hairy Palm", "You'd think you'd have a better outlet by now! You can now masturbate at any time regardless of your libido. Additionally, the cooldown for, and benefit from, masturbating is halved."]);
 }
 
 var volunteering:Boolean = false;

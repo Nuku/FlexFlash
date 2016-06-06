@@ -58,7 +58,7 @@ function cheaty():void {
 	//setStat("scale", 1)
 	//trace("LOAD: " + getCLoad());
 	//modStat("ballsize", -1);
-	fhuskyvictory();
+	//fhuskyvictory();
 	statDisplay();
 }
 
@@ -82,7 +82,7 @@ function apartmentRooms(room:String):void {
 		buttonAppearance(true);
 	}
 	if(room == "lobby") { //Lobby
-		say("     You've lived in this apartment building for several years.  The Greylawn Apartment Building dates back to the early 1900's, but it has been refurbished fairly recently.  This three-story apartment building is somewhat small by today's standards, being three stories tall and only having three or four apartments per floor.  Your apartment is on this floor along with three others.  There is a wooden-railed staircase leading upstairs.  It is sturdy and wide, a fact you're thankful for, as you've helped a few people move in and out of this place.\r\r");
+		say("     You've lived in this apartment building for several years.  The Castlegrove Apartment Building dates back to the early 1900's, but it has been refurbished fairly recently.  This three-story apartment building is somewhat small by today's standards, being three stories tall and only having three or four apartments per floor.  Your apartment is on this floor along with three others.  There is a wooden-railed staircase leading upstairs.  It is sturdy and wide, a fact you're thankful for, as you've helped a few people move in and out of this place.\r\r");
 		say("     The place has some damage remaining from after the outbreak thanks to a couple of the former tenants transforming into crazed beasts.  They rushed out into the city gone mad and haven't returned.  Some of the windows are damaged and the front door is hanging off of one hinge.  Thankfully the ground floor windows have bars on them, making them somewhat secure.  You've carefully cleaned up the sticky messes that were left in the foyer to prevent accidental contamination.");
 		takestock(room);
 		listNPCs(room);

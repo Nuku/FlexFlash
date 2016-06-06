@@ -277,6 +277,7 @@ function doHit(Type:String = "Player", bonus:Number = 0):Number {
 function doAttack(fit:Boolean = false):void {
 	if(doHit() > Math.random()*100) {
 		var dBonus = getStat("basedamage")+getStat("weaponbonus");
+		if(!checkSlot(1) && hasFeat("Martial Artist")) dBonus += 8
 		var wmstrike:Number = 0;
 		var zvar:Number = 0;
 		var dam:Number = 0;
