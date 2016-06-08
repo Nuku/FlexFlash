@@ -1036,5 +1036,5 @@ function resetWorld():void {
 	worldMaster["Hunting"] = [];
 	worldMaster["Timer"] = [];
 	worldMaster["Navigation"] = [];
-	worldMaster["Navigation"].push(["Grey Abbey", "bunkerRooms", "2"]);
+	worldMaster["Navigation"].push(["Castlegrove", "apartmentRooms", "lobby"]);
 }

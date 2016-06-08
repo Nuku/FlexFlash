@@ -39,7 +39,7 @@ var nextButton:Boolean = false;
 var doBypass:String = "";
 //Setup Buttons & Window
 newGame.addEventListener(MouseEvent.CLICK, newGameStart);
-outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 7.2: Early Husky Population + Various</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+outputWindow.htmlText = "Greetings, Patron! \r\rThis is <bold>Iteration 7.2a: Early Husky Population + Various</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
 //this.addEventListener(KeyboardEvent.KEY_DOWN, keyboard1);
 Choice1Outline.addEventListener(MouseEvent.CLICK, buttonEvent1);
 Choice2Outline.addEventListener(MouseEvent.CLICK, buttonEvent2);

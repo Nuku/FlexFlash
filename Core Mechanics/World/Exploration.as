@@ -239,7 +239,7 @@ function listNav():void {
 	var arrayLength:Number = worldMaster["Navigation"].length;
 	var i:Number = 0;
 	for(i = 0; i < arrayLength; i++) {
-		if(worldMaster["Navigation"][i][0] != getStr("lastroomname")) say("<a href='event:doNav~" + worldMaster["Navigation"][i][1] + "~"+worldMaster["Navigation"][i][2]+"'>" + worldMaster["Navigation"][i][0] + "</a>\r");
+		if(worldMaster["Navigation"][i][2] != getStr("lastroomname")) say("<a href='event:doNav~" + worldMaster["Navigation"][i][1] + "~"+worldMaster["Navigation"][i][2]+"'>" + worldMaster["Navigation"][i][0] + "</a>\r");
 	}
 }
 
