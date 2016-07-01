@@ -105,7 +105,7 @@ function pokeArbot():void {
 
 function lookArbot(eventStr:String = ""):void {
 	say("     Living proof that there is something more than biological to this strange outbreak of transformation, your friend has been converted into a humanoid robot.  He's retained his short, dumpy build, but now has a skin of plastic and painted metal panels covering robotic joints and electronic parts.  His artificial face is designed to be similar to his old one with eyes that glow with a pale light at time.  He's assured you that there's some biological components inside as well, though none are externally visible.  The main proof of this is his continued need to eat, if infrequently.  He wears a white button-up shirt and a pair of slacks.\r\r");
-	say("     Mr. Arboto's lived in this building for several years before you moved in and has always been a helpful guy, especially if any handiwork needed to be done.  The transformation has not only affected his appearance though, but also his mind.  Unlike the others you've seen, he's not become a sex-crazed monster.  Instead, his personality has become muted and his emotions suppressed - making him all the more robotic.  There's still flashes of your old friend in there, especially when he's tinkering on something, but it is sad to see him like this.  He is still sane though and willing to help, providing what support he can to help you both get through this crisis.");
+	say("     Mr. Arboto's lived in this building for several years before you moved in and has always been a helpful guy, especially if any handiwork needed to be done.  The transformation has not only affected his appearance though, but also his mind.  Unlike the others you've seen, he's not become a sex-crazed monster.  Instead, his personality has become muted and his emotions suppressed - making him all the more robotic.  There's still flashes of your old friend in there, especially when he's tinkering on something, but it is sad to see him like this.  He is still sane though and willing to help, providing what support he can to help you both get through this crisis.\r\r");
 }
 
 function talkArbot(eventStr:String = ""):void {
@@ -114,7 +114,7 @@ function talkArbot(eventStr:String = ""):void {
 
 function sexArbot(eventStr:String = ""):void {
 	setStat("arbotsexask", 1);
-	pokeArbot();
+	button3(false);
 	say("     \"What?  I...  Processing request.  Firmware compatibility error.  01000101...\"  Your robotic friend seems a quite confused by your request, his illuminated eyes flickering in and out rapidly before going black for a few seconds.  It seems you caused some kind of brain fault.  \"I am sorry, but I am not really interested.  I do not seem to have the same sexual impulses observed in others who have been infected,\" he responds flatly when returns from the mental reboot.\r\r");
 
 }
