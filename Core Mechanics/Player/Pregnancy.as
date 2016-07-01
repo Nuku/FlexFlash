@@ -208,13 +208,13 @@ function impregnate(strain:String, loc:Number):void {
 	if(Math.random()*100 < fer) ++variance;
 	if(variance > 4) variance = 4;
 	for(fer = 0; fer < variance; fer++) {
-		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && hasFeat("They Have Your Eyes") == false) expectedHead = strain;
+		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && !hasFeat("They Have Your Eyes")) expectedHead = strain;
 		else expectedHead = "PLAYER";
-		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && hasFeat("They Have Your Eyes") == false) expectedBody = strain;
+		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && !hasFeat("They Have Your Eyes")) expectedBody = strain;
 		else expectedBody = "PLAYER";
-		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && hasFeat("They Have Your Eyes") == false) expectedSkin = strain;
+		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && !hasFeat("They Have Your Eyes")) expectedSkin = strain;
 		else expectedSkin = "PLAYER";
-		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && hasFeat("They Have Your Eyes") == false) expectedGender = getStr("sextrend");
+		if(((Math.random()*100 >= 50) || hasFeat("Breeding True")) && !hasFeat("They Have Your Eyes")) expectedGender = getStr("sextrend");
 		else expectedGender = "Random";
 		trace("Expected offspring: " + expectedHead + expectedBody + expectedSkin + expectedTail + expectedGender);
 		midWife["Expected"].push([expectedHead, expectedBody, expectedSkin, expectedGender, 1]);
