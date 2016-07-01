@@ -108,6 +108,13 @@ function listMinorFeats():void {
 	}
 	if(!hasFeat("Blissful Ignorance")) featsListing.push(["Blissful Ignorance", "Whoever said the brightest had the highest spirits? Your base morale is increased, but intelligence is much less effective at raising it."]);
 	if(!hasFeat("Hairy Palm")) featsListing.push(["Hairy Palm", "You'd think you'd have a better outlet by now! You can now masturbate at any time regardless of your libido. Additionally, the cooldown for, and benefit from, masturbating is halved."]);
+	if(!hasFeat("Sterile") && (getStat("cunts") > 0 || hasFeat("MPreg"))) {
+		if(!hasFeat("They Have Your Eyes") && !hasFeat("Breeding True")) {
+			featsListing.push(["They Have Your Eyes", "Your children will look exactly like you at birth."]);
+			featsListing.push(["Breeding True", "Your children will look exactly like whatever first impregnated you at birth, if possible."]);
+		}
+		if(!hasFeat("Litter Bearer"))  featsListing.push(["Litter Bearer", "Greatly raises your chance to birth multiple children at a time."]);
+	}
 }
 
 var volunteering:Boolean = false;

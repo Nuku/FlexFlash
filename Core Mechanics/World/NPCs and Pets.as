@@ -1,6 +1,8 @@
 ﻿//GOTTA COMMENT FAST
 
 var NPCList:Array = [];
+//NPCList.push(["room", "name", "ifunction", 0, "cfunction"]);
+
 
 //0 = NIU, 1 = following -- in-slot, 2 = following -- in-slot two, 3 = following -- off-Slot, 4 = following -- do not display
 
@@ -95,22 +97,26 @@ function NPCIR(func:String, nam:String = "") {
 	button6(true, "Cancel", doLastRoom);
 }
 
-function pokeBob():void {
-	button1(true, "Look", lookBob);
-	button2(true, "Talk", talkBob);
-	button3(true, "Sex", sexBob);
+function pokeArbot():void {
+	button1(true, "Look", lookArbot);
+	button2(true, "Talk", talkArbot);
+	if(getStat("arbotsexask") == 0) button3(true, "...Sex?", sexArbot);
 }
 
-function lookBob(eventStr:String = ""):void {
-	say("     This individual is particularly remarkable in how nondescript they are! Is it male? Is it female? Is it an amorphous blob, the likes of which conjuring images of nightmares long-forgotton? Who knows! You're certain it has a stethoscope, at least.\r\r");
+function lookArbot(eventStr:String = ""):void {
+	say("     Living proof that there is something more than biological to this strange outbreak of transformation, your friend has been converted into a humanoid robot.  He's retained his short, dumpy build, but now has a skin of plastic and painted metal panels covering robotic joints and electronic parts.  His artificial face is designed to be similar to his old one with eyes that glow with a pale light at time.  He's assured you that there's some biological components inside as well, though none are externally visible.  The main proof of this is his continued need to eat, if infrequently.  He wears a white button-up shirt and a pair of slacks.\r\r");
+	say("     Mr. Arboto's lived in this building for several years before you moved in and has always been a helpful guy, especially if any handiwork needed to be done.  The transformation has not only affected his appearance though, but also his mind.  Unlike the others you've seen, he's not become a sex-crazed monster.  Instead, his personality has become muted and his emotions suppressed - making him all the more robotic.  There's still flashes of your old friend in there, especially when he's tinkering on something, but it is sad to see him like this.  He is still sane though and willing to help, providing what support he can to help you both get through this crisis.");
 }
 
-function talkBob(eventStr:String = ""):void {
-	say("     '<one of>Hello!||Good day!||Nice weather we're having, yeah?||Oh, I wouldn't want to bore you with my personal matters.<random>'\r\r");
+function talkArbot(eventStr:String = ""):void {
+	say("     <one of>\"During my conflict with the mutated tenants, several of my panels were damaged before I was able to drive them off.  I was uncertain how I'd be able to effect repairs, but I was surprised to find my body repaired itself over the course of a few hours of rest.  Observing my components repair themselves is what lead me to investigate and discover the nanites responsible for the outbreak.\"||You chat with Arboto for a while, just trying to provide some human conversation to keep him from slipping further into a robotic mindset.||\"I assure you that there are still biological components inside me.  I do need to eat on occasion, especially if I've been expending a lot of energy for my equipment or to defend myself.\"||\"I have observed a gradually increasing number of mutant creatures and strains from the window.  While my sample set is limited and the data has a wide margin of error, one should expect to encounter a greater range of more powerful creatures over time as the more successful ones increase their numbers.\"||Your friend descends into a very dry discussion about what he's seen out the window lately, talking in facts and numbers instead of his thoughts and feelings.||\"You should make haste to that construction site and obtain some supplies.  Securing the apartment building is our first priority.\"||\"The nanites seem to have broken down most unsealed food, likely turning it into available matter for the transformations and growth applied to the victims across the city.\"||\"While the conditions are unnatural, the principles of natural selection will still a factor - though with some unusual potential advantages allowing for success.  As observed, the nanites are capable of dramatic alterations, so one should expect some powerful and unusual abilities to arise as well.\"||\"The scope of this event is unclear from the available data, but we must conclude it to be widespread.  Were it only this neighbourhood or city affected, rescue would have been effected by this point.\"||While you chat with Mr. Arboto, he fixes himself a cup of tea.  He doesn't seem to notice that he tosses in some metal nuts and washers into it instead of sugar, nor does he seem perturbed by their presence when he drinks it.<random>\r\r");
 }
 
-function sexBob(eventStr:String = ""):void {
-	say("     'That is certainly a sort of activity this particular experience would entail! Sadly, I'm afraid I'm ill-equipped to satiate your need in that particular manner.'\r\r     'How about, instead, we just sit down and use our imagination, in all its limitless possibilities, to consider what wanton fare might transpire here? Ah... Yes... <one of>Oh, no no, that's much too large...||You can fit how many of those in there...?||I'm not going to be the one to clean up the mess after that...<random>'\r\r");
+function sexArbot(eventStr:String = ""):void {
+	setStat("arbotsexask", 1);
+	pokeArbot();
+	say("     \"What?  I...  Processing request.  Firmware compatibility error.  01000101...\"  Your robotic friend seems a quite confused by your request, his illuminated eyes flickering in and out rapidly before going black for a few seconds.  It seems you caused some kind of brain fault.  \"I am sorry, but I am not really interested.  I do not seem to have the same sexual impulses observed in others who have been infected,\" he responds flatly when returns from the mental reboot.\r\r");
+
 }
 
 function pokePat():void {

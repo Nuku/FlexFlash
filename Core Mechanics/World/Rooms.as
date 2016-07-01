@@ -83,7 +83,7 @@ function apartmentRooms(room:String):void {
 	}
 	if(room == "lobby") { //Lobby
 		say("     You've lived in this apartment building for several years.  The Castlegrove Apartment Building dates back to the early 1900's, but it has been refurbished fairly recently.  This three-story apartment building is somewhat small by today's standards, being three stories tall and only having three or four apartments per floor.  Your apartment is on this floor along with three others.  There is a wooden-railed staircase leading upstairs.  It is sturdy and wide, a fact you're thankful for, as you've helped a few people move in and out of this place.\r\r");
-		say("     The place has some damage remaining from after the outbreak thanks to a couple of the former tenants transforming into crazed beasts.  They rushed out into the city gone mad and haven't returned.  Some of the windows are damaged and the front door is hanging off of one hinge.  Thankfully the ground floor windows have bars on them, making them somewhat secure.  You've carefully cleaned up the sticky messes that were left in the foyer to prevent accidental contamination.");
+		say("     The place has some damage remaining from after the outbreak thanks to a couple of the former tenants transforming into crazed beasts.  They rushed out into the city gone mad and haven't returned.  Some of the windows are damaged and the front door is barely hanging from a single hinge.  Thankfully the ground floor windows have bars on them, making them somewhat secure.");
 		takestock(room);
 		listNPCs(room);
 		button1(true, "Apartment", apartmentRooms, "home");
@@ -99,7 +99,7 @@ function apartmentRooms(room:String):void {
 		buttonHuntLocal(true, "Abbey");
 	}
 	if(room == "apartment2f") { //Second floor
-		say("     The second floor of the building houses more apartments.  There's another three apartments on this floor, all unoccupied for the moment.  The central wooden staircase goes back downstairs and continues upstairs.  The apartments are also in disarray and damaged from former residents turning into monsters.  With the power out, the only light in the hall comes from the windows at each end of the short hallway.");
+		say("     The second floor of the building houses more apartments.  There's another three units on this floor, all unoccupied for the moment.  The central wooden staircase goes back downstairs and continues upstairs.  The apartments are also in disarray and damaged from former residents turning into monsters.  With the power out, the only light in the hall comes from the windows at each end of the short hallway.");
 		takestock(room);
 		listNPCs(room);
 		button1(true, "Downstairs", apartmentRooms, "lobby");
@@ -108,7 +108,7 @@ function apartmentRooms(room:String):void {
 		buttonAppearance(true);
 	}
 	if(room == "apartment3f") { //Third floor
-		say("     The top floor of the building, this one has another three apartments, the largest of which is Mr. Arboto's.  A retired computer electronics engineer, he'd converted the master bedroom of his two-bedroom apartment into an workshop for his various projects.  There's a variety of electrical and electronics tools, several old computers and a few half-finished projects on display.  The workshop is also the only one with power at present, being run by the now-cybernetic Mr. Arboto himself.");
+		say("     The top floor of the Castlegrove Apartment Building, this one has another three units, the largest of which is Mr. Arboto's.  Being retired computer electronics engineer, he'd converted the master bedroom of his two-bedroom apartment into an workshop for his various projects.  There's a variety of electrical and electronics tools, several old computers and a few half-finished projects on display.  The workshop is also the only room with power at present, being provided by the now-cybernetic Mr. Arboto himself.");
 		takestock(room);
 		listNPCs(room);
 		button1(true, "Downstairs", apartmentRooms, "apartment2f");
