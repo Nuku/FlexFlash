@@ -7,9 +7,19 @@ function clockTime():String {
 	var minutes = getStat("World Time")-(hours*60);
 	var half = "AM";
 	if(hours > 12) hours -= 12; half = "PM";
-	trace("(" + hours + ":0" + minutes + half + ")");
 	if(minutes < 10) return("(" + hours + ":0" + minutes + half + ")");
 	else return("(" + hours + ":" + minutes + half + ")");
+}
+
+function vagueTime():String {
+	var texts:String = "???";
+	if(getStat("World Time") <= 180 || getStat("World Time") >= 1261) texts = "Night";
+	else if(getStat("World Time") <= 360) texts = "Dawn";
+	else if(getStat("World Time") <= 540) texts = "Morning";
+	else if(getStat("World Time") <= 900) texts = "Midday";
+	else if(getStat("World Time") <= 1080) texts = "Afternoon";
+	else if(getStat("World Time") <= 1260) texts = "Dusk";
+	return("("+texts+")");
 }
 
 function isDaytime():Boolean {
@@ -146,7 +156,7 @@ function translatetimer(timer:Number = -909):String {
 	else hours = Math.floor(timer/60)
 	var days:Number = Math.floor(hours/24);
 	var adjustedhours:Number = hours-(days*24);
-	return(days + " Days/ " + adjustedhours + " Hours");
+	return(days + " Days/" + adjustedhours + " Hours");
 }
 
 function spontaneousOrgasm():String {
@@ -186,7 +196,7 @@ function assessEnding():void {
 	if(!checkTimer("Game") || getStat("humanity") <= 0) {
 		clearButtons();
 		screenClear();
-		newGame.visible = true;
+		buttonSystem();
 		if(getStat("humanity") >= 10) {
 			say("\r\r     The military finally manages to rally and overtake the city, though only for long enough to pull out yourself and any other still-sane occupants they could find.\r\r     You're stuck in quarantine for a time, ");
 			if(isPure("Human")) say("though not for long, given your seemingly unaltered state.");

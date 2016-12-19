@@ -25,4 +25,4 @@ include "Nuku Valente/Monsters/Female Husky.as"
 include "Blue Bishop/Wyvern.as"
 
 presetName();
-
+startScreen();

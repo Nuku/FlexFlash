@@ -15,7 +15,7 @@ function queueInfect(str:String):void {
 	queuedInfect = true;
 }
 
-function infect(str:String = ""): void {
+function infect(str:String = "", tar:Number = 0): void {
 	if(str == "") str = getStr("enemyname");
 	if(str == "Random") randomInfect();
 	else {
@@ -24,17 +24,31 @@ function infect(str:String = ""): void {
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 			if(worldMaster["Monsters"][tempnum][1] == str) {
 				this[worldMaster["Monsters"][tempnum][4]]();
-				applyInfect();
+				applyInfect(tar);
 				return;
 			}
 		}
 	}
 }
 
-function applyInfect(): void {
+/*
+0 random
+1 head
+2 body
+3 skin
+4 tail
+5 cock
+*/
+
+function applyInfect(tar:Number = 0): void {
 	var i:Number = Math.round(Math.random()*5);
 	var found:Number = 0;
 	var infectpoint:Number = 0;
+	if(tar != 0) {
+		found = 1;
+		infectpoint = tar;
+		if(infectpoint > 5 || infectpoint < 0) infectpoint = 2; //Failsafe
+	}
 	if(getStr("playerheadname") == getStr("enemyname") && getStr("playerbodyname") == getStr("enemyname") && getStr("playerskinname") == getStr("enemyname") && getStr("playertailname") == getStr("enemyname") && getStr("playercockname") == getStr("enemyname")) {
 		found = 1;
 		infectpoint = 2;

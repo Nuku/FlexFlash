@@ -78,6 +78,13 @@ function encounter(zone:String): void {
 	}
 }
 
+/*
+0 = none
+1 = intro only
+2 = end only
+3 = intro and end
+*/
+
 function challenge(str:String): void {
 	inCombat = true;
 	var tempnum:Number = 0;
@@ -88,7 +95,7 @@ function challenge(str:String): void {
 			this[worldMaster["Monsters"][tempnum][4]]();
 			if(hasTarget(worldMaster["Monsters"][tempnum][1]) == false) addTarget(worldMaster["Monsters"][tempnum][1], worldMaster["Monsters"][tempnum][1], worldMaster["Monsters"][tempnum][2], 1);
 			say("\r\r");
-			enemyentry();
+			if(getStat("encounterbypass") == 2 || getStat("encounterbypass") == 0) enemyentry();
 			setStat("enemyhealth", getStat("enemymaxhealth"));
 			setStat("enemylevel", worldMaster["Monsters"][tempnum][0]);
 			setStat("projmaxhealth", getStat("maxhealth"));

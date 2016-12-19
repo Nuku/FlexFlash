@@ -141,19 +141,19 @@ function saveUI(action:String = ""):void {
 	if(action == "") {
 		clearButtons();
 		screenClear();
-		texts += "SAVE SLOTS:\r\r<bold>SLOT01:</bold>("+getStr("savestr1")+") <a href='event:saveUI~1'>[SAVE]</a> <a href='event:saveUI~11'>[LOAD]</a>";
-		texts += "\r<bold>SLOT02:</bold>("+getStr("savestr2")+") <a href='event:saveUI~2'>[SAVE]</a> <a href='event:saveUI~12'>[LOAD]</a>";
-		texts += "\r<bold>SLOT03:</bold>("+getStr("savestr3")+") <a href='event:saveUI~3'>[SAVE]</a> <a href='event:saveUI~13'>[LOAD]</a>";
-		texts += "\r<bold>SLOT04:</bold>("+getStr("savestr4")+") <a href='event:saveUI~4'>[SAVE]</a> <a href='event:saveUI~14'>[LOAD]</a>";
-		texts += "\r<bold>SLOT05:</bold>("+getStr("savestr5")+") <a href='event:saveUI~5'>[SAVE]</a> <a href='event:saveUI~15'>[LOAD]</a>";
-		texts += "\r<bold>SLOT06:</bold>("+getStr("savestr6")+") <a href='event:saveUI~6'>[SAVE]</a> <a href='event:saveUI~16'>[LOAD]</a>";
-		texts += "\r<bold>SLOT07:</bold>("+getStr("savestr7")+") <a href='event:saveUI~7'>[SAVE]</a> <a href='event:saveUI~17'>[LOAD]</a>";
-		texts += "\r<bold>SLOT08:</bold>("+getStr("savestr8")+") <a href='event:saveUI~8'>[SAVE]</a> <a href='event:saveUI~18'>[LOAD]</a>";
-		texts += "\r<bold>SLOT09:</bold>("+getStr("savestr9")+") <a href='event:saveUI~9'>[SAVE]</a> <a href='event:saveUI~19'>[LOAD]</a>";
-		texts += "\r<bold>SLOT10:</bold>("+getStr("savestr10")+") <a href='event:saveUI~10'>[SAVE]</a> <a href='event:saveUI~20'>[LOAD]</a>";
-		texts += "\r\r<bold>TOFILE:</bold><a href='event:onSaveClick'>[SAVE]</a> <a href='event:onLoadFileClick'>[LOAD]</a>";
+		texts += "<yellow><bold>SAVE TO SLOT</bold></yellow>:\r\r<bold>SLOT01:</bold>("+getStr("savestr1")+") <a href='event:saveUI~1'>[SAVE]</a>";
+		texts += "\r<bold>SLOT02:</bold>("+getStr("savestr2")+") <a href='event:saveUI~2'>[SAVE]</a>";
+		texts += "\r<bold>SLOT03:</bold>("+getStr("savestr3")+") <a href='event:saveUI~3'>[SAVE]</a>";
+		texts += "\r<bold>SLOT04:</bold>("+getStr("savestr4")+") <a href='event:saveUI~4'>[SAVE]</a>";
+		texts += "\r<bold>SLOT05:</bold>("+getStr("savestr5")+") <a href='event:saveUI~5'>[SAVE]</a>";
+		texts += "\r<bold>SLOT06:</bold>("+getStr("savestr6")+") <a href='event:saveUI~6'>[SAVE]</a>";
+		texts += "\r<bold>SLOT07:</bold>("+getStr("savestr7")+") <a href='event:saveUI~7'>[SAVE]</a>";
+		texts += "\r<bold>SLOT08:</bold>("+getStr("savestr8")+") <a href='event:saveUI~8'>[SAVE]</a>";
+		texts += "\r<bold>SLOT09:</bold>("+getStr("savestr9")+") <a href='event:saveUI~9'>[SAVE]</a>";
+		texts += "\r<bold>SLOT10:</bold>("+getStr("savestr10")+") <a href='event:saveUI~10'>[SAVE]</a>";
+		texts += "\r\r<bold>TO FILE:</bold><a href='event:onSaveClick'>[SAVE]</a> <a href='event:onLoadFileClick'>[LOAD]</a>";
 		say(texts);
-		button1(true, "Cancel", doLastRoom);
+		button1(true, "Cancel", sysScreen);
 	}
 	else {
 		var eventNum:Number = Number(action);
@@ -172,14 +172,39 @@ function saveUI(action:String = ""):void {
 				say("\r\rThe save failed, for some reason.");
 			}
 		}
-		if(eventNum >= 11 && eventNum <= 20) {
-			eventNum -= 10;
+	}
+}
+
+function loadUI(action:String = ""):void {
+	buildSaveList();
+	var texts = "";
+	if(action == "") {
+		clearButtons();
+		screenClear();
+		texts += "<green><bold>LOAD FROM SLOT</bold></green>:\r\r<bold>SLOT01:</bold>("+getStr("savestr1")+") <a href='event:saveUI~1'>[LOAD]</a>";
+		texts += "\r<bold>SLOT02:</bold>("+getStr("savestr2")+") <a href='event:saveUI~2'>[LOAD]</a>";
+		texts += "\r<bold>SLOT03:</bold>("+getStr("savestr3")+") <a href='event:saveUI~3'>[LOAD]</a>";
+		texts += "\r<bold>SLOT04:</bold>("+getStr("savestr4")+") <a href='event:saveUI~4'>[LOAD]</a>";
+		texts += "\r<bold>SLOT05:</bold>("+getStr("savestr5")+") <a href='event:saveUI~5'>[LOAD]</a>";
+		texts += "\r<bold>SLOT06:</bold>("+getStr("savestr6")+") <a href='event:saveUI~6'>[LOAD]</a>";
+		texts += "\r<bold>SLOT07:</bold>("+getStr("savestr7")+") <a href='event:saveUI~7'>[LOAD]</a>";
+		texts += "\r<bold>SLOT08:</bold>("+getStr("savestr8")+") <a href='event:saveUI~8'>[LOAD]</a>";
+		texts += "\r<bold>SLOT09:</bold>("+getStr("savestr9")+") <a href='event:saveUI~9'>[LOAD]</a>";
+		texts += "\r<bold>SLOT10:</bold>("+getStr("savestr10")+") <a href='event:saveUI~10'>[LOAD]</a>";
+		texts += "\r\r<bold>TOFILE:</bold> <a href='event:onLoadFileClick'>[LOAD]</a>";
+		say(texts);
+		if(isStarting) button1(true, "Cancel", startScreen);
+		else button1(true, "Cancel", sysScreen);
+	}
+	else {
+		var eventNum:Number = Number(action);
+		if(eventNum >= 1 && eventNum <= 10) {
 			if(loadMain(String(eventNum))) {
 				queue("Game loaded from slot "+eventNum+"!");
 				doLastRoom();
 			}
 			else {
-				saveUI();
+				loadUI();
 				say("\r\rThe file is empty.");
 			}
 		}

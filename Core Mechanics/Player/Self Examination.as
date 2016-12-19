@@ -1,14 +1,12 @@
 ﻿//Let's take a good look at you!
 
-function appearance(e:MouseEvent):void
-{
-	if(allowAppearance) selfExamine();
-}
+
 
 function selfExamine(N:String = "") {
 	var pFeatList:String = "";
 	var tempnum:Number = 0;
 	var arrayLength:Number = pFeats.length;
+	shiftColour("Blue");
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
 		pFeatList += pFeats[tempnum][0]
 		if(tempnum+1 != arrayLength) pFeatList += ", ";
@@ -72,6 +70,7 @@ function selfExamine(N:String = "") {
 	say("\r\r");
 	buttonInventory(true);
 	button6(true, "Back", doLastRoom);
+	button3(true, "Tasks", displayQuests);
 	if((getStat("libido") > 27 || hasFeat("Hairy Palm")) && !checkTimer("masturbate")) button1(true, "Masturbate", doMasturbate);
 	if(hasFeat("Roughing It")) button4(true, "Rest", doStatusSleep);
 }

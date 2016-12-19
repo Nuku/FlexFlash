@@ -304,7 +304,7 @@ function hunting(nam:String, zone:String):void {
 		var tempnum2:Number = 0;
 		var arrayLength2:Number = 0;
 		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-			if(eventList[tempnum][0] == nam) {
+			if(eventList[tempnum][1] == nam) {
 				if((Math.random()*20) < (bonus+7)) {
 					found = 2;
 					queueTime = 60;
@@ -312,7 +312,7 @@ function hunting(nam:String, zone:String):void {
 					screenClear();
 					say("     You manage to find what you're looking for!\r\r");
 					doNext("", doLastRoom);
-					exploreEvent(eventList[tempnum][2]);
+					exploreEvent(eventList[tempnum][3]);
 					if(getStat("cullevent") == 1) {
 						arrayLength2 = worldMaster["Explore"].length;
 						for(tempnum2 = 0; tempnum2 < arrayLength2; tempnum2++) {
@@ -377,41 +377,88 @@ function hunting(nam:String, zone:String):void {
 
 function huntList(zone:String):void {
 	screenClear();
+	clearButtons();
 	say("     What would you like to hunt for?\r\r");
-	button1(false);
-	button2(false);
-	button3(false);
-	button4(false);
-	button5(false);
 	button6(true, "Cancel", doLastRoom);
-	buttonScavCity(false);
-	buttonExploreCity(false);
-	buttonScavLocal(false);
-	buttonExploreLocal(false);
-	buttonInventory(false);
-	buttonAppearance(false);
-	buttonNavigation(false);
-	buttonHuntCity(false);
-	buttonHuntLocal(false);
-	var mTexts:String = "";
-	var zTexts:String = "";
-	var eTexts:String = "";
-	var oTexts:String = "";
-	var arrayLength:Number = worldMaster["Hunting"].length;
-	var tempnum:Number = 0;
-	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(worldMaster["Hunting"][tempnum][2] == zone) {
-			if(worldMaster["Hunting"][tempnum][3] == 1) mTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
-			else if(worldMaster["Hunting"][tempnum][3] == 2) eTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
-			else if(worldMaster["Hunting"][tempnum][3] == 3) zTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
-			else oTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
+	if(getQuest("main") == 2 || getQuest("main") == 2.5) {
+		say("<bold>Monsters:</bold>\r<italic>None</italic> \r\r<bold>Locations:</bold> \r<a href='event:huntTut'>QUESTEVENT</a>  \r\r<bold>Situations:</bold> \r<italic>None</italic> \r\r<bold>Other:</bold>\r<italic>None</italic>\r\r     What would you like to hunt for?\r\r");
+	}
+	else {
+		var mTexts:String = "";
+		var zTexts:String = "";
+		var eTexts:String = "";
+		var oTexts:String = "";
+		var arrayLength:Number = worldMaster["Hunting"].length;
+		var tempnum:Number = 0;
+		for(tempnum = 0; tempnum < arrayLength; tempnum++) {
+			if(worldMaster["Hunting"][tempnum][2] == zone) {
+				if(worldMaster["Hunting"][tempnum][3] == 1) mTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
+				else if(worldMaster["Hunting"][tempnum][3] == 2) eTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
+				else if(worldMaster["Hunting"][tempnum][3] == 3) zTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
+				else oTexts += "<a href='event:hunting~"+worldMaster["Hunting"][tempnum][0]+"~"+worldMaster["Hunting"][tempnum][2]+"'>"+worldMaster["Hunting"][tempnum][1]+"</a>\r";
+			}
+		}
+		if(mTexts == "") mTexts = "<italic>None</italic>\r";
+		if(eTexts == "") eTexts = "<italic>None</italic>\r";
+		if(zTexts == "") zTexts = "<italic>None</italic>\r";
+		if(oTexts == "") oTexts = "<italic>None</italic>\r";
+		say("<bold>Monsters:</bold>\r" + mTexts + "\r<bold>Locations:</bold>\r" + zTexts + "\r<bold>Situations:</bold>\r" + eTexts + "\r<bold>Other:</bold>\r" + oTexts + "\r");
+	}
+	
+}
+
+function huntTut(seg:String = ""):void {
+	if(seg == "") {
+		if(getQuest("main") == 2) {
+			screenClear();
+			say("     After a long, cautious scan of the area, you venture out beyond the relative safety of the apartment building.  The building is towards the back of a curved cul-de-sac.  While this meant less traffic noise in the past, now it means it's more sheltered from notice than if it were on a larger street.\r\r");
+			say("     While you've not seen or heard one running since the outbreak, you still go over and check the nearby cars.  A few of them are unlocked and still have their keys in them, probably left when the drivers were transformed or pulled out by lustful mutants.  Your attempts to start them are in vain though - it seems the batteries are stone dead and the gas tanks are all dry.  You suspect the nanites quickly depleted these ready sources of energy.  There'll be no easy escape by driving out of the city in a Mad Max mobile.\r\r");
+			doNext("enc", huntTut);
+		}
+		else {
+			huntTut("enc");
 		}
 	}
-	if(mTexts == "") mTexts = "<italic>None</italic>\r";
-	if(eTexts == "") eTexts = "<italic>None</italic>\r";
-	if(zTexts == "") zTexts = "<italic>None</italic>\r";
-	if(oTexts == "") oTexts = "<italic>None</italic>\r";
-	say("<bold>Monsters:</bold>\r" + mTexts + "\r<bold>Locations:</bold>\r" + zTexts + "\r<bold>Situations:</bold>\r" + eTexts + "\r<bold>Other:</bold>\r" + oTexts + "\r     What would you like to hunt for?\r\r");
+	if(seg == "enc") {
+		if(getQuest("main") == 2) {
+			say("     Knowing where the restaurant under renovations is located, you instead focus on finding a safe and clear route between there and the apartment building.  Your first few attempts along more direct routes don't pan out.  In some cases, there are groups of horny mutants hanging around or there is an unsettling amount of signs of mutant activity.  In others, the streets are blocked by crashed or stalled cars, making them ill-suited for shuttling the supplies you'll need between there and the apartment building.  If this is any indication, you'll have to do some exploration to find safe routes between other places and districts of the city - remembering where they are won't always be enough.  You are able to find a good route there in the end by taking a couple of back streets and cutting between a few buildings.  While not direct, it seems safe and secluded enough for you to avoid any large groups or hazards.\r\r");
+			say("     Once there, you find it's already been broken into, but hasn't been too badly looted.  If there was any food here, it's gone, but there's quite a bit of useful building supplies and tools.  As the work was abandoned in progress, it's hard to tell what may or may not have been taken, but there are signs of recent activity.  And if these paw prints you see in the dirt are any indication, not all of that activity was human.\r\r");
+			say("     As you're starting to assess what's available and look for a means to transport materials, you hear a soft, squeaking sound behind you like rubber on rubber.  Turning around, you spot a smooth-skinned creature coming out of the back.  The fox-like humanoid is either coated in or made entirely of latex and rushes at you with an excited fervour.  You'll have to drive this creature from its den before you're able to do any work here.");
+			advQuest("main", 0.5);
+		}
+		else {
+			say("     You make your way back to the restaurant undergoing renovations, making sure to scout out your path again to make sure it's still clear.  Thankfully there doesn't seem to be any significant activity going on along it at this time, so you should be able to bring your supplies back along it.  When you arrive, the latex fox is still there.  It eyes you and gives a squeaky yip before charging to attack you for intruding.");
+		}
+		bypassN = "fin";
+		bypassF = huntTut;
+		setStat("encounterbypass", 3);
+		challenge("Latex Fox");
+	}
+	if(seg == "fin") {
+		if( getStat("fightoutcome") == 10) {
+			say("     Placeholder -- player victory");
+			//say("     Having successfully dealt with the latex creature, you take a moment to make sure nothing else was attracted by the noise of your fight.  You scout the restaurant more thoroughly this time but thankfully find no more rubbery foxes lurking here.  Searching the work site also proves rewarding when you find a wheelbarrow in a side room.  With it, you'll be able to ferry back the supplies you need.\r\r");
+			//say("     You start by loading in tools and hardware, grabbing an assortment of them from the work area.  Among these are several power tools and chargers you toss in even though their battery packs are dead.  Recalling what Mr. Arboto said about powering his equipment himself, you're hopeful that he'll be able to recharge them.  With those loaded in the wheelbarrow's basin, you strap some lumber atop it and make your way back to Castlegrove.");
+			advQuest("main", 0.5);
+		}
+		else if( getStat("fightoutcome") == 30) {
+			say("    You find yourself driven off by the vulpine creature and have to flee the closed restaurant.  You leave for now and head back to Castlegrove to recover.  You do need those supplies though.  You'll have to try coming back once you're better prepared for another fight.");
+		}
+		else {
+			//if(getStat("fightoutcome") != 23) //lose
+			//else //submit
+			say("     Placeholder -- player loss.")
+			advQuest("main", 0.5);
+		}
+		doLastRoom(true);
+	}
+	if(seg == "repair") {
+		say("     placeholder -- repairs");
+		var maths = 25+Math.random()*(getStat("stength")+getStat("stamina"));
+		maths = 10000 - maths;
+		advQuest("main", 1);
+		doLastRoom(true);
+	}
 }
 
 function hasTarget(nam:String):Boolean {
@@ -517,26 +564,26 @@ function scaveventRoll():void {
 	setStat("cullevent", 0)
 }
 
-function canIntro(eventFunc:Function):Boolean {
+function canIntro(eventName:String):Boolean {
 	var arrayLength:Number = worldMaster["Introduction"].length;
 	var tempnum:Number;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(worldMaster["Introduction"][tempnum][2] == eventFunc && !worldMaster["Introduction"][tempnum][0]) return(true);
+		if(worldMaster["Introduction"][tempnum][1] == eventName && !worldMaster["Introduction"][tempnum][0]) return(true);
 	}
 	return(false);
 }
 
-function doIntro(eventFunc:Function):void {
+function doIntro(eventName:String):void {
 	var arrayLength:Number = worldMaster["Introduction"].length;
 	var tempnum:Number;
 	for(tempnum = 0; tempnum < arrayLength; tempnum++) {
-		if(worldMaster["Introduction"][tempnum][2] == eventFunc) {
+		if(worldMaster["Introduction"][tempnum][1] == eventName) {
 			screenClear();
-			doNext(worldMaster["Introduction"][tempnum][1], worldMaster["Introduction"][tempnum][2]);
-			if(worldMaster["Introduction"][tempnum][3] is Function) worldMaster["Introduction"][tempnum][3]();
-			else say(worldMaster["Introduction"][tempnum][3]);
+			doLastRoom(true);
 			worldMaster["Introduction"][tempnum][0] = true;
-			tempnum = arrayLength;
+			if(this[worldMaster["Introduction"][tempnum][2]] is Function) this[worldMaster["Introduction"][tempnum][2]]();
+			else say(worldMaster["Introduction"][tempnum][2]);
+			break;
 		}
 	}
 }
@@ -570,7 +617,54 @@ worldMaster["Scavenge"].push([false, "Local Scav Event", "Abbey", 1]);
 worldMaster["Hunting"].push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
 //worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
 
-//worldMaster["Introduction"].push([false, "1", trevorLabsRooms, "     Trevor Labs looms over you as you approach, the sleek and tall glass building completely dark, save for some faint light in one of the windows...\r\r     You've heard of this place. They are -- or is that were? -- a biopharm setup. Kind of new on the block, they made a big stink over the local news with their willingness to skirt very close to the edge of most laws in the name of progress. Regardless, you choose to make your way inside..."]);
+//worldMaster["Introduction"].push([false, "ROOMNAME", "     EVENT"]);
+worldMaster["Introduction"].push([false, "Castlegrove Lobby", "     After checking the peephole, you open your apartment door slowly step out into the hall.  You move cautiously, not just to avoid making noise, but also to avoid stepping in the sticky messes on the floor.  A quick look around shows that the other apartments are empty, both thankfully of monsters and unfortunately of supplies.\r\r     You find the front door hanging half off its hinges and take a cautious look outside.  Being last building on a short side street, there's not much to see beyond what you saw out your windows.  This also means the apartment building is a little out of the way and thus less noticeable.  There doesn't seem to be much activity at the moment, but you should still be cautious before venturing outside.  Besides, it'd be best to finish your search of the apartment building before going outside anyhow."]); //supplies. [  You do come across a baseball bat though in one closet.]*
+worldMaster["Introduction"].push([false, "Castlegrove 2nd Floor", "introCombat"]);
+worldMaster["Introduction"].push([false, "Castlegrove 3rd Floor", "arbotoIntro"]);
+
+function introCombat(dat:String = ""):void {
+	if(dat == "") {
+		setStat("huskyoverride", 1);
+		say("     As you reach the landing on the second floor, you hear some noise coming from one of the other apartments.  You move quietly to the door and peek inside.  Gazing into the damaged living room, you spot a canine mutant climbing through an open window from the fire escape.  Seeing you there, she charges up and tries to throw herself onto you, moaning and panting with sexual need.\r");
+		bypassN = "finish";
+		bypassF = introCombat;
+		setStat("encounterbypass", 3);
+		challenge("Female Husky");
+	}
+	if(dat == "finish") {
+		if( getStat("fightoutcome") == 10) {
+			say("     Managing to defeat and drive off the canine, you chase her back onto the fire escape.  She scrambles down into the alley and runs off.  You close and latch the window and shut the curtains.  You go around the rest of the floor and make sure the rest all similarly closed while doing a quick search for anything of use.");
+		}
+		else if( getStat("fightoutcome") == 30) {
+			say("     You manage to keep ahead of the female husky until you find a way out of this mess.  Grabbing a half-eaten bag of cheese puffs, you dangle them temptingly in front of her face.  She sniffs at them and barks repeatedly, her fluff-brained mind focused on the treat for the moment.  Leading her back to the open window, you toss the bag down into the alley below.  As soon as she's gone down the fire escape after them, you close and latch the window and shut the curtains.  You go around the rest of the floor and make sure the rest all similarly closed while doing a quick search for anything of use.");
+		}
+		else {
+			if(getStat("fightoutcome") != 23) say("     Unable to continue fighting the dog mutant, you get shoved to the floor.");
+			else say("     Rather then struggle against the dog mutant's advances, you allow her to push you to the floor.");
+			say(" She moves atop you, straddling your face and thus giving you a direct view of her juicy muff.  Her hot juices drip onto your face, wetting your lips and filling your nose with the scent of her arousal.  The sight of that canine muff is strangely enticing and your judgement becomes clouded as the smell of it affects you.  You end up licking your lips and tasting her juices only makes you want it more.\r\r");
+			say("     As you're struggling with this urge, knowing it's wrong but unable to fully resist it, she presses her hips down onto face.  She grinds her wet pussy across your lips and your tongue starts licking at it before you even consciously decide to do so.  You lick and lap at her hot cunny, eating out the horny husky.  Your hands move to her hips and grip them, steadying her grinding so you can wriggle your tongue into her.  She's pushed to a moaning, barking orgasm by your tonguework, soaking your face in fresh juices that spread her infection to you.\r\r");
+			infect("Female Husky", 1);
+			say("     After sating her perverse lusts upon you, she sniffs around the room for a while.  Starting to recover from the assault, you look for some other means to get rid of her.  Spotting a half-eaten bag of cheese puffs, you dangle them temptingly in front of her face.  She sniffs at them and barks repeatedly, her fluff-brained mind focused on the treat for the moment.  Leading her back to the open window, you toss the bag down into the alley below.  As soon as she's gone down the fire escape after them, you close and latch the window and shut the curtains.  You go around the rest of the floor and make sure the rest all similarly closed while doing a quick search for anything of use.");
+		}
+		doLastRoom(true);
+	}
+}
+
+function arbotoIntro(dat:String = ""):void {
+	if(dat == "") {
+		say("     Wary after your encounter with the husky, you tensely ascend to the third floor.  There's little point in trying to be quiet - the noise from the fight would not have gone unnoticed.  Gathering your courage, you step up onto the landing and take a look around.  Of the three units making up this floor, two are open and clearly have been ransacked.  The third is closed and has sounds of mechanical whirring coming from behind the door.\r\r");
+		say("     Taking a quick glance in the other two to make sure you're not jumped from behind, you approach the final apartment.  Clearly able to hear the sounds of your approach on the creaking floor, the source of the noise inside becomes more agitated.  You are about to burst through the door to confront whatever creature is inside, but the addition of a high-pitched whine that's slowly gaining intensity gives you pause.  Deciding on another approach, you ready yourself for a fight before calling out to whomever or whatever is inside.  You do your best to sound as confident as you can.\r\r");
+		say("     \"Who's there?  Stay back, monster.  Don't come in or I'll shoot,\" a familiar voice inside responds.  It sounds a lot like your neighbour, Mr. Arboto, as if talking via an intercom or a radio.  He's still here, safe and sound.  Thank goodness!\r\r");
+		say("     After a brief exchange through the door to confirm who you each are, he opens the door and allows you in.  Though it seems your elation about him being 'safe and sound' doesn't turn out to be quite accurate.  Mr. Arboto's suffered a transformation unlike any of the others you've yet seen, having become a robot or cyborg version of himself.  You're left stunned, unable to respond for several moments.\r\r");
+		doNext("second", arbotoIntro);
+	}
+	if(dat == "second") {
+		say("     Once you've recovered from your initial shock, the two of you discuss what's happened.  The cyborg Arboto looks passingly similar to his old appearance, possessing a similar face and build now made of plastic and metal panels.  As back when he was human, he's wearing a white button-up shirt over his rounded belly and a pair of slacks.  He explains that his transformation occurred on that first night, possibly in response to the electronics and robotics projects the retired engineer likes to tinker with in his workshop.  While still in shock from this, he'd had to drive off some other tenants who'd gone insane after their transformation.  Since then, he's largely been holed up in his apartment, worriedly standing guard for fear of another attack.\r\r");
+		say("     Once the initial excitement of seeing you again wears off, Arboto's responses become more dull and robotic over the course of the conversation.  There are moments when his former personality shows through better than others and he becomes more animated and human.  These usually appear during the more exciting or interesting points of his tale and are unfortunately brief.");
+		advQuest("main");
+		doLastRoom(true);
+	}
+}
 
 function exploreEvent(eventNum:Number):void {
 	if(eventNum == 99) {
