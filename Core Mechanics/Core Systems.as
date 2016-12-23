@@ -3,8 +3,8 @@ import flash.geom.Rectangle;
 import fl.motion.MotionEvent;
 import flash.geom.ColorTransform;
 
-var startText:String = "<red>Greetings</red>, <orange>Patron</orange>! \r\r<yellow>This</yellow> <green>is</green> <bold><purple>Iteration</purple> 7.5: <pink>Encounter</pink> remants + Early Quest</bold> of the Alpha build for 'Flash FS'[NNF], and functions as a glimpse into what changes and improvements you should see, moving forward. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rBUTTS";
-var creditText:String = "CREDITS PLACEHOLDER!\r\r";
+var startText:String = "Greetings, Patron! \r\rThis is <bold>\"Final Iteration: User Interface\"</bold> of the Alpha build for 'Flash FS'[NNF], before we move onto Closed Beta. \r\rPlease refer to Patreon or the FS Blog site for more in-depth documentation. \r\rAs always, thank you for your continued support!";
+var creditText:String = "<bold>Credits:</bold> \r\r<bold>Publisher</bold>\r     Silver Games LLC\r\r<bold>Producer</bold>\r     David Silver\r\r<bold>\"Prettiest Boy\"</bold>\r     Blue Bishop\r\r<bold>Lead Story Writer</bold>\r     Tiger Stripes\r\rFenoxo's \"Unnamed Text Game\" was used in the early prototyping of this game.\r\rSupport us on Patreon at: <a href='https://www.patreon.com/FS'>https://www.patreon.com/FS</a>";
 
 var myCSS:StyleSheet = new StyleSheet();
 myCSS.setStyle("a:link", {color:'#6666CC',textDecoration:'none', fontFamily: 'Verdana Bold'});
@@ -238,10 +238,10 @@ function statDisplay():void {
 	else texts += vagueTime();
 	statPaneC.htmlText = texts + "\rTime Left:\r" + translatetimer();
 	//D Slot
-	if(getStat("libido") > 0) texts= "Libido: " + getStat("libido") + "%";
+	if(inCombat) texts = "Lust: " + getStat("lust") + "%";
+	else if(boundLust > 0) texts = "Lust: " + boundLust + "%";
+	else if(getStat("libido") > 0) texts= "Libido: " + getStat("libido") + "%";
 	else texts = "<dark>Libido: 0%</dark>";
-	if(inCombat) texts += " Lust: " + getStat("lust") + "%";
-	else if(boundLust > 0) texts += " Lust: " + boundLust + "%";
 	texts += "\rHumanity: " + Math.floor(getStat("humanity")) + "/100";
 	statPaneD.htmlText = texts;
 	//E Slot
@@ -251,6 +251,7 @@ function statDisplay():void {
 var storedOutput1:String = "";
 var storedOutput2:String = "";
 var storedOutput3:String = "";
+var pushDown:Boolean = false;
 
 function screenClear():void {
 	if(storedOutput2 != "") storedOutput3 = storedOutput2;
@@ -259,6 +260,7 @@ function screenClear():void {
 	if(storedOutput1 != "") buttonBack()
 	currentText = "";
 	outputWindow.htmlText = currentText;
+	pushDown = false;
 	//if(storedOutput1 != "") buttonBack();
 	//Reminder! Fix placement update.
 }
@@ -280,6 +282,7 @@ function backPage():void {
 		buttonForward();
 		buttonFront();
 	}
+	scrollyBar.update();
 }
 
 function forwardPage():void {
@@ -301,6 +304,7 @@ function forwardPage():void {
 		buttonForward();
 		buttonFront();
 	}
+	scrollyBar.update();
 }
 
 function frontPage():void {
@@ -311,6 +315,7 @@ function frontPage():void {
 		buttonFront(false);
 		lockButtons(false);
 	}
+	scrollyBar.update();
 }
 
 function doFront(e:MouseEvent):void {
@@ -348,6 +353,8 @@ function lockButtons(ch:Boolean = true):void {
 
 function say(texts:String):void {
 	processTexts(texts);
+	if(!pushDown) pushDown = true;
+	else outputWindow.scrollV = outputWindow.maxScrollV
 }
 
 function processTexts(texts:String):void {
@@ -977,7 +984,7 @@ function sysScreen(str:String = ""):void {
 		button6(true, "Back", sysScreen, "goback");
 	}
 	if(str == "loadconsent") {
-		clearButtons();
+		fullClear();
 		say("Are you sure? Any unsaved progress will be lost!");
 		doYesNo("", "", loadUI, sysScreen);
 	}
@@ -987,7 +994,7 @@ function sysScreen(str:String = ""):void {
 		button6(true, "Back", sysScreen);
 	}
 	if(str == "ng") {
-		clearButtons();
+		fullClear();
 		say("Are you sure? Any unsaved progress will be lost!");
 		doYesNo("", "", doNewGame, sysScreen);
 	}

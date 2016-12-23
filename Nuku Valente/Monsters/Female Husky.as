@@ -55,24 +55,21 @@ function fhuskyInfect():void {
 }
 
 function fhuskyloss(str = ""):void {
-	if(getStat("huskyoverride") != 1) {
-		if(str == "") {
-			say("     After the brief tussle, the husky-woman becomes entirely non-aggressive. Instead, she bends over and blatantly offers herself right in front of you. Sex clearly her only desire, she’d shamelessly submit herself if there’s even the slightest chance she might still get what she wants.\r\r");
-			if(getStat("libido") > 40|| hasFeat("Dominant")) {
-				say("     Dare you take the tainted creature’s offer?");
-				clearButtons();
-				button1(true, "Yes", fhuskyloss, "yes");
-				button2(true, "No", fhuskyloss, "no");
-			}
-			else say("     In any case, you’re in no mood to even consider entertaining the tainted creature’s offer. And you choose to leave before she changes her mind and attacks you again.");
+	if(str == "") {
+		say("     After the brief tussle, the husky-woman becomes entirely non-aggressive. Instead, she bends over and blatantly offers herself right in front of you. Sex clearly her only desire, she’d shamelessly submit herself if there’s even the slightest chance she might still get what she wants.\r\r");
+		if(getStat("libido") > 40|| hasFeat("Dominant")) {
+			say("     Dare you take the tainted creature’s offer?");
+			clearButtons();
+			button1(true, "Yes", fhuskyloss, "yes");
+			button2(true, "No", fhuskyloss, "no");
 		}
-		if(str == "yes") fhuskymenu();
-		if(str == "no") {
-			say("     You decide against making such a move, and leave before she changes her mind and possibly attacks you again.");
-			doNext("", doLastRoom);
-		}
+		else say("     In any case, you’re in no mood to even consider entertaining the tainted creature’s offer. And you choose to leave before she changes her mind and attacks you again.");
 	}
-	else setStat("huskyoverride", 0);
+	if(str == "yes") fhuskymenu();
+	if(str == "no") {
+		say("     You decide against making such a move, and leave before she changes her mind and possibly attacks you again.");
+		doNext("", doLastRoom);
+	}
 }
 
 function fhuskymenu():void {
@@ -364,54 +361,51 @@ function huskvic5(dat:String = ""):void { //ORAL GIVING
 }
 
 function fhuskyvictory():void {
-	if(getStat("huskyoverride") != 1) {
-		if(getStat("fightoutcome") == 23) {
-			say("     You opt for a non-violent approach to this situation, only to be pounced on by the canine, ");
-			if(getStat("Scale") > 4) say("compelling your much larger, <bodytype> form to lay down, if only to oblige her intent");
-			else say("forcing you to the ground");
-			say(". Now atop you, you’re quickly assaulted by the beast’s tongue across your face and body, as though to revel in some twisted expression of joy over her newfound playmate.\r\r");
-		}
-		else {
-			say("     Unable to put up anymore of a fight, you’re pounced on by the canine, pinning your");
-			if(getStat("Scale") > 4) say(" larger,");
-			say(" <bodytype> form to the ground. Now atop you, you’re quickly assaulted by the beast’s tongue across your face and body, though less an expression of dominance or to embarrass you so as much as revel is some twisted expression of joy over her newfound, now-compliant playmate.\r\r");
-		}
-		say("     You can feel the slick fluid from her tainted cunt smeared against your <skintype> as she shamelessly humps you, her briefly innocent excitement replaced with something much more depraved.\r\r");
-		if(getStat("cocks") > 0 && Math.random()*100 > 33 && cockLength() < 12) {
-			say("     It’s not long before this isn’t enough, though, and she begins to shift both you and herself around until your crotch is within her reach, pulling free any obstruction in her path. The half-canine isn’t particular graceful in her efforts to get what she wants; if you’re not hard, she just grinds her slick hole against your <cocktype> cock<smn> until <theym> <arem>, before impaling herself with<oneof> <themm>.\r\r");
-			say("     It’s like sticking your dick in an oven");
-			if(cockLength() > 9) say(" -- exacerbated by how tight the fit is --");
-			else say(",");
-			say(" so intense and desperate is the beast’s heat. She wastes no time breeding herself on you, burying as much of your flesh inside her as she can possibly manage");
-			if(isListed(getStr("playercockname"), "Knot")) say(", up to the knot");
-			say(". Panting excessively, she practically bathes you in her hot, noxious breath as she continues to wildly pounds herself against your cock for what feels like hours.\r\r");
-			say("     She seems utterly relentless, as though the only way she’ll find any reprieve is for you to cum, which");
-			if(getStat("fightoutcome") != 23) say(" -- in spite of your efforts to resist --");
-			say(" feels very close at hand. The creature seems to know your approaching bliss, her motion becoming increasingly erratic until, finally, ");
-			if(isListed(getStr("playercockname"), "Knot")) say("tieing with you");
-			say("hilting you one last time");
-			say(" is enough to set you off. Writhing against the ground, you pump your <cum size desc> load into the beast’s hungry womb");
-			if(cumLoad() > 12) say(", visibly bloating her and causing it to sputter from her stuffed pussy");
-			say(".\r\r     She continues to ride you for a while longer, as if propelled by a lingering momentum, even when you have nothing left to offer her. Still panting, she offers you some brief affection before casually crawling off of you, wrenching your dick free from her gushing nethers as she slowly wanders elsewhere in the city. You’re given a moment to catch your breath and crawl back to your feet, cleaning the tainted mess off you as best you can before you, too, continue on your way.");
-		}
-		else {
-			say("     Making a slow mess of your <bodyshape> torso doesn’t appear to be nearly enough to satisfy the beast, and she soon clambers all over you before settling on your <facetype> head, her portal’s oozing, furred lips grinding against your face with a careless abandon. ");
-			if(getStat("fightoutcome") != 23) say("Though you struggle to resist");
-			else say("Soon");
-			say(", your senses are flooded with the taste and smell of her tainted sex, practically bathed in her crotch’s intense heat.\r\r");
-			if(getStat("fightoutcome") != 23) say("     In spite of your best efforts");
-			else say("     Overwhelmed");
-			say(", you can’t help but become aroused by this blatant abuse, ");
-			if(getStat("cocks") > 0) say("cock<smn> aching with a terrible need");
-			else if(getStat("cunts") > 0) say("cunt<sfn> aching with a terrible need");
-			say("though you lack a normal outlet");
-			say(". Lost in her bestial fervour, she seems to care little to return the favour, your muffled moans escaping her dripping nethers all the more for her pleasure.\r\r");
-			say("     The air filled with the sound of the half-canine’s loud panting -- along with her continued, increasingly wet motions -- for what seems like forever, until she finally reaches her goal, loudly howling as you face is further drenched by her tainted honey. Even after her bliss, she seems content to continue grinding against your face, though by this point she’s so exhausted");
-			if(getStat("fightoutcome") != 23) say(" and you’ve recovered enough");
-			say(" that you can easily push her off.\r\r     The creature scampers off after you force her away, no doubt to recover before finding another would-be victim, and leaving you to clean her heady musk off you as best as you can before setting off as well.");
-		}
+	if(getStat("fightoutcome") == 23) {
+		say("     You opt for a non-violent approach to this situation, only to be pounced on by the canine, ");
+		if(getStat("Scale") > 4) say("compelling your much larger, <bodytype> form to lay down, if only to oblige her intent");
+		else say("forcing you to the ground");
+		say(". Now atop you, you’re quickly assaulted by the beast’s tongue across your face and body, as though to revel in some twisted expression of joy over her newfound playmate.\r\r");
 	}
-	else setStat("huskyoverride", 0);
+	else {
+		say("     Unable to put up anymore of a fight, you’re pounced on by the canine, pinning your");
+		if(getStat("Scale") > 4) say(" larger,");
+		say(" <bodytype> form to the ground. Now atop you, you’re quickly assaulted by the beast’s tongue across your face and body, though less an expression of dominance or to embarrass you so as much as revel is some twisted expression of joy over her newfound, now-compliant playmate.\r\r");
+	}
+	say("     You can feel the slick fluid from her tainted cunt smeared against your <skintype> as she shamelessly humps you, her briefly innocent excitement replaced with something much more depraved.\r\r");
+	if(getStat("cocks") > 0 && Math.random()*100 > 33 && cockLength() < 12) {
+		say("     It’s not long before this isn’t enough, though, and she begins to shift both you and herself around until your crotch is within her reach, pulling free any obstruction in her path. The half-canine isn’t particular graceful in her efforts to get what she wants; if you’re not hard, she just grinds her slick hole against your <cocktype> cock<smn> until <theym> <arem>, before impaling herself with<oneof> <themm>.\r\r");
+		say("     It’s like sticking your dick in an oven");
+		if(cockLength() > 9) say(" -- exacerbated by how tight the fit is --");
+		else say(",");
+		say(" so intense and desperate is the beast’s heat. She wastes no time breeding herself on you, burying as much of your flesh inside her as she can possibly manage");
+		if(isListed(getStr("playercockname"), "Knot")) say(", up to the knot");
+		say(". Panting excessively, she practically bathes you in her hot, noxious breath as she continues to wildly pounds herself against your cock for what feels like hours.\r\r");
+		say("     She seems utterly relentless, as though the only way she’ll find any reprieve is for you to cum, which");
+		if(getStat("fightoutcome") != 23) say(" -- in spite of your efforts to resist --");
+		say(" feels very close at hand. The creature seems to know your approaching bliss, her motion becoming increasingly erratic until, finally, ");
+		if(isListed(getStr("playercockname"), "Knot")) say("tieing with you");
+		say("hilting you one last time");
+		say(" is enough to set you off. Writhing against the ground, you pump your <cum size desc> load into the beast’s hungry womb");
+		if(cumLoad() > 12) say(", visibly bloating her and causing it to sputter from her stuffed pussy");
+		say(".\r\r     She continues to ride you for a while longer, as if propelled by a lingering momentum, even when you have nothing left to offer her. Still panting, she offers you some brief affection before casually crawling off of you, wrenching your dick free from her gushing nethers as she slowly wanders elsewhere in the city. You’re given a moment to catch your breath and crawl back to your feet, cleaning the tainted mess off you as best you can before you, too, continue on your way.\r\r");
+	}
+	else {
+		say("     Making a slow mess of your <bodyshape> torso doesn’t appear to be nearly enough to satisfy the beast, and she soon clambers all over you before settling on your <headtype> head, her portal’s oozing, furred lips grinding against your face with a careless abandon. ");
+		if(getStat("fightoutcome") != 23) say("Though you struggle to resist");
+		else say("Soon");
+		say(", your senses are flooded with the taste and smell of her tainted sex, practically bathed in her crotch’s intense heat.\r\r");
+		if(getStat("fightoutcome") != 23) say("     In spite of your best efforts");
+		else say("     Overwhelmed");
+		say(", you can’t help but become aroused by this blatant abuse, ");
+		if(getStat("cocks") > 0) say("cock<smn> aching with a terrible need");
+		else if(getStat("cunts") > 0) say("cunt<sfn> aching with a terrible need");
+		say("though you lack a normal outlet");
+		say(". Lost in her bestial fervour, she seems to care little to return the favour, your muffled moans escaping her dripping nethers all the more for her pleasure.\r\r");
+		say("     The air filled with the sound of the half-canine’s loud panting -- along with her continued, increasingly wet motions -- for what seems like forever, until she finally reaches her goal, loudly howling as you face is further drenched by her tainted honey. Even after her bliss, she seems content to continue grinding against your face, though by this point she’s so exhausted");
+		if(getStat("fightoutcome") != 23) say(" and you’ve recovered enough");
+		say(" that you can easily push her off.\r\r     The creature scampers off after you force her away, no doubt to recover before finding another would-be victim, and leaving you to clean her heady musk off you as best as you can before setting off as well.\r\r");
+	}
 }
 
 
@@ -421,14 +415,12 @@ function fhuskyattack():void {
 }
 
 function fhuskyentry():void {
-	if(getStat("huskyoverride") != 1) {
-		if(isHunting) say("     You manage to hunt down one of the female huskies, who immediately tries to pounce on you the second she's within range, forcing you to keep your distance");
-		else say("     You're suddenly pounced upon from behind! You struggle for a moment to get the assailent off you before you can get a good look at what appears to be some sort of husky girl");
-		say(". Once human, the creature has completely succumbed to her bestial nature, completely nude save for her matted coat of white fur and just as likely to crawl on all fours as walk on two. Two pairs of breasts line her chest, their pinkish, perky nipples difficult to ignore.\r\r");
-		say("     Well aware of your presence, she tries to act cute, completely oblivious to how strange this circumstance is, and it fails to hide her otherwise very apparent desire for sex. It’s a challenge just to keep her at arm's length, the creature all too eager to try and clamber on top of you");
-		if(getStat("scale") > 5) say(", in spite of your much larger size");
-		say(".\r\r     The air is thick the musk of her dripping sex, to the point where simply being near here makes you dizzy, and she clearly has no intention of leaving anytime soon...");
-	}
+	if(isHunting) say("     You manage to hunt down one of the female huskies, who immediately tries to pounce on you the second she's within range, forcing you to keep your distance");
+	else say("     You're suddenly pounced upon from behind! You struggle for a moment to get the assailent off you before you can get a good look at what appears to be some sort of husky girl");
+	say(". Once human, the creature has completely succumbed to her bestial nature, completely nude save for her matted coat of white fur and just as likely to crawl on all fours as walk on two. Two pairs of breasts line her chest, their pinkish, perky nipples difficult to ignore.\r\r");
+	say("     Well aware of your presence, she tries to act cute, completely oblivious to how strange this circumstance is, and it fails to hide her otherwise very apparent desire for sex. It’s a challenge just to keep her at arm's length, the creature all too eager to try and clamber on top of you");
+	if(getStat("scale") > 5) say(", in spite of your much larger size");
+	say(".\r\r     The air is thick the musk of her dripping sex, to the point where simply being near here makes you dizzy, and she clearly has no intention of leaving anytime soon...");
 }
 
 function fhuskydesc():void {

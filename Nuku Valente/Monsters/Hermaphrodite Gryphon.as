@@ -777,7 +777,7 @@ function hermgryphvictory():void {
 		say(".\r\r     Continuing to abuse your hole for what seems like ages, you start to feel the sting of her talons digging into you, the beast clearly lost in a wanton frenzy, before finally letting out a shrill cry, tying with you");
 		if(getStat("scale") >= 7) say(" one last time");
 		say(" before flooding your bowels with her thick, overabundant seed. Even as her fervour gradually subsides she continues to fuck you, perhaps carried by pure momentum, before finally falling off you, still-hard dick audibly popping from your cum-stuffed hole as she falls to the ground in exhaustion.\r\r");
-		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.");
+		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.\r\r");
 		mimpregChance();
 	}
 	else if(getStat("cunts") > 0 && Math.random()*100 > 50) {
@@ -797,7 +797,7 @@ function hermgryphvictory():void {
 		say(".\r\r     Continuing to abuse your hole for what seems like ages, you start to feel the sting of her talons digging into you, the beast clearly lost in a wanton frenzy, before finally letting out a shrill cry, tying with you");
 		if(getStat("scale") >= 7) say(" one last time");
 		say(" before flooding your womb with her thick, overabundant seed. Even as her fervour gradually subsides she continues to fuck you, perhaps carried by pure momentum, before finally falling off you, still-hard dick audibly popping from your cum-stuffed hole as she falls to the ground in exhaustion.\r\r");
-		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.");
+		say("     Though still distracted by your lingering, unsated need, you’ve recovered enough energy to get up, grab your stuff, and make a run for it before she recovers (Not that the monster seems to even regard your retreat), a trail of her seed following in your wake.\r\r");
 		oviChance();
 	}
 	else if(getStat("cocks") > 0 && Math.random()*100 > 50 && cockLength() < 13) {
@@ -817,14 +817,14 @@ function hermgryphvictory():void {
 		if(getStat("libido") > 39) {
 			say("\r\r     The whole ordeal is more that enough to set you off, unloading your <cum size desc> load into the monster’s tight hole");
 			if(getStat("cocks") > 1) say(", its unattended brother<ssmn> staining your <bodyshape> torso");
-			say(". It seems this is all she needs, letting out a loud, bird-like screech, her hungry pussy milking you for anything left as she’s more than happy to douse your <facetype> face with gout after gout of her own spunk.");
+			say(". It seems this is all she needs, letting out a loud, bird-like screech, her hungry pussy milking you for anything left as she’s more than happy to douse your <headtype> face with gout after gout of her own spunk.");
 		}
 		else {
 			say(" The whole ordeal carries on for what seems like ages before the monster finally lets out a loud, bird-like screech, her hungry pussy squeezing you tightly, desperate to trigger you as well.\r\r     By this point, it seems like more than enough, causing you to unload your <cum size desc> load into the monster’s tight hole");
 			if(getStat("cocks") > 1) say(", its unattended brother<ssmn> staining your <bodyshape> torso");
-			say(". All the while, she’s more than happy to douse your <facetype> face with gout after gout of her own spunk.");
+			say(". All the while, she’s more than happy to douse your <headtype> face with gout after gout of her own spunk.");
 		}
-		say("Totally exhausted, the gryphon falls unceremoniously free of you, the sound of your dick’s wet departure loudly filling the air. Catching your breath, you quickly stumble to your feet, gather your things, and hightail it before she recovers.");
+		say("     Totally exhausted, the gryphon falls unceremoniously free of you, the sound of your dick’s wet departure loudly filling the air. Catching your breath, you quickly stumble to your feet, gather your things, and hightail it before she recovers.\r\r");
 	}
 	else {
 		say("     She’s relatively gentle when she grabs a hold of your <headtype> head, forcing it down until it’s level with her jet-black, oozing dick. Still fully within her control, she deliberately moves you to rub your face against the slick rod, it’s thick, bulging knot, and her sack, forcing you to inhale the monster's tainted musk and smearing her precum against you.\r\r");
@@ -854,7 +854,7 @@ function hermgryphvictory():void {
 		say(" Once satisfied, she pushes you off her before leaving you as a cum-");
 		if(choice == 1) say("stained");
 		else say("stuffed")
-		say("mess, a shrill cackle following in her wake. It takes a while to catch your breath and clean yourself off before you set off.");
+		say("mess, a shrill cackle following in her wake. It takes a while to catch your breath and clean yourself off before you set off.\r\r");
 	}
 }
 

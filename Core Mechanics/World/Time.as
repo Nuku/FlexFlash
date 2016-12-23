@@ -194,9 +194,8 @@ Three days, 72 hours.            1.4 thirst per hour. 45 ticks per unit
 
 function assessEnding():void {
 	if(!checkTimer("Game") || getStat("humanity") <= 0) {
-		clearButtons();
-		screenClear();
-		buttonSystem();
+		fullClear();
+		button6(true, "Restart", startScreen);
 		if(getStat("humanity") >= 10) {
 			say("\r\r     The military finally manages to rally and overtake the city, though only for long enough to pull out yourself and any other still-sane occupants they could find.\r\r     You're stuck in quarantine for a time, ");
 			if(isPure("Human")) say("though not for long, given your seemingly unaltered state.");

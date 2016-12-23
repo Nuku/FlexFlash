@@ -624,7 +624,6 @@ worldMaster["Introduction"].push([false, "Castlegrove 3rd Floor", "arbotoIntro"]
 
 function introCombat(dat:String = ""):void {
 	if(dat == "") {
-		setStat("huskyoverride", 1);
 		say("     As you reach the landing on the second floor, you hear some noise coming from one of the other apartments.  You move quietly to the door and peek inside.  Gazing into the damaged living room, you spot a canine mutant climbing through an open window from the fire escape.  Seeing you there, she charges up and tries to throw herself onto you, moaning and panting with sexual need.\r");
 		bypassN = "finish";
 		bypassF = introCombat;

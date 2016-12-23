@@ -158,7 +158,7 @@ function doLust():void {
 	}
 	if(lust/2 >= Math.random()*ceiling) modStat("libido", 1);
 	if(getStat("lustroll") > Math.random()*4) {
-		say("     The creature's mere presence seems to arouse you, <one of>in spite of your better judgment||as if compelled by some unseen force||you need a second to shake it off before continuing<random>...");
+		say("     <purple>The creature's mere presence seems to arouse you, <one of>in spite of your better judgment||as if compelled by some unseen force||you need a second to shake it off before continuing<random>...</purple>");
 		if(getStat("enemylevel")+3 <= getStat("level")) modStat("lust", 2+Math.round(Math.random()));
 		else modStat("lust", 3+Math.round(Math.random()*3));
 		setStat("lustroll", 0);
@@ -297,7 +297,7 @@ function doAttack(fit:Boolean = false):void {
 		dam = Math.round(dam*(((Math.random()*4)+8)/10));
 		if(hasFeat("Flurry")) dam = Math.round(dam*0.6);
 		if(checkSlot(1) && getStat("equiptype") != 0) say(getStr("equipattack") + " You hit the monster for " + dam + " damage!");
-		else say("You attack, hitting the monster for " + dam + " damage!");
+		else say("You attack, hitting the monster for <bold><yellow>" + dam + "</yellow></bold> damage!");
 		say("\r\r");
 		modStat("enemyhealth", -dam);
 	}
@@ -314,8 +314,8 @@ function doRetaliate(locked:Boolean = false):void {
 		var mitigate = Math.round(getStat("mitigationbase")+(dam*(getStat("mitigation%")/100)));
 		dam -= mitigate;
 		if(!locked) enemyattack();
-		say(" You're attacked for " + dam + "!");
-		if(mitigate > 0) say(" You mitigated " + mitigate + " damage.");
+		say(" You're attacked for <bold><red>" + dam + "</red></bold>!");
+		if(mitigate > 0) say(" You mitigated <bold><green>" + mitigate + "</green></bold> damage.");
 		say("\r\r");
 		modStat("health", -dam);
 	}
@@ -377,7 +377,7 @@ function dropRoll(repeat:Boolean = false):void {
 		if(sumWeight > Math.random()*200) {
 			for(i = 0; i < arrayLength; i++) {
 				if((Math.random()*sumWeight < dropWeight[i] && loneWeight == -1) || (Math.random()*sumWeight < loneWeight && loneWeight != -1)) {
-					say("<italic>You were able to recover " + dropPool[i] + " following the encounter.</italic>\r\r");
+					say("<italic>You were able to recover <green>" + dropPool[i] + "</green> following the encounter.</italic>\r\r");
 					givePlayer(dropPool[i], 1);
 					return;
 				}
