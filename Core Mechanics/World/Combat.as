@@ -6,10 +6,11 @@ var comCyc:Boolean = false;
 var comNegate:Boolean = false;
 
 function doCombat(seg:String = "Main") {
+	shiftColour("Red");
 	if(getStat("fighttimer") == -1) setStat("fighttimer", 1);
 	setStat("fightoutcome", 0);
 	var temp:Number = 0;
-	newGame.visible = false;
+	buttonSystem(false);
 	//Main combat screen.
 	if(seg == "Main") {
 		clearButtons();
@@ -35,6 +36,7 @@ function doCombat(seg:String = "Main") {
 		if(!comOvr) {
 			doCombat("Lust");
 			doAttack();
+			if(hasFeat("Flurry")) doAttack();
 			if(getStat("enemyhealth") <= 0) doCombat("Victory");
 			else doCombat("Follower");
 		}
@@ -156,7 +158,7 @@ function doLust():void {
 	}
 	if(lust/2 >= Math.random()*ceiling) modStat("libido", 1);
 	if(getStat("lustroll") > Math.random()*4) {
-		say("     The creature's mere presence seems to arouse you, <one of>in spite of your better judgment||as if compelled by some unseen force||you need a second to shake it off before continuing<random>...");
+		say("     <purple>The creature's mere presence seems to arouse you, <one of>in spite of your better judgment||as if compelled by some unseen force||you need a second to shake it off before continuing<random>...</purple>");
 		if(getStat("enemylevel")+3 <= getStat("level")) modStat("lust", 2+Math.round(Math.random()));
 		else modStat("lust", 3+Math.round(Math.random()*3));
 		setStat("lustroll", 0);
@@ -173,16 +175,20 @@ trace("TEST 3: " +  Math.round(((1*20)*0.8)*((100+(((70)/Math.PI)*Math.atan((((2
 */
 function doLoss():void {
 	inCombat = false;
-	doLastRoom(true);
-	enemyvic();
+	if(getStat("encounterbypass") == 1 || getStat("encounterbypass") == 0) {
+		doLastRoom(true);
+		enemyvic();
+		if(storeInfect) {
+			storeInfect = false;
+			queueInfect(getStr("enemyname"));
+		}
+		else infect(getStr("enemyname"));
+	}
+	else doLastRoom();
+	setStat("encounterbypass", 0);
 	isHunting = false;
 	if(getStat("health") < 1) setStat("health", 1);
-	say("\r\r");
-	if(storeInfect) {
-		storeInfect = false;
-		queueInfect(getStr("enemyname"));
-	}
-	else infect(getStr("enemyname"));
+	//say("\r\r");
 	if(getStat("morale") > Math.floor(-getStat("maxmorale")/2) && !hasFeat("Masochist")) modStat("morale", -1);
 	else if(hasFeat("Masochist") && Math.random()*10 > 5)  modStat("morale", 1);
 	if(hasFeat("Submissive") && !hasFeat("Servitor's Insight")) modStat("experience", Math.round(((getStat("enemylevel")*10)*0.8)*((100+(((70)/Math.PI)*Math.atan((((getStat("intelligence")-10)*1.2)+((getStat("intelligence")-10)/2.25))/6)*1.75))/100)));
@@ -193,14 +199,16 @@ function doLoss():void {
 }
 
 function doVictory():void {
-	if(bypassF != null) {
-		doNext(bypassN, bypassF);
-		bypassN = "";
-		bypassF = null;
+	if(getStat("encounterbypass") == 1 || getStat("encounterbypass") == 0) {
+		doLastRoom(true);
+		dropRoll();
+		enemyloss();
 	}
-	else doNext("", doLastRoom);
-	dropRoll();
-	enemyloss();
+	else {
+		dropRoll();
+		doLastRoom();
+	}
+	setStat("encounterbypass", 0);
 	//say("\r\r");
 	inCombat = false;
 	isHunting = false;
@@ -234,6 +242,7 @@ function doHit(Type:String = "Player", bonus:Number = 0):Number {
 	if(Type == "Player") {
 		if(getStat("level")>getStat("enemylevel")) levelFavour = (getStat("level")-getStat("enemylevel"));
 		else levelFavour = -(getStat("enemylevel")-getStat("level"));
+		if(hasFeat("Ranged Preference") && (!checkSlot(1) || (checkSlot(1) && getStat("equiptype") == 2))) bonus += 1;
 		levelFavour = Math.pow(levelFavour, 1.33);
 		trace("LevelFavour("+getStat("level")+"/"+getStat("enemylevel")+"): " + levelFavour);
 		if(getStat("dexterity")>getStat("enemydexterity")) dexFavour = Math.pow(getStat("dexterity")-getStat("enemydexterity"), 0.8);
@@ -258,15 +267,17 @@ function doHit(Type:String = "Player", bonus:Number = 0):Number {
 		if(getStat("isdefending") > 0) hitOutput -= hitOutput/5;
 	}
 	else if(Type == "Pet") {
+		var chabonus:Number = getStat("charisma");
+		if(hasFeat("Tank Support") && getStat("isdefending") > 0) chabonus += 2;
 		if(getStat("level")>getStat("enemylevel")) levelFavour = (getStat("level")-getStat("enemylevel"));
 		else levelFavour = -(getStat("enemylevel")-getStat("level"));
 		levelFavour = Math.pow(levelFavour, 1.33);
 		trace("LevelFavour("+getStat("level")+"/"+getStat("enemylevel")+"): " + levelFavour);
-		if(getStat("charisma")>getStat("enemydexterity")) dexFavour = Math.pow(getStat("charisma")-getStat("enemydexterity"), 0.8);
+		if(chabonus>getStat("enemydexterity")) dexFavour = Math.pow(chabonus-getStat("enemydexterity"), 0.8);
 		else dexFavour = -Math.pow(getStat("enemydexterity")-getStat("dexterity"), 0.8);
-		trace("DexFavour("+getStat("charisma")+"/"+getStat("enemydexterity")+"): " + dexFavour);
+		trace("DexFavour("+chabonus+"/"+getStat("enemydexterity")+"): " + dexFavour);
 		combatBonus = ((70)/Math.PI)*Math.atan((levelFavour+dexFavour)/6)+60;
-		trace("Player to Hit: " + combatBonus + " Deviation: " + (combatBonus-60));
+		trace("Pet to Hit: " + combatBonus + " Deviation: " + (combatBonus-60));
 		hitOutput = combatBonus+bonus;
 		if(hitOutput > 95) hitOutput = 95;
 	}
@@ -281,11 +292,12 @@ function doAttack(fit:Boolean = false):void {
 		var wmstrike:Number = 0;
 		var zvar:Number = 0;
 		var dam:Number = 0;
-		if(checkSlot(1) && getStat("equiptype") == 2) dam = ((((50)/Math.PI)*Math.atan((getStat("perception")-12)/6)+(getStat("perception")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
+		if((checkSlot(1) && getStat("equiptype") == 2) || (!checkSlot(1) && hasFeat("Ranged Preference"))) dam = ((((50)/Math.PI)*Math.atan((getStat("perception")-12)/6)+(getStat("perception")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
 		else dam = ((((50)/Math.PI)*Math.atan((getStat("strength")-12)/6)+(getStat("strength")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
 		dam = Math.round(dam*(((Math.random()*4)+8)/10));
+		if(hasFeat("Flurry")) dam = Math.round(dam*0.6);
 		if(checkSlot(1) && getStat("equiptype") != 0) say(getStr("equipattack") + " You hit the monster for " + dam + " damage!");
-		else say("You attack, hitting the monster for " + dam + " damage!");
+		else say("You attack, hitting the monster for <bold><yellow>" + dam + "</yellow></bold> damage!");
 		say("\r\r");
 		modStat("enemyhealth", -dam);
 	}
@@ -302,8 +314,8 @@ function doRetaliate(locked:Boolean = false):void {
 		var mitigate = Math.round(getStat("mitigationbase")+(dam*(getStat("mitigation%")/100)));
 		dam -= mitigate;
 		if(!locked) enemyattack();
-		say(" You're attacked for " + dam + "!");
-		if(mitigate > 0) say(" You mitigated " + mitigate + " damage.");
+		say(" You're attacked for <bold><red>" + dam + "</red></bold>!");
+		if(mitigate > 0) say(" You mitigated <bold><green>" + mitigate + "</green></bold> damage.");
 		say("\r\r");
 		modStat("health", -dam);
 	}
@@ -338,6 +350,7 @@ function doFlee():void {
 		else doNext("", doLastRoom);
 		setStat("lust", 0);
 		comCyc = false;
+		setStat("encounterbypass", 0);
 	}
 	else {
 		say("You failed to escape!\r\r");
@@ -347,7 +360,7 @@ function doFlee():void {
 }
 //40
 
-function dropRoll():void {
+function dropRoll(repeat:Boolean = false):void {
 	if(getStr("enemydrops") != "") {
 		var dropPool:Array = getStr("enemydrops").split("||");
 		var dropWeight:Array = getStr("enemydropchance").split("||");
@@ -364,7 +377,7 @@ function dropRoll():void {
 		if(sumWeight > Math.random()*200) {
 			for(i = 0; i < arrayLength; i++) {
 				if((Math.random()*sumWeight < dropWeight[i] && loneWeight == -1) || (Math.random()*sumWeight < loneWeight && loneWeight != -1)) {
-					say("<italic>You were able to recover " + dropPool[i] + " following the encounter.</italic>\r\r");
+					say("<italic>You were able to recover <green>" + dropPool[i] + "</green> following the encounter.</italic>\r\r");
 					givePlayer(dropPool[i], 1);
 					return;
 				}
@@ -372,6 +385,7 @@ function dropRoll():void {
 				else sumWeight -= loneWeight;
 			}
 		}
+		if(hasFeat("Magpie Eyes") && !repeat) dropRoll(true);
 	}
 }
 
@@ -394,12 +408,12 @@ function doSpecial(atk:String):void {
 				var wmstrike:Number = 0;
 				var zvar:Number = 0;
 				var dam:Number = 0;
-				if(checkSlot(1) && getStat("equiptype") == 2) dam = ((((50)/Math.PI)*Math.atan((getStat("perception")-12)/6)+(getStat("perception")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
+				if((checkSlot(1) && getStat("equiptype") == 2) || (!checkSlot(1) && hasFeat("Ranged Preference"))) dam = ((((50)/Math.PI)*Math.atan((getStat("perception")-12)/6)+(getStat("perception")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
 				else dam = ((((50)/Math.PI)*Math.atan((getStat("strength")-12)/6)+(getStat("strength")*5)+(getStat("level")*2.5)+40)*dBonus)/100;
 				dam = Math.round(dam*(((Math.random()*4)+8)/10));
 				if(checkSlot(1) && getStat("equiptype") != 0) say(getStr("equipattack"));
 				else say("You attack, hitting the monster for " + dam + " damage!");
-				if(doHit("Enemy") > Math.random()*100) {
+				if(doHit() > Math.random()*100) {
 					say("\r\rIn your desperation, you strike again!");
 					dam += dam;
 				}

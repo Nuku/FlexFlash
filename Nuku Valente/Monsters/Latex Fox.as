@@ -138,7 +138,7 @@ function latexfoxvictory():void {
 			else say("stain the ground with your neglected pussy's honey");
 		}
 		else say(". Writhing in a lust-fuelled haze, his climax isn't enough to set you off along with him, not that he seems to notice or care");
-		say(".\r\r     He continues to feverishly rail you for a while longer, though eventually the monster completely exhausts itself and falls to the ground. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.");
+		say(".\r\r     He continues to feverishly rail you for a while longer, though eventually the monster completely exhausts itself and falls to the ground. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.\r\r");
 		mimpregChance();
 	}
 	else if(getStat("cunts") > 0 && Math.random()*100 > 50) {
@@ -153,7 +153,7 @@ function latexfoxvictory():void {
 		say(". With one final thrust he forces his thick knot through your supple folds, loudly yipping as your womb is pumped full with the twisted fox's rubbery seed. More than enough to set you off as well, you ");
 		if(getStat("cocks") > 0) say("waste your <cum size desc> load impotently against the ground");
 		else say("writhe as your whole body is wracked with tainted bliss");
-		say(".\r\r     He continues to feverishly rail you for a while longer, though eventually the monster completely exhausts itself and falls to the ground. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.");
+		say(".\r\r     He continues to feverishly rail you for a while longer, though eventually the monster completely exhausts itself and falls to the ground. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.\r\r");
 		impregChance();
 	}
 	else {
@@ -165,8 +165,8 @@ function latexfoxvictory():void {
 		if(getStat("cocks") > 0) say("grind your own, unattended, <cocktype> dick<smn> against the ground");
 		else if(getStat("cunts") > 0) say("grind your unattended cunt<sfn> against the ground");
 		else say("writhe, genderless body aching with an insatiable need");
-		say(".\r\r     The monster doesn't need long in his desperate dash toward bliss, forcing his knot past your lips and going rigid as his dick sputters its rubbery load down your throat, pinning his crotch firm against your <facetype> maw and forcing you to swallow down the tainted fluid.\r\r");
-		say("     Even as the flow dies down he continues to wildly fuck your face for a while longer, though eventually the monster completely exhausts itself and falls to the ground, strings of his latex seed tailing from his cock as it's wrenched free of you. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.");
+		say(".\r\r     The monster doesn't need long in his desperate dash toward bliss, forcing his knot past your lips and going rigid as his dick sputters its rubbery load down your throat, pinning his crotch firm against your <headtype> maw and forcing you to swallow down the tainted fluid.\r\r");
+		say("     Even as the flow dies down he continues to wildly fuck your face for a while longer, though eventually the monster completely exhausts itself and falls to the ground, strings of his latex seed tailing from his cock as it's wrenched free of you. Having no plans to be used by the tainted creature again anytime soon, you put some distance between you and him before taking a moment to catch your breath.\r\r");
 	}
 }
 

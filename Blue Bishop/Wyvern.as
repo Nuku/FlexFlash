@@ -96,16 +96,15 @@ function wyvernvictory():void {
 			say(" becomes eclipsed by utter darkness, an overwhelming heat enveloping you before you black out.\r\r");
 			infect();
 			if(Math.random()*6 <= WYVORGYROLL) {
-				say("\r\r--ORGY PLACEHOLDER--");
-				//WYVORGY;
-				//now wyvorgyroll is 1;
-				//if "Kinky" is listed in feats of player, increase wyvorgyroll by 1;
+				wyOrgy();
+				WYVORGYROLL = 1;
+				if(hasFeat("Kinky")) ++WYVORGYROLL;
 			}
 			else {
 				say("     You eventually come to, still encased in your now all-too-familiar prison. Having regained your strength, it takes little effort to break free of these now-brittle confines, exposing you to the open air once more. Observing your surroundings, you can find your prior captor off in the distance, watching on as he confines a similar victim, egg-shaped capsule positioned between the beast's powerful thighs before slowly disappearing within the depths of his bestial hole.\r\r");
 				if(getStat("fightoutcome") != 23 && !hasFeat("Submissive")) say("     You shudder to think of the poor fellow who must now share your fate before you quickly retreat, lest you find yourself at the beast's mercy once more.\r\r");
 				else say("     You're forced to ponder these implications, the infectious influence of this twisted 'matron' perhaps getting the better of you, before you decide to depart.\r\r");
-				//INCREASE wyvorgyroll by 1;
+				++WYVORGYROLL;
 			}
 		}
 		else if (getStat("scale") < 7 && getStat("vorelevel") != 1 && (Math.random()*3 <= 2 || getStat("vorelevel") == 3) && !BOUNDSTATE) {
@@ -147,21 +146,23 @@ function wyvernvictory():void {
 				say(", not that the beast even seems to notice.\r\r");
 			}
 			if(BOUNDSTATE) {
-				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, briefly minding his twisted offspring before he takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.[impregchance]\r\r");
-				/*if libido of player > 25, decrease libido of player by (libido of player / 10) + 1;
-				now lustatt is libido of player;
-				if struggleatt > 0, decrease struggleatt by 1;
-				if enduring is true:
-					decrease humanity of player by 8 + (psycheadjust * 2);
+				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, briefly minding his twisted offspring before he takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.\r\r");
+				oviChance();
+				hitLibido();
+				boundLust = getStat("libido");
+				if(enduring) modStat("humanity", -(8 + (mindAdjust*2)));
 				else {
-					decrease humanity of player by 15 + (psycheadjust * 5);
-				increase wyvkin1lib by 5;
-				increase wyvkin2lib by 5;
-				if wyvkinocc > 0, increase wyvkin3lib by 5;
-				if wyvkinocc > 0, increase wyvkin4lib by 5;*/
+					if(struggleSeg > 0) --struggleSeg;
+					modStat("humanity", -(15 + (mindAdjust*5)));
+				}
+				modStat("wyvkin1lib", 5);
+				modStat("wyvkin2lib", 5);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 5);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 5);
 			}
 			else {
-				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, before billowing you with a gust of wind as it takes to the air again, abandoning your still-bound form and only appearing marginally satisfied. The whole ordeal probably scared off any locals, because you're given a fair amount of time to recover and slowly pull the goop free of you, getting back up and slowly limping off.[impregchance]\r\r");
+				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, before billowing you with a gust of wind as it takes to the air again, abandoning your still-bound form and only appearing marginally satisfied. The whole ordeal probably scared off any locals, because you're given a fair amount of time to recover and slowly pull the goop free of you, getting back up and slowly limping off.\r\r");
+				oviChance();
 			}
 		}
 		else if(getStat("anallevel") != 1 && aPen() > 12 && (getStat("cunts") == 0 || getStat("anallevel") == 3) && (Math.random()*2 <= 1 || (getStat("anallevel") == 3 && Math.random()*3 <= 1))) {
@@ -181,7 +182,7 @@ function wyvernvictory():void {
 			if(getStat("libido") > 30 && (getStat("cocks") > 0 || getStat("cunts") > 0)) {
 				say("it's not long before you cry out in orgasm, ");
 				if(getStat("cocks") > 0) say("cock<smn> smearing <theirm> <cum size desc> load against both your torsos");
-				else say("neglected cunt[sfn] oozing down onto the invading organ");
+				else say("neglected cunt<sfn> oozing down onto the invading organ");
 				say(". He doesn't seem to even notice this, relentlessly eager to rail for a seemingly endless length of time before the wyvern finally lets out ear-splitting screech. At first, the initial gouts of the beast's thick, virile seed are slow, but they very quickly intensify until it feels like you're being utterly hosed by them, ");
 				if(getStat("scale") < 5) say("forced to watch each gout balloons out your stomach even further");
 				else if(getStat("scale") < 8) say("visibly swelling with each gout");
@@ -203,22 +204,25 @@ function wyvernvictory():void {
 				else say(". Without an outlet, you are forced to struggle against this twisted, wanton fervour, not that the beast cares about or even notices your plight.\r\r");
 			}
 			if(BOUNDSTATE) {
-				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, briefly minding his twisted offspring before he takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.[mimpregchance]\r\r");
-				/*if cocks of player > 0 or cunts of player > 0:
-					if libido of player > 25, decrease libido of player by (libido of player / 10) + 1;
-					now lustatt is libido of player;
-					if struggleatt > 0, decrease struggleatt by 1;
-					if enduring is true:
-						decrease humanity of player by 8 + (psycheadjust * 2);
+				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, briefly minding his twisted offspring before he takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.\r\r");
+				mimpregChance();
+				if(getStat("cocks") > 0 || getStat("cunts") > 0) {
+					hitLibido();
+					boundLust = getStat("libido");
+					if(enduring) modStat("humanity", -(8 + (mindAdjust*2)));
 					else {
-						decrease humanity of player by 15 + (psycheadjust * 5);
-					increase wyvkin1lib by 5;
-					increase wyvkin2lib by 5;
-					if wyvkinocc > 0, increase wyvkin3lib by 5;
-					if wyvkinocc > 0, increase wyvkin4lib by 5;*/
+						if(struggleSeg > 0) --struggleSeg;
+						modStat("humanity", -(15 + (mindAdjust*5)));
+					}
+				}
+				modStat("wyvkin1lib", 5);
+				modStat("wyvkin2lib", 5);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 5);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 5);
 			}
 			else {		
-				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, before billowing you with a gust of wind as it takes to the air again, abandoning your still-bound form and only appearing marginally satisfied. The whole ordeal probably scared off any locals, because you're given a fair amount of time to recover and slowly pull the goop free of you, getting back up and slowly limping off.[mimpregchance]\r\r");
+				say("     Suddenly, and with barely any restraint, the massive reptile wrenches its dick from of you, a flood of seed oozing from your gaping hole in its wake, before billowing you with a gust of wind as it takes to the air again, abandoning your still-bound form and only appearing marginally satisfied. The whole ordeal probably scared off any locals, because you're given a fair amount of time to recover and slowly pull the goop free of you, getting back up and slowly limping off.\r\r");
+				mimpregChance();
 			}
 		}
 		else {
@@ -240,10 +244,13 @@ function wyvernvictory():void {
 			say(", it feels like you're practically bathing in the wyvern's sex, it's overwhelmingly masculine scent and taste all you can feel anymore, and you feel like you're almost going to pass out before you're brought to attention by the monster's loud roar. ");
 			if(getStat("scale") > 4) say("The immediate force of his dick's release popping it from your strained maw, y");
 			say("Y");
-			say("our utterly blasted with his cum, nearly dislodging your body from [if boundstate is true]the wyvern kin's hold[otherwise]your bindings[end if] by how intense the force you're made to take head-on.\r\r");
+			say("our utterly blasted with his cum, nearly dislodging your body from ");
+			if(BOUNDSTATE) say("the wyvern kin's hold");
+			else say("your bindings");
+			say(" by how intense the force you're made to take head-on.\r\r");
 			if(BOUNDSTATE) {
 				say("     With little ceremony or care, you watch as the beast's dick retreats back from whence it hid before he pulls away, briefly minding his twisted offspring before he takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.\r\r");
-				//increase lustatt by 20;
+				boundLust += 20
 			}
 			else {
 				say("     With little ceremony or care, you watch as the beast's dick retreats back from whence it hid before he pulls away, taking to the sky once more. It takes you several moments to figure out up from down after the whole ordeal before you start pulling yourself free of your primitive bondage. Once free, it takes quite a while to clean yourself off and just as long to not feel completely sore all over.\r\r");
@@ -324,16 +331,15 @@ function wyvernvictory():void {
 			say(" becomes eclipsed by utter darkness, an overwhelming heat enveloping you before you black out.\r\r");
 			infect();
 			if(Math.random()*6 <= WYVORGYROLL) {
-				say("--ORGY PLACEHOLDER--");
-				//WYVORGY;
-				//now wyvorgyroll is 1;
-				//if "Kinky" is listed in feats of player, increase wyvorgyroll by 1;
+				wyOrgy();
+				WYVORGYROLL = 1;
+				if(hasFeat("Kinky")) ++WYVORGYROLL;
 			}
 			else {
 				say("     You eventually come to, still encased in your now all-too-familiar prison. Having regained your strength, it takes little effort to break free of these now-brittle confines, exposing you to the open air once more. Observing your surroundings, you can find your prior captor off in the distance, watching on as she confines a similar victim, egg-shaped capsule positioned between the beast's powerful thighs before slowly disappearing within the depths of her bestial vent.");
 				if(getStat("fightoutcome") != 23 && !hasFeat("Submissive")) say("     You shudder to think of the poor fellow who must now share your fate before you quickly retreat, lest you find yourself at the beast's mercy once more.\r\r");
 				else say("     You're forced to ponder these implications, the infectious influence of this twisted matron perhaps getting the better of you, before you decide to depart.\r\r");
-				//increase wyvorgyroll by 1;
+				++WYVORGYROLL;
 			}
 		}
 		else if(getStat("cocks") > 0 && cockLength() > 11 && Math.random()*2 <= 1) {
@@ -346,7 +352,7 @@ function wyvernvictory():void {
 			else say("you're sufficiently aroused.\r\r");
 			say("     Deeply rumbling, her tongue lavishes possessive affection on your face, thick, writhing organ shamelessly smearing you in saliva as she makes some effort to properly mount you. Fumbling a fair bit to properly line up<onem> your tool<smv> with her hole");
 			if(getStat("scale") < 7) say(", made especially difficult by your small size"); 
-			say("; however, once successful, she's eager to pound her crotch down on the organ with no restraint, ");
+			say("); however, once successful, she's eager to pound her crotch down on the organ with no restraint, ");
 			if(isListed(getStr("playercockname"), "Knot")) {
 				if(cockLength() > 14) say("engulfing it entirely, up to the knot. Dissatisfied with her inability to tie with you, she continually slams the already strained tool against her only slightly yielding cleft, snorting in annoyance.\r\r");
 				else say("engulfing it entirely, knot included.\r\r");
@@ -366,17 +372,17 @@ function wyvernvictory():void {
 			say(", prolonging your orgasm as her hungry portal milks you for every last drop you might offer her.\r\r");
 			if(BOUNDSTATE) {
 				say("     Once she comes down from her frenzy, she briefly glares at you, tongue offering idle attention as she recovers, before finally wrenching herself free of your tool, briefly minding her twisted offspring before she takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.\r\r");
-				/*if libido of player > 25, decrease libido of player by (libido of player / 10) + 1;
-				now lustatt is libido of player;
-				if struggleatt > 0, decrease struggleatt by 1;
-				if enduring is true:
-					decrease humanity of player by 8 + (psycheadjust * 2);
+				hitLibido();
+				boundLust = getStat("libido");
+				if(enduring) modStat("humanity", -(8 + (mindAdjust*2)));
 				else {
-					decrease humanity of player by 15 + (psycheadjust * 5);
-				increase wyvkin1lib by 5;
-				increase wyvkin2lib by 5;
-				if wyvkinocc > 0, increase wyvkin3lib by 5;
-				if wyvkinocc > 0, increase wyvkin4lib by 5;*/
+					if(struggleSeg > 0) --struggleSeg;
+					modStat("humanity", -(15 + (mindAdjust*5)));
+				}
+				modStat("wyvkin1lib", 5);
+				modStat("wyvkin2lib", 5);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 5);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 5);
 			}
 			else {
 				say("     Once she comes down from her frenzy, she briefly glares at you, tongue offering idle attention as she recovers, before finally wrenching herself free of your tool, turning away to take to the sky once more. The whole ordeal probably scared off any locals, because you're given a fair amount of time to recover and slowly pull the goop free of you");
@@ -400,7 +406,7 @@ function wyvernvictory():void {
 			say(", it feels like you're practically bathing in the wyvern's sex, it's overwhelming taste and scent all you seem to feel anymore, and you feel like you're almost going to pass out before you're brought to attention by the monster's loud roar. You're utterly drenched in the ensuing flood of sexual fluids, the weight of her grinding body against yours becoming painfully apparent.\r\r");
 			if(BOUNDSTATE) {
 				say("     Satisfied, for now, the wyven eventually pulls herself free of you, briefly minding her twisted offspring before she takes to flight once more. Barely given a moment to recover, the wyvern kin climb onto you again, reassuming their prior positions, no doubt eager to resume, their own lust heightened from the show.\r\r");
-				//increase lustatt by 20;
+				boundLust += 20;
 			}
 			else {
 				say("     Satisfied, the wyvern eventually pulls herself free of you, not giving you much of her regard beyond her need before taking flight once more. It takes you several moments to figure out up from down after the whole ordeal before you start pulling yourself free. Once free, it takes quite a while to clean yourself off and just as long to not feel completely sore all over.\r\r");
@@ -713,7 +719,7 @@ function wyvgen1(dat:String = ""):void { //[Anal Pitching]
 	
 function wyvgen2(dat:String = ""):void { //[Oral Receiving Cock]
 	if(dat == "") {
-		say("     Circling around to meet the wyvern at his front, the defeated beast growls lowly at you. Not immediately compliant though <ghe> may be, it's clear <ghe>'s too spent to put up any fight for long. Carefully, you expose your eager, <cock size desc> dick[smn] before <ghim>. At first inclined to nip impotently at ");
+		say("     Circling around to meet the wyvern at his front, the defeated beast growls lowly at you. Not immediately compliant though <ghe> may be, it's clear <ghe>'s too spent to put up any fight for long. Carefully, you expose your eager, <cock size desc> dick<smn> before <ghim>. At first inclined to nip impotently at ");
 		if(getStat("cocks") > 1) say("one of them");
 		else say("it");
 		say(", you're forced to swat the monster down until <ghe>'s gentler, eventually meeting it with <ghis> coarse, saliva-slicked tongue.\r\r");
@@ -753,19 +759,19 @@ function wyvgen2(dat:String = ""):void { //[Oral Receiving Cock]
 		wyvgen2("finish");
 	}
 	if(dat == "finish") {
-		say(". Eventually, you manage to pull away from the monster, after <ghe> spent a moment idly licking your spent tool[smn].\r\r");
+		say(". Eventually, you manage to pull away from the monster, after <ghe> spent a moment idly licking your spent tool<smn>.\r\r");
 		say("     Satisfied, you leave the wyvern, who you can clear see is lost in the throes of <ghis> own lust, having made a rather embarrassing, sticky mess of the ground <ghe>'s relegated <ghim>self to grinding against.");
 		doNext("", doLastRoom); 
 	}
 }
 	
 function wyvgen3(dat = ""):void { //[Oral Receiving Cunt]
-	say("     Circling around to meet the wyvern at his front, the defeated beast growls lowly at you. Not immediately compliant though <ghe> may be, it's clear <ghe>'s too spent to put up any fight for long. Carefully, you expose your eager, <bodytype> cunt[smn] before <ghim>, at first inclined to nip impotently at ");
+	say("     Circling around to meet the wyvern at his front, the defeated beast growls lowly at you. Not immediately compliant though <ghe> may be, it's clear <ghe>'s too spent to put up any fight for long. Carefully, you expose your eager, <bodytype> cunt<smn> before <ghim>, at first inclined to nip impotently at ");
 	if(getStat("cunts") > 1) say("them");
 	else say("it");
 	say(", forcing you to swat the monster down until <ghe>'s gentler, eventually meeting it with <ghis> coarse, saliva-slicked tongue.\r\r");
 	say("     Prehensile appendage slathering its affection on your feminine portal, you can't help but press against the wyvern's snout, eventually forcing <ghim> to worm the slick organ within the confines of your hole");
-	if(getStat("cocks") > 0) say(", hardening dick[smn] grinding against his snout and");
+	if(getStat("cocks") > 0) say(", hardening dick<smn> grinding against his snout and");
 	else if(getStat("cunts") > 2) say(", its unattended sisters oozing against the <ghis> lips and");
 	else if(getStat("cunts") == 2) say(", its unattended sister oozing against the <ghis> lips and");
 	else say(","); 
@@ -778,7 +784,7 @@ function wyvgen3(dat = ""):void { //[Oral Receiving Cunt]
 	say("     In a few short seconds it's clear that you can hold back no longer, a cry forced out of you");
 	if(getStat("scale") < 8) say(" from against the wall");
 	say(" before you are wracked in the throes of bliss, pussy tightening around the wyvern's writhing appendage, ");
-	if(getStat("cocks") > 0) say("your unattended cock[smn] staining the side of <ghis> muzzle as <ghe> loudly growls");
+	if(getStat("cocks") > 0) say("your unattended cock<smn> staining the side of <ghis> muzzle as <ghe> loudly growls");
 	else say("loudly growling");
 	say(" in tainted approval. Eventually, you manage to pull away from the monster, after <ghe> spent a moment idly licking your stretched and dripping hole.\r\r");
 	say("     Satisfied, you leave the wyvern, who you can clear see is lost in the throes of <ghis> own lust, having made a rather embarrassing, sticky mess of the ground <ghe>'s relegated <ghim>self to grinding against.");
@@ -811,7 +817,7 @@ function wyvmale1(dat = ""):void { //[Cunt Catching]
 	if(dat == "s2") {
 		if(getStat("scale") < 8) say("     Crawling");
 		else say("     Climbing");
-		say(" on top of him, you line up<onef> your exposed cunt[sfn] with the beast's impressive, oozing dick. Slowly forcing yourself down on his blunt head, ");
+		say(" on top of him, you line up<onef> your exposed cunt<sfn> with the beast's impressive, oozing dick. Slowly forcing yourself down on his blunt head, ");
 		if(tempone == 1 && vPen() < 16) say("it no doubt gives you a lot of resistance, though your prior affection has eased it somewhat");
 		else if(vPen() < 16) say("it no doubt gives you a lot of resistance, exacerbated by its lack of lubrication");
 		else if(tempone == 1) say("it doesn't give you much resistance, especially thanks to your prior work");
@@ -819,7 +825,7 @@ function wyvmale1(dat = ""):void { //[Cunt Catching]
 		say(", a loud groan squeezed from the wyvern by your");
 		if(vPen() < 16) say(" tight,");
 		say(" supple folds. ");
-		if(getStat("cocks") > 0) say("Your own dick[smn] driven hard");
+		if(getStat("cocks") > 0) say("Your own dick<smn> driven hard");
 		if(getStat("cunts") > 1) say("Unattended cunt<ssfn> aching");
 		else say("Your body trembling");
 		say(" as you slowly engulf the tool, inch by inch, until you feel properly acclimated to its presence, gradually building up a motion of fucking yourself with the beast.\r\r");
@@ -851,7 +857,7 @@ function wyvmale1(dat = ""):void { //[Cunt Catching]
 	}
 	if(dat == "extb") {
 		say("\r\r     At the very last second, you pull free of the monster's dick, pulling to grind your crotch against it for a few brief seconds before its owner roars out, painting the beast in his own, voluminous seed. Succumbing to your own bliss, ");
-		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your [cum load size of player] load, staining the beast's scales along with his own.");
+		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your <cum size desc> load, staining the beast's scales along with his own.");
 		else say("your cunt<sfn> aching and staining the dragon's scales with your sexual fluids, mixing with his own.");
 		tempone = 0;
 		wyvmale1("finish");
@@ -863,8 +869,9 @@ function wyvmale1(dat = ""):void { //[Cunt Catching]
 		if(getStat("scale") < 8) say(", causing your body to visibly bloat until it sputters from your stuffed hole");
 		else say("until it begins to ooze from your stuffed hole");
 		say(". Succumbing to your own bliss, ");
-		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your [cum load size of player] load, staining the beast's scales.");
-		else say("your stuffed cunt squeezing hungrily around the throbbing organ."); //IMPREG
+		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your <cum size desc> load, staining the beast's scales.");
+		else say("your stuffed cunt squeezing hungrily around the throbbing organ.");
+		oviChance();
 		tempone = 0;
 		wyvmale1("finish");
 	}
@@ -934,7 +941,7 @@ function wyvmale2(dat = ""):void { // [Anal Catching]
 		if(getStat("scale") < 6) say(" utterly");
 		else say("r ass and back");
 		say(" with his virile seed. Succumbing to your own bliss, ");
-		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your [cum load size of player] load, staining the beast's scales along with his.\r\r");
+		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your <cum size desc> load, staining the beast's scales along with his.\r\r");
 		else if(getStat("cunts") > 0) say("your cunt<sfn> aching and staining the dragon's scales with your sexual fluids, mixing with his own.\r\r");
 		else say("body writhing and twisting in insatiable need.\r\r");
 		tempone = 1;
@@ -942,7 +949,7 @@ function wyvmale2(dat = ""):void { // [Anal Catching]
 	}
 	if(dat == "extb") {
 		say("     At the very last second, you pull free of the monster's dick, pulling to grind your crotch against it for a few brief seconds before its owner roars out, painting the beast in his his own, voluminous seed. Succumbing to your own bliss, ");
-		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your [cum load size of player] load, staining the beast's scales along with his.\r\r");
+		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your <cum size desc> load, staining the beast's scales along with his.\r\r");
 		else if(getStat("cunts") > 0) say("your cunt<sfn> aching and staining the dragon's scales with your sexual fluids, mixing with his own.\r\r");
 		else say("body writhing and twisting in insatiable need.\r\r");
 		tempone = 0;
@@ -955,9 +962,10 @@ function wyvmale2(dat = ""):void { // [Anal Catching]
 		if(getStat("scale") < 8) say(", causing your body to visibly bloat until it sputters from your stuffed hole");
 		else say("until it begins to ooze from your stuffed hole");
 		say(". Succumbing to your own bliss, ");
-		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your [cum load size of player] load, staining the beast's scales.\r\r");
+		if(getStat("cocks") > 0) say("your cock<smn> fire<smv> off your <cum size desc> load, staining the beast's scales.\r\r");
 		else if(getStat("cunts") > 0) say("your cunt<sfn> aching and staining the dragon's scales with your sexual fluids.\r\r");
 		else say("body writhing and twisting in insatiable need.\r\r");
+		mimpregChance();
 		tempone = 0;
 		wyvmale2("finish");
 	}
@@ -1018,7 +1026,6 @@ function wyvmale3(dat = ""):void { //[Oral Giving Cock]
 	}
 	if(dat == "finish") {
 		say(".\r\r      Taking a moment to catch your breath and clean yourself of the substantial mess he's made, you set off and leave the exhausted and spent monster, satisfied with your work... Albeit a bit aroused yourself from all of it.");
-		//increase libido of player by 3;
 		doNext("", doLastRoom);
 	}
 }
@@ -1196,7 +1203,6 @@ function wyvfem2(dat = "") { // [Oral Giving Cunt]
 	}
 	if(dat == "fin") {
 		say("      Taking a moment to catch your breath and clean yourself of the substantial mess she's made, you set off and leave the exhausted and spent monster, satisfied with your work... Albeit a bit aroused yourself from all of it.");
-		//increase libido of player by 3;
 		doNext("", doLastRoom);
 	}
 }
@@ -1369,8 +1375,9 @@ function wyVoreScene():void {
 	else {
 		say(". Not putting up a fight, even as you're now liberated from your prior bondage, all it one takes is one final, powerful gulp to squeeze you past that final portal to <ghis> stomach. Surrounded by supple, saliva-slicked walls, you begin to feel yourself slowly being drained. You don't imagine you'll last long in here...");
 		boundSeg = 0;
+		obliging = true;
 	}
-	doNext("Main", wyVore);
+	doNext("main", wyVore);
 }
 
 var obliging:Boolean = false;
@@ -1385,10 +1392,10 @@ var boundCount:Number = 0;
 var lustAdjust:Number = 0;
 var mindAdjust:Number = 0;
 	
-function wyVore(seg:String = "Main"):void {
-	if(seg == "Main") {
+function wyVore(seg:String = "main"):void {
+	if(seg == "main") {
 		screenClear();
-		if(boundLust > 99) {
+		if(boundLust > 99) { 
 			say("     Finding yourself overtaken by lust, you are given no choice but to furiously ");
 			if(getStat("cocks") > 0) say("jerk yourself off");
 			else say("fondle yourself");
@@ -1462,7 +1469,7 @@ function wyVore(seg:String = "Main"):void {
 				say(" visible through the beast's maws, before <ghe> rears <ghis> head once more, pulling you back into the depths of <ghis> gullet. You've been set back, but you at least made some headway.");
 				boundLust += 7+(lustAdjust*2);
 				voreSanityLoss();
-				doNext("Main", wyVore);
+				doNext("main", wyVore);
 			}
 			else {
 				say("     Fighting with the wyvern's endeavour for what seems like forever, <ghe> just gets fed up with your protests, throat's muscles -- once pulling you further in -- now push you back out, the wyvern hacking you out until you fall onto the ground, landing in a puddle of <ghis> saliva. Screeching down at you, you still manage to get to your feet and dive over to someplace where you can hide.\r\r");
@@ -1478,7 +1485,7 @@ function wyVore(seg:String = "Main"):void {
 				else say("the beast beginning to growl in discontent...");
 				boundLust += 7+(lustAdjust*2);
 				voreSanityLoss();
-				doNext("Main", wyVore);
+				doNext("main", wyVore);
 			}
 			else {
 				if(boundMod != 1) {
@@ -1486,7 +1493,7 @@ function wyVore(seg:String = "Main"):void {
 					temptwo = 1;
 					boundSeg = 1;
 					struggleSeg = 1;
-					doNext("Main", wyVore);
+					doNext("main", wyVore);
 				}
 				else {
 					say("     Your continued protests eventually causes the wyvern's stomach to groan and churn, your quivering prison soon constricting around your [bodytype of player] form you squeeze you out, downwards into the beast's fleshy tubes. Your captor rumbling lowly in displeasure, you're strung along these tight, slick confines until you're greeted once more with the dry, open air.\r\r");
@@ -1537,7 +1544,7 @@ function wyVore(seg:String = "Main"):void {
 			boundLust += 7+(lustAdjust*2);
 		}
 		voreSanityLoss();
-		doNext("Main", wyVore);
+		doNext("main", wyVore);
 	}
 	if(seg == "endure") {
 		enduring = true;
@@ -1592,7 +1599,7 @@ function wyVore(seg:String = "Main"):void {
 			boundLust += 3+lustAdjust;
 			voreSanityLoss();
 		}
-		doNext("Main", wyVore);
+		doNext("main", wyVore);
 	}
 }
 
@@ -1640,4 +1647,1123 @@ function voreSanityLoss():void {
 	if(enduring) e = 2;
 	var s = (((5*i)+(mindAdjust*i))-2)/e;
 	modStat("humanity", -s);
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+function wyvKinRoll():void {
+	if(Math.random()*4 <= 1) {
+		setStat("wyvkinocc", 1);
+		if(Math.random()*4 <= 1) setStat("wyvkinocc", 2);
+	}
+	else if(Math.random()*4 <= 1) setStat("wyvkinocc", 1);
+	else setStat("wyvkinocc", 2);
+	if(getStat("femaleward") == 1) {
+		setStat("wyvkin1gen", 1);
+		//[say("First is male.");]
+		setStat("wyvkin2gen", 1);
+		//[say("Second is Male.");]
+		if(getStat("wyvkinocc") == 1) setStat("wyvkin3gen", 1);
+		//[say("Third is Male.");]
+		if(getStat("wyvkinocc") == 2) setStat("wyvkin4gen", 1);
+		//[say("Fourth is Male.");]
+	}
+	else if(getStat("maleward") == 1) {
+		setStat("wyvkin1gen", 0);
+		//[say("First is female.");]
+		setStat("wyvkin2gen", 0);
+		//[say("Second is female.");]
+		if(getStat("wyvkinocc") == 1) setStat("wyvkin3gen", 0);
+		//[say("Third is female.");]
+		if(getStat("wyvkinocc") == 2) setStat("wyvkin4gen", 0);
+		//[say("Fourth is female.");]
+	}
+	else {
+		if(Math.random()*2 <= 1) setStat("wyvkin1gen", 0);
+		else setStat("wyvkin1gen", 1);
+		if(Math.random()*2 <= 1) setStat("wyvkin2gen", 0);
+		else setStat("wyvkin2gen", 1);
+		if(getStat("wyvkinocc") > 0) {
+			if(Math.random()*2 <= 1) setStat("wyvkin3gen", 0);
+			else setStat("wyvkin3gen", 1);
+		}
+		if(getStat("wyvkinocc") > 1) {
+			if(Math.random()*2 <= 1) setStat("wyvkin4gen", 0);
+			else setStat("wyvkin4gen", 1);
+		}
+	}
+}
+
+function tempmempurge():void {
+	setStat("wyvkin1att", 0);
+	setStat("wyvkin2att", 0);
+	setStat("wyvkin3att", 0);
+	setStat("wyvkin4att", 0);
+	setStat("wyvkinocc", 0);
+	setStat("headocc", 0);
+	setStat("bodyocc", 0);
+	setStat("cuntocc", 0);
+	setStat("assocc", 0);
+	setStat("cockocc", 0);
+	setStat("wyvkin1lib", 0);
+	setStat("wyvkin2lib", 0);
+	setStat("wyvkin3lib", 0);
+	setStat("wyvkin4lib", 0);
+}
+
+function wyOrgy(seg:String = "Start"):void {
+	if(seg == "Start") {
+		temptwo = 0;
+		wyvKinRoll();
+		say("     You eventually come to, still encased in your all-too-familiar prison. Having regained your strength, it takes little effort to break free of these now-brittle confines, exposing you to the open air once more. Observing your surroundings, a terrifying sight is displayed before you...\r\r"); //a most baffling/a very familiar--stopping
+		say("     Strong air billowing against you, you see the cityscape all around you. It appears you've been dropped off at the top of a now-decrepit skyscraper, left in a nest that appears to have been assembled by various ruinous scraps of furniture and wrecked parts. Of course, it doesn't take long before your sight falls on the other occupants of this nest.\r\r");
+		if(getStat("wyvkinocc") == 0) say("     A pair of");
+		else if(getStat("wyvkinocc") == 1) say("     Three");
+		else say("     Four");
+		say(" wyverns glare back at you, a hungry look in their eyes. Much smaller than what you normally see, you deduce that they are the kin of the beast that flew off with you, either their actual offspring or other survivors who succumbed to a similar fate as you.\r\r");
+		say("     Slowly stepping towards you, blatantly aroused, it's clear they intend to have their new companion sate their ever-burning need");
+		if(getStat("wyvkin1gen") == 1 && getStat("wyvkin2gen") == 1 && ((getStat("wyvkinocc") > 0 && getStat("wyvkin3gen") == 1) || getStat("wyvkinocc") == 0) && ((getStat("wyvkinocc") > 1 && getStat("wyvkin4gen") == 1) || getStat("wyvkinocc") < 2)) say(". They <bold>all</bold> appear to be male, already-exposed and oozing dicks throbbing against the open air");
+		else if(getStat("wyvkin1gen") == 0 && getStat("wyvkin2gen") == 0 && ((getStat("wyvkinocc") > 0 && getStat("wyvkin3gen") == 0) || getStat("wyvkinocc") == 0) && ((getStat("wyvkinocc") > 1 && getStat("wyvkin4gen") == 0) || getStat("wyvkinocc") < 2)) say(". They <bold>all</bold> appear to be female, leaving a trail of sexual fluids");
+		else {
+			if(getStat("wyvkinocc") > 1) {
+				if(getStat("wyvkin1gen") + getStat("wyvkin2gen") + getStat("wyvkin3gen") + getStat("wyvkin4gen") < 2) say(". <bold>Three</bold> of them appear");
+				else if(getStat("wyvkin1gen") + getStat("wyvkin2gen") + getStat("wyvkin3gen") + getStat("wyvkin4gen") < 3) say(". <bold>Two</bold> of them appear");
+				else say(". <bold>One</bold> of them appears");
+			}
+			else if(getStat("wyvkinocc") == 1) {
+				if(getStat("wyvkin1gen") + getStat("wyvkin2gen") + getStat("wyvkin3gen") < 2) say(". <bold>Two</bold> of them appear");
+				else say(". <bold>One</bold> of them appears");
+			}
+			else say(". <bold>One</bold> of them appears");	
+			say(" to be female, the other ");
+			if(getStat("wyvkinocc") > 1) {
+				if(getStat("wyvkin1gen") + getStat("wyvkin2gen") + getStat("wyvkin3gen") + getStat("wyvkin4gen") > 2) say("<bold>Three</bold>");
+				else if(getStat("wyvkin1gen") + getStat("wyvkin2gen") + getStat("wyvkin3gen") + getStat("wyvkin4gen") > 1) say("<bold>Two</bold>");
+				else say("<bold>One</bold>");
+			}
+			else if(getStat("wyvkinocc") == 1) {
+				if(getStat("wyvkin1gen") + getStat("wyvkin2gen") + getStat("wyvkin3gen") > 1) say("<bold>Two</bold>");
+				else say("<bold>One</bold>");
+			}
+			else say("<bold>One</bold>");	
+			say(" being male, blatantly aroused");
+		}
+		say(" as they approach, easily overtaking and pinning you to the ground. Bickering between each other on who should go first, you'll likely want to pull yourself out of this pile of junk before they have their way with you, or worse yet, their ");
+		if(WYVGEN == 0) say("\"matron\" return...");
+		else say("matron return...");
+		doNext("main", wyOrgy);
+	}
+	if(seg == "main") { //checkpoint
+		//if hp of player > 0 or humanity of player < 50:
+			//now obliging is true;
+		//checkboundRec;
+		//now boundstate is true;
+		screenClear();
+		if(getStat("wyvkinocc") + 2 > getStat("wyvkinatt") && Math.random()*5 <= 4) wyvernAttendAssess();
+		wyvernKinLustApply();
+		wyvernKinLustCheck();
+		wyvernLustApply();
+		if(boundLust > 99) {
+			tempone = 1;
+			say("     Overtaken by lust, you cry out in bliss");
+			if(getStat("headocc") > 0) say(", words muffled by the wyvern you're forced to attend");
+			say(". ");
+			if(getStat("cockocc") > 0) say("Firing your <cum size desc> into the riding beast");
+			else if(getStat("cocks") > 0) say("Firing your <cum size desc> load impotently into the open air");
+			else if(getStat("cuntocc") == 2) say("Stuffed cunt squeezing against its bestial intrusions");
+			else if(getStat("cuntocc") == 1) say("Stuffed cunt squeezing against its bestial intrusion");
+			else if(getStat("assocc") == 2) say("Stuffed asshole squeezing against its bestial intrusions");
+			else if(getStat("assocc") == 1) say("Stuffed asshole squeezing against its bestial intrusion");
+			else say("Writhing weakly");
+			say(", the oversized reptiles hiss and screech in approval, no doubt further aroused by your display, though they show no sign of relenting...\r\r");
+			hitLibido();
+			boundLust = getStat("libido");
+			if(enduring) modStat("humanity", -(8 + (mindAdjust*2)));
+			else {
+				if(struggleSeg > 0) --struggleSeg;
+				modStat("humanity", -(15 + (mindAdjust*5)));
+			}
+			if(getStat("wyvkin1att") > 0 || getStat("wyvkin1att") < 9) modStat("wyvkin1lib", 20);
+			else modStat("wyvkin1lib", 7);
+			if(getStat("wyvkin2att") > 0 || getStat("wyvkin2att") < 9) modStat("wyvkin2lib", 20);
+			else modStat("wyvkin2lib", 7);
+			if(getStat("wyvkinocc") > 0 && (getStat("wyvkin3att") > 0 || getStat("wyvkin3att") < 9)) modStat("wyvkin3lib", 20);
+			else if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 7);
+			if(getStat("wyvkinocc") > 1 && (getStat("wyvkin4att") > 0 || getStat("wyvkin4att") < 9)) modStat("wyvkin4lib", 20);
+			else if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 7);
+			wyvernKinLustCheck();
+			tempone = 0;
+		}
+		wyOrgyDesc();
+		enduring = false;
+		clearButtons();
+		button1(true, "Struggle", wyOrgy, "struggle");
+		if(obliging) button2(true, "Oblige", wyOrgy, "abide");
+		else button2(true, "Abide", wyOrgy, "abide");
+		if(boundRec) button3(true, "Recover", wyOrgy, "endure");
+		else button3(true, "Endure", wyOrgy, "endure");
+		if(getStat("humanity") < 0) {
+			setStr("playerstrainending", "wyvernending");
+			assessEnding();
+		}
+	}
+	if(seg == "struggle") {
+		++struggleSeg;
+		if(struggleSeg < 4) {
+			say("\r     You struggle to free yourself of the wyvern kin atop you, ");
+			if(struggleSeg == 1) say("getting pretty much nowhere with the endeavour");
+			else if(struggleSeg == 2) say("getting slight leverage, though not enough to free yourself just yet,");
+			else say("almost completely free of their hold");
+			say(" and causing the wyverns to screech and nip at you, not quite intent on letting you go.\r\r");
+			tempone = 0;
+			doNext("main", wyOrgy);
+			wyvernDisengage();
+			wyvernMatron();
+			wyvernSanityRoll();
+		}
+		else {
+			say("\r     Finally managing to pull yourself free, you scramble over to the nest's edge and climb out, the wyvern kin screeching as they try to follow pursuit. Situated at the top of a skyscraper, you manage to find an entrance into the building, quickly ");
+			if(getStat("scale") < 5) say("forcing");
+			else say("squeezing");
+			say(" your way inside and slamming the door shut behind you, pinning yourself against the door as the beasts cry and bang at it.\r\r");
+			say("     Eventually, they concede and return back to the nest, allowing you to go through the ordeal of making your way down the ruined tower and back onto the streets. You manage to avoid any additional problems on your way out, other than the whole trip is a tad time-consuming, and you go about your business once more, free of the strange occurrence.");
+			clearBound();
+			tempmempurge();
+			doLastRoom(true);
+		}
+	}
+	if(seg == "abide" || seg == "oblige") {
+		if(seg == "abide") {
+			say("\r     You choose to abide the wyvern kin's continued abuse, <one of>much to their screeching, biting approval||though they're certainly not easier on you for it||of which they happily exploit<random>.\r\r");
+		}
+		else {
+			say("\r     You choose to submit to the wyvern kin's continued abuse, <one of>much to their screeching, biting approval||though they're certainly not easier on you for it||of which they happily exploit<random>.\r\r");
+			wyvernLustApply();
+			if(Math.random()*2 <= 1) ++temptwo;
+		}
+		doNext("main", wyOrgy);
+		wyvernMatron();
+		wyvernSanityRoll();
+	}
+	if(seg == "endure" || seg == "recover") {
+		enduring = true;
+		if(seg == "recover") {
+			say("\r     With a brief flash of insight, you're able to find a glimpse of mental clarity within these confines, recovering a small portion of your lost humanity.\r\r");
+			modStat("humanity", 3);
+			boundRec = false;
+		}
+		else {
+			say("\r     You fight to retain clarity in spite of the wyvern kin's continued abuse, <one of>nonetheless continuing to screech and nip at you||though they're certainly not easy for you||of which they hardly seem to regard<random>.\r\r");
+		}
+		doNext("main", wyOrgy);
+		wyvernMatron();
+		wyvernSanityRoll();
+	}
+}
+
+function wyOrgyDesc():void {
+	say("     Pinned to the ground by the <bold>");
+	if(getStat("wyvkinocc") == 2) say("four");
+	else if(getStat("wyvkinocc") == 1) say("three");
+	else say("two");
+	say("</bold> wyverns, you're trapped within the confines of some sort of twisted nest, now at the mercy of the monstrous offspring of the reptile who first kidnapped you. Wyvern A is ");
+	if(getStat("wyvkin1att") == 1) say("kissing you");
+	else if(getStat("wyvkin1att") == 2) say("forcing you to suck his dick");
+	else if(getStat("wyvkin1att") == 3) say("forcing you to eat her cunt");
+	else if(getStat("wyvkin1att") == 4) say("grinding against your torso");
+	else if(getStat("wyvkin1att") == 5) say("fucking you");
+	else if(getStat("wyvkin1att") == 6) say("fucking your ass");
+	else if(getStat("wyvkin1att") == 7) say("riding your dick");
+	else if(getStat("wyvkin1att") == 8) say("grinding against your crotch");
+	else say("watching you");
+	if(getStat("wyvkinocc") == 0) say(" and");
+	else say(",");
+	say(" Wyvern B is ");
+	if(getStat("wyvkin2att") == 1) say("kissing you");
+	else if(getStat("wyvkin2att") == 2) say("forcing you to suck his dick");
+	else if(getStat("wyvkin2att") == 3) say("forcing you to eat her cunt");
+	else if(getStat("wyvkin2att") == 4) say("grinding against your torso");
+	else if(getStat("wyvkin2att") == 5) say("fucking you");
+	else if(getStat("wyvkin2att") == 6) say("fucking your ass");
+	else if(getStat("wyvkin2att") == 7) say("riding your dick");
+	else if(getStat("wyvkin2att") == 8) say("grinding against your crotch");
+	else say("watching you");
+	if(getStat("wyvkinocc") > 0) {
+		if(getStat("wyvkinocc") == 1) say(" and");
+		else say(",");
+		say(" Wyvern C is ");
+		if(getStat("wyvkin3att") == 1) say("kissing you");
+		else if(getStat("wyvkin3att") == 2) say("forcing you to suck his dick");
+		else if(getStat("wyvkin3att") == 3) say("forcing you to eat her cunt");
+		else if(getStat("wyvkin3att") == 4) say("grinding against your torso");
+		else if(getStat("wyvkin3att") == 5) say("fucking you");
+		else if(getStat("wyvkin3att") == 6) say("fucking your ass");
+		else if(getStat("wyvkin3att") == 7) say("riding your dick");
+		else if(getStat("wyvkin3att") == 8) say("grinding against your crotch");
+		else say("watching you");
+	}
+	if(getStat("wyvkinocc") > 1) {
+		say(", and Wyvern D is ");
+		if(getStat("wyvkin4att") == 1) say("kissing you");
+		else if(getStat("wyvkin4att") == 2) say("forcing you to suck his dick");
+		else if(getStat("wyvkin4att") == 3) say("forcing you to eat her cunt");
+		else if(getStat("wyvkin4att") == 4) say("grinding against your torso");
+		else if(getStat("wyvkin4att") == 5) say("fucking you");
+		else if(getStat("wyvkin4att") == 6) say("fucking your ass");
+		else if(getStat("wyvkin4att") == 7) say("riding your dick");
+		else if(getStat("wyvkin4att") == 8) say("grinding against your crotch");
+		else say("watching you");
+	}
+	say(". You imagine your only active option is to <bold>S</bold>truggle enough until they let you go, else you can ");
+	if(obliging) say("<bold>O</bold>blige");
+	else say("<bold>A</bold>bide");
+	say(" them, or ");
+	if(boundRec) say("<bold>R</bold>ecover from");
+	else say("<bold>E</bold>ndure"); 
+	say(" these questionable circumstances.\r\r");
+	say("     <bold>A:</bold> ");
+	if(getStat("wyvkin1gen") == 1) say("Male");
+	else say("Female");
+	say(": " + getStat("wyvkin1lib") + "/100 <bold>B:</bold> ");
+	if(getStat("wyvkin2gen") == 1) say("Male");
+	else say("Female");
+	say(": " + getStat("wyvkin2lib") + "/100 <bold>C:</bold> ");
+	if(getStat("wyvkinocc") > 0) {
+		if(getStat("wyvkin3gen") == 1) say("Male");
+		else say("Female");
+		say(": " + getStat("wyvkin3lib") + "/100 <bold>D:</bold> ");
+	}
+	else say("-- 0/100 <bold>D:</bold> ");
+	if(getStat("wyvkinocc") > 1) {
+		if(getStat("wyvkin4gen") == 1) say("Male");
+		else say("Female");
+		say(": " + getStat("wyvkin4lib") + "/100");
+	}
+	else say("-- 0/100");
+	say(" Struggle: _-");
+	if(struggleSeg > 2) say("<bold>X</bold>");
+	else say("-");
+	if(struggleSeg > 1) say("<bold>X</bold>");
+	else say("-");
+	if(struggleSeg > 0) say("<bold>X</bold>");
+	else say("-");
+	say("_\r");
+}
+
+function wyvernAttendAssess():void {
+	if(getStat("wyvkin1att") == 0 && Math.random()*4 <= 1) {
+		setStat("wyvkinassign", 1);
+		if(getStat("wyvkin1gen") == 1) tempone = 1;
+		else tempone = 0;
+		wyvernAttendRoll();
+		modStat("wyvkinatt");
+	}
+	else if(getStat("wyvkin2att") == 0 && Math.random()*3 <= 1) {
+		setStat("wyvkinassign", 2);
+		if(getStat("wyvkin2gen") == 1) tempone = 1;
+		else tempone = 0;
+		wyvernAttendRoll();
+		modStat("wyvkinatt");
+	}
+	else if(getStat("wyvkinocc") > 0 && getStat("wyvkin3att") == 0 && Math.random()*2 <= 1) {
+		setStat("wyvkinassign", 3);
+		if(getStat("wyvkin3gen") == 1) tempone = 1;
+		else tempone = 0;
+		wyvernAttendRoll();
+		modStat("wyvkinatt");
+	}
+	else if(getStat("wyvkinocc") > 1 && getStat("wyvkin4att") == 0) { 
+		setStat("wyvkinassign", 4);
+		if(getStat("wyvkin4gen") == 1) tempone = 1;
+		else tempone = 0;
+		wyvernAttendRoll();
+		modStat("wyvkinatt");
+	}
+}
+		
+function wyvernAttendRoll():void {
+	var o = 1;
+	while(o == 1) {
+		if(getStat("headocc") == 0 && Math.random()*3 <= 1) {
+			wyvernHeadApply();
+			o = 0;
+		}
+		else if(getStat("bodyocc") == 0 && Math.random()*2 <= 1) {
+			wyvernBodyApply();
+			o = 0;
+		}
+		else if((getStat("scale") > 3 && getStat("genitalcap") < 2) || getStat("genitalcap") == 0) {
+			wyvernGenitalApply();
+			o = 0;
+		}
+	}
+}
+
+function wyvernHeadApply():void {
+	if(Math.random()*2 <= 1) {
+		if(getStat("wyvkinassign") == 1) {
+			setStat("wyvkin1att", 1);
+			say("     Wyvern <bold>A</bold>");
+		}
+		if(getStat("wyvkinassign") == 2) {
+			setStat("wyvkin2att", 1);
+			say("     Wyvern <bold>B</bold>");
+		}
+		if(getStat("wyvkinassign") == 3) {
+			setStat("wyvkin3att", 1);
+			say("     Wyvern <bold>C</bold>");
+		}
+		if(getStat("wyvkinassign") == 4) {
+			setStat("wyvkin4att", 1);
+			say("     Wyvern <bold>D</bold>");
+		}
+		say(", feeling particularly affectionate, forces its scaled lips on your own, thick, coarse tongue escaping his maw to force its way into yours. Writhing, slick appendage ");
+		if(getStat("scale") < 5) say("much too large for");
+		else say("overwhelming"); 
+		say(" you, the beast insists on forcing it down your throat, gaping maw ");
+		if(getStat("scale") < 4) say("practically engulfing your head.\r\r");
+		else say("pressed firmly against you.\r\r");
+		modStat("headvar1");
+	}
+	else {
+		if(tempone == 1) {
+			modStat("headvar2");
+			if(getStat("wyvkinassign") == 1) {
+				setStat("wyvkin1att", 2);
+				say("     Wyvern <bold>A</bold>");
+			}
+			if(getStat("wyvkinassign") == 2) {
+				setStat("wyvkin2att", 2);
+				say("     Wyvern <bold>B</bold>");
+			}
+			if(getStat("wyvkinassign") == 3) {
+				setStat("wyvkin3att", 2);
+				say("     Wyvern <bold>C</bold>");
+			}
+			if(getStat("wyvkinassign") == 4) {
+				setStat("wyvkin4att", 2);
+				say("     Wyvern <bold>D</bold>");
+			}
+			say(" moves to climb up on you, his drooling, bestial cock prodding insistently against your face. Intense, masculine scent causing you to gasp, he's quick to exploit this, forcing its blunt head down your maw. ");
+			if(getStat("scale") < 5) say("Way too much for you");
+			else say("Quite a lot");
+			say(" to take all at once, it's a fight to keep a clear head with him trying to ram it down your throat.\r\r");
+		}
+		else {
+			modStat("headvar3");
+			if(getStat("wyvkinassign") == 1) {
+				setStat("wyvkin1att", 3);
+				say("     Wyvern <bold>A</bold>");
+			}
+			if(getStat("wyvkinassign") == 2) {
+				setStat("wyvkin2att", 3);
+				say("     Wyvern <bold>B</bold>");
+			}
+			if(getStat("wyvkinassign") == 3) {
+				setStat("wyvkin3att", 3);
+				say("     Wyvern <bold>C</bold>");
+			}
+			if(getStat("wyvkinassign") == 4) {
+				setStat("wyvkin4att", 3);
+				say("     Wyvern <bold>D</bold>");
+			}
+			say(" moves to climb up on you, her oozing, bestial cunt grinding insistently against your face. ");
+			if(getStat("scale") < 5) say("Quite a lot to take all at once");
+			else say("Showing absolutely no restraint,");
+			say(" your face is smeared with her tainted honey, making it very difficult to think straight.\r\r");
+		}
+	}
+	modStat("headocc");
+}
+
+function wyvernBodyApply():void {
+	modStat("bodyocc");
+	if(getStat("wyvkinassign") == 1) {
+		setStat("wyvkin1att", 4);
+		say("     Wyvern <bold>A</bold>");
+	}
+	if(getStat("wyvkinassign") == 2) {
+		setStat("wyvkin2att", 4);
+		say("     Wyvern <bold>B</bold>");
+	}
+	if(getStat("wyvkinassign") == 3) {
+		setStat("wyvkin3att", 4);
+		say("     Wyvern <bold>C</bold>");
+	}
+	if(getStat("wyvkinassign") == 4) {
+		setStat("wyvkin4att", 4);
+		say("     Wyvern <bold>D</bold>");
+	}
+	say(" moves to lick and nip at your <bodytype> form, grinding itself against your torso");
+	if(getStat("breastsize") > 0) say(" as their abuse eventually shifts to your breasts");
+	if(getStat("scale") < 5) say(". Not having much room to work with")
+	else say(". Having plenty of room to work with");
+	say(", it shows no restraint in making a sticky, sore mess of your <bodyshape> form.\r\r");
+}
+
+function wyvernGenitalApply():void {
+	if(tempone == 1) { //[Male]
+		if(getStat("cunts") > 0) {
+			modStat("cuntocc")
+			if(getStat("wyvkinassign") == 1) {
+				setStat("wyvkin1att", 5);
+				say("     Wyvern <bold>A</bold>");
+			}
+			if(getStat("wyvkinassign") == 2) {
+				setStat("wyvkin2att", 5);
+				say("     Wyvern <bold>B</bold>");
+			}
+			if(getStat("wyvkinassign") == 3) {
+				setStat("wyvkin3att", 5);
+				say("     Wyvern <bold>C</bold>");
+			}
+			if(getStat("wyvkinassign") == 4) {
+				setStat("wyvkin4att", 5);
+				say("     Wyvern <bold>D</bold>");
+			}
+			say(", screeching eagerly, rams his cock into<onef> your cunt<sfn>");
+			if(getStat("cuntocc") > 1) say(", joining the other wyvern already in there");
+			else say(". Wracked with intense spasms as the beast shows no restraint in inching it in deeper, you're given little time to acclimate to this");
+			if(getStat("cuntocc") > 1) say(" second");
+			say(" intrusion.\r\r");
+		}
+		else {
+			modStat("assocc")
+			if(getStat("wyvkinassign") == 1) {
+				setStat("wyvkin1att", 6);
+				say("     Wyvern <bold>A</bold>");
+			}
+			if(getStat("wyvkinassign") == 2) {
+				setStat("wyvkin2att", 6);
+				say("     Wyvern <bold>B</bold>");
+			}
+			if(getStat("wyvkinassign") == 3) {
+				setStat("wyvkin3att", 6);
+				say("     Wyvern <bold>C</bold>");
+			}
+			if(getStat("wyvkinassign") == 4) {
+				setStat("wyvkin4att", 6);
+				say("     Wyvern <bold>D</bold>");
+			}
+			say(", screeching eagerly, rams his cock up your ass");
+			if(getStat("assocc") > 1) say(", joining the other wyvern already in there");
+			say(". Wracked with intense spasms as the beast shows no restraint in inching it in deeper, you're given little time to acclimate to this");
+			if(getStat("assocc") > 1) say(" second");
+			say(" intrusion.\r\r");
+		}
+		modStat("genitalcap");
+	}
+	else if(getStat("cockocc") < 1) { //[female]
+		if(getStat("cocks") > 0) {
+			if(getStat("wyvkinassign") == 1) {
+				setStat("wyvkin1att", 7);
+				say("     Wyvern <bold>A</bold>");
+			}
+			if(getStat("wyvkinassign") == 2) {
+				setStat("wyvkin2att", 7);
+				say("     Wyvern <bold>B</bold>");
+			}
+			if(getStat("wyvkinassign") == 3) {
+				setStat("wyvkin3att", 7);
+				say("     Wyvern <bold>C</bold>");
+			}
+			if(getStat("wyvkinassign") == 4) {
+				setStat("wyvkin4att", 7);
+				say("     Wyvern <bold>D</bold>");
+			}
+			if(getStat("scale") < 5) say(", crawling");
+			else say(", climbing")
+			say(" on top of you, positions herself over<onem> your dick<smn> before firmly ramming her tight, bestial cunt down on it. Screeching loudly at you, the beast eagerly rides against your");
+			if(getStat("scale") < 4) say(" smaller,");
+			say(" <bodytype> form.\r\r");
+		}
+		else {
+			if(getStat("wyvkinassign") == 1) {
+				setStat("wyvkin1att", 8);
+				say("     Wyvern <bold>A</bold>");
+			}
+			if(getStat("wyvkinassign") == 2) {
+				setStat("wyvkin2att", 8);
+				say("     Wyvern <bold>B</bold>");
+			}
+			if(getStat("wyvkinassign") == 3) {
+				setStat("wyvkin3att", 8);
+				say("     Wyvern <bold>C</bold>");
+			}
+			if(getStat("wyvkinassign") == 4) {
+				setStat("wyvkin4att", 8);
+				say("     Wyvern <bold>D</bold>");
+			}
+			if(getStat("scale") < 5) say(", crawling");
+			else say(", climbing")
+			say(" on top of you, grinds her dripping, bestial cunt against your ");
+			if(getStat("cocks") > 0) say("over-endowed dick");//FIX
+			else if(getStat("cunts") > 0) say("own");
+			else say("genital-less crotch");
+			say(". Screeching loudly at you, the beast desperately writhes against your");
+			if(getStat("scale") < 4) say(" smaller,");
+			say(" <bodytype> form.\r\r");
+		}
+		modStat("cockocc");
+		modStat("genitalcap");
+	}
+}
+
+function wyvernKinLustApply():void {
+	if(getStat("wyvkin1att") > 0) {
+		if(getStat("wyvkin1att") == 1) modStat("wyvkin1lib", 18); //[say("Kiss lust apply +18.");]
+		if(getStat("wyvkin1att") == 2) modStat("wyvkin1lib", 24); //[say("Cock Fellation lust apply +24.");]
+		if(getStat("wyvkin1att") == 3) modStat("wyvkin1lib", 24); //[say("Cunt attendance lust apply +24.");]
+		if(getStat("wyvkin1att") == 4) modStat("wyvkin1lib", 18); //[say("Torso Attend +18.");]
+		if(getStat("wyvkin1att") == 5) modStat("wyvkin1lib", 24); //[say("Cunt penetration +24.");]
+		if(getStat("wyvkin1att") == 6) modStat("wyvkin1lib", 24); //[say("Anal penetration +24.");]
+		if(getStat("wyvkin1att") == 7) modStat("wyvkin1lib", 24); //[say("Player Being ridden +24.");]
+		if(getStat("wyvkin1att") == 8) modStat("wyvkin1lib", 20); //[say("Sapphic grind +20.");]
+	}
+	else modStat("wyvkin1lib", 10); //[say("Wyvern Watching +10.");]
+	if(getStat("wyvkin2att") > 0) {
+		if(getStat("wyvkin2att") == 1) modStat("wyvkin2lib", 18); //[say("Kiss lust apply +18.");]
+		if(getStat("wyvkin2att") == 2) modStat("wyvkin2lib", 24); //[say("Cock Fellation lust apply +24.");]
+		if(getStat("wyvkin2att") == 3) modStat("wyvkin2lib", 24); //[say("Cunt attendance lust apply +24.");]
+		if(getStat("wyvkin2att") == 4) modStat("wyvkin2lib", 18); //[say("Torso Attend +18.");]
+		if(getStat("wyvkin2att") == 5) modStat("wyvkin2lib", 24); //[say("Cunt penetration +24.");]
+		if(getStat("wyvkin2att") == 6) modStat("wyvkin2lib", 24); //[say("Anal penetration +24.");]
+		if(getStat("wyvkin2att") == 7) modStat("wyvkin2lib", 24); //[say("Player Being ridden +24.");]
+		if(getStat("wyvkin2att") == 8) modStat("wyvkin2lib", 20); //[say("Sapphic grind +20.");]
+	}
+	else modStat("wyvkin2lib", 10); //[say("Wyvern Watching +10.");]
+	if(getStat("wyvkinocc") > 0 && getStat("wyvkin3att") > 0) {
+		if(getStat("wyvkin3att") == 1) modStat("wyvkin3lib", 18); //[say("Kiss lust apply +18.");]
+		if(getStat("wyvkin3att") == 2) modStat("wyvkin3lib", 24); //[say("Cock Fellation lust apply +24.");]
+		if(getStat("wyvkin3att") == 3) modStat("wyvkin3lib", 24); //[say("Cunt attendance lust apply +24.");]
+		if(getStat("wyvkin3att") == 4) modStat("wyvkin3lib", 18); //[say("Torso Attend +18.");]
+		if(getStat("wyvkin3att") == 5) modStat("wyvkin3lib", 24); //[say("Cunt penetration +24.");]
+		if(getStat("wyvkin3att") == 6) modStat("wyvkin3lib", 24); //[say("Anal penetration +24.");]
+		if(getStat("wyvkin3att") == 7) modStat("wyvkin3lib", 24); //[say("Player Being ridden +24.");]
+		if(getStat("wyvkin3att") == 8) modStat("wyvkin3lib", 20); //[say("Sapphic grind +20.");]
+	}
+	else if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 10); //[say("Wyvern Watching +10.");]
+	if(getStat("wyvkinocc") > 1 && getStat("wyvkin4att") > 0) {
+		if(getStat("wyvkin4att") == 1) modStat("wyvkin4lib", 18); //[say("Kiss lust apply +18.");]
+		if(getStat("wyvkin4att") == 2) modStat("wyvkin4lib", 24); //[say("Cock Fellation lust apply +24.");]
+		if(getStat("wyvkin4att") == 3) modStat("wyvkin4lib", 24); //[say("Cunt attendance lust apply +24.");]
+		if(getStat("wyvkin4att") == 4) modStat("wyvkin4lib", 18); //[say("Torso Attend +18.");]
+		if(getStat("wyvkin4att") == 5) modStat("wyvkin4lib", 24); //[say("Cunt penetration +24.");]
+		if(getStat("wyvkin4att") == 6) modStat("wyvkin4lib", 24); //[say("Anal penetration +24.");]
+		if(getStat("wyvkin4att") == 7) modStat("wyvkin4lib", 24); //[say("Player Being ridden +24.");]
+		if(getStat("wyvkin4att") == 8) modStat("wyvkin4lib", 20); //[say("Sapphic grind +20.");]
+	}
+	else if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 10); //[say("Wyvern Watching +10.");]
+}
+
+function wyvernLustApply():void {
+	if(getStat("headocc") > 0) {
+		boundLust += (getStat("headvar1") * 5)+lustAdjust;
+		boundLust += (getStat("headvar2") * 6)+lustAdjust;
+		boundLust += (getStat("headvar2") * 6)+lustAdjust;
+	}
+	if(getStat("bodyocc") > 0) boundLust += 5+lustAdjust;
+	if(getStat("genitalcap") > 0) {
+		boundLust += (getStat("assocc") * 6)+lustAdjust;
+		boundLust += (getStat("headcuntocc") * 7)+(lustAdjust*2);
+		boundLust += (getStat("headcockocc") * 7)+(lustAdjust*2);
+	}
+}
+
+function wyvernKinLustCheck():void {
+	while(getStat("wyvkin1lib") > 99 || getStat("wyvkin2lib") > 99 || getStat("wyvkin3lib") > 99 || getStat("wyvkin4lib") > 99) {
+		if(getStat("wyvkin1lib") > 99) {
+			setStat("wyvkin1lib", 0);
+			say("     Wyvern <bold>A</bold> orgasms");
+			if(getStat("wyvkin1att") == 1) {
+				say("! Their continued, fierce tonguing of your quickly strained maw is more than enough to set them off, the beast's idle grinding against you quickly slicked by the feel of their hot ");
+				if(getStat("wyvkin1gen") == 1) say("cum");
+				else say("sex");
+			}
+			if(getStat("wyvkin1att") == 2) {
+				say("! A sudden flood of the beast's virile cum flooding your stuffed maw, ");
+				if(getStat("scale") < 5) say("quickly overwhelmed and sputtering from you");
+				else say("forcing you to swallow down every last drop");
+				say(" before the flow finally subsides");
+			}
+			if(getStat("wyvkin1att") == 3) {
+				say("! A sudden wave of bestial honey assaulting your face, driving you to swallow down the ensuing flood out of fear you might drown in it, ");
+				if(getStat("scale") < 5) say("quickly overwhelming your smaller form");
+				else say("your senses lost in a haze of the monster's sex");
+			}
+			if(getStat("wyvkin1att") == 4) {
+				say("! Biting roughly down against you, you feel your <bodyshape> form awash in a flood of the beast's hot fluids, ");
+				if(getStat("wyvkin1gen") == 1) say("his");
+				else say("her");
+				say(" persistent heaving finally rewarded");
+			}
+			if(getStat("wyvkin1att") == 5) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your womb, screeching and rigid as they thrust into you with each successive wave");
+				oviChance();
+			}
+			if(getStat("wyvkin1att") == 6) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your bowels, screeching and rigid as they thrust into you with each successive wave");
+				mimpregChance();
+			}
+			if(getStat("wyvkin1att") == 7) {
+				say("! You're immediately assaulted with the beast's tight hole tightly squeezing your strained dick, briefly ");
+				if(isListed(getStr("cockname"), "Knot")) say("tying");
+				else say("hilting");
+				say(" it within her, screeching and rigid as she writhes with each successive throb");
+			}
+			if(getStat("wyvkin1att") == 8) say("! Crotch quickly stained with the beast's honey, her grinding becomes much more rough, screeching and rigid as she writhes with each successive throb");
+			else {
+				say("! Even though ");
+				if(getStat("wyvkinocc") > 1) say("the lack of room forces them to simply watch");
+				else say("they're simply watching");
+				say(" the whole scene, it's enough for them to get off, impotently staining the nest's floor with their sex");
+			}
+			if(getStat("wyvkin1att") > 0) {
+				boundLust += 10+(lustAdjust*2);
+				modStat("wyvkin2lib", 20);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 20);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 20);
+				if(getStat("wyvkin4lib") > 99 || getStat("wyvkin2lib") > 99 || getStat("wyvkin3lib") > 99) say(".\r\r");
+				else {
+					say(". Taking only a few seconds to rest, the continued attendance of their companion");
+					if(getStat("wyvkinocc") > 0) say("s are");
+					else say(" is");
+					say(" more than enough to drive them to continue getting off, going back to what they were once doing. Said companion");
+					if(getStat("wyvkinocc") > 0) say("s");
+					say(", meanwhile, ");
+					if(getStat("wyvkinocc") > 0) say("have");
+					else say("has");
+					say("no doubt become more aroused by seeing them climax.\r\r");
+				}
+				if(enduring) {
+					if(isPure("Wyvern") && Math.random()*6 <= 1) infect("Wyvern");
+					else if(Math.random()*4 <= 1) infect("Wyvern");
+				}
+				else {
+					if(isPure("Wyvern") && Math.random()*5 <= 1) infect("Wyvern");
+					else if(Math.random()*3 <= 1) infect("Wyvern");
+				}
+			}
+			else {
+				modStat("wyvkin2lib", 7);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 7);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 7);
+				if(getStat("wyvkin4lib") > 99 || getStat("wyvkin2lib") > 99 || getStat("wyvkin3lib") > 99) say(".\r\r");
+				else {
+					say(". Taking only a few seconds to rest, the continued attendance of their companion");
+					if(getStat("wyvkinocc") > 0) say("s are");
+					else say(" is")
+					say(" more than enough to drive them to continue watching, screeching lowly in approval towards your persisting abuse. Said companion");
+					if(getStat("wyvkinocc") > 0) say("s");
+					say(", meanwhile, ");
+					if(getStat("wyvkinocc") > 0) say("have");
+					else say("has")
+					say(" no doubt become more aroused by seeing them climax.\r\r");
+				}
+			}
+		}
+		if(getStat("wyvkin2lib") > 99) {
+			setStat("wyvkin2lib", 0);
+			say("     Wyvern <bold>B</bold> orgasms");
+			if(getStat("wyvkin2att") == 1) {
+				say("! Their continued, fierce tonguing of your quickly strained maw is more than enough to set them off, the beast's idle grinding against you quickly slicked by the feel of their hot ");
+				if(getStat("wyvkin2gen") == 1) say("cum");
+				else say("sex");
+			}
+			if(getStat("wyvkin2att") == 2) {
+				say("! A sudden flood of the beast's virile cum flooding your stuffed maw, ");
+				if(getStat("scale") < 5) say("quickly overwhelmed and sputtering from you");
+				else say("forcing you to swallow down every last drop");
+				say(" before the flow finally subsides");
+			}
+			if(getStat("wyvkin2att") == 3) {
+				say("! A sudden wave of bestial honey assaulting your face, driving you to swallow down the ensuing flood out of fear you might drown in it, ");
+				if(getStat("scale") < 5) say("quickly overwhelming your smaller form");
+				else say("your senses lost in a haze of the monster's sex");
+			}
+			if(getStat("wyvkin2att") == 4) {
+				say("! Biting roughly down against you, you feel your <bodyshape> form awash in a flood of the beast's hot fluids, ");
+				if(getStat("wyvkin2gen") == 1) say("his");
+				else say("her");
+				say(" persistent heaving finally rewarded");
+			}
+			if(getStat("wyvkin2att") == 5) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your womb, screeching and rigid as they thrust into you with each successive wave");
+				oviChance();
+			}
+			if(getStat("wyvkin2att") == 6) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your bowels, screeching and rigid as they thrust into you with each successive wave");
+				mimpregChance();
+			}
+			if(getStat("wyvkin2att") == 7) {
+				say("! You're immediately assaulted with the beast's tight hole tightly squeezing your strained dick, briefly ");
+				if(isListed(getStr("cockname"), "Knot")) say("tying");
+				else say("hilting");
+				say(" it within her, screeching and rigid as she writhes with each successive throb");
+			}
+			if(getStat("wyvkin2att") == 8) say("! Crotch quickly stained with the beast's honey, her grinding becomes much more rough, screeching and rigid as she writhes with each successive throb");
+			else {
+				say("! Even though ");
+				if(getStat("wyvkinocc") > 1) say("the lack of room forces them to simply watch");
+				else say("they're simply watching");
+				say(" the whole scene, it's enough for them to get off, impotently staining the nest's floor with their sex");
+			}
+			if(getStat("wyvkin2att") > 0) {
+				boundLust += 10+(lustAdjust*2);
+				modStat("wyvkin1lib", 20);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 20);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 20);
+				if(getStat("wyvkin1lib") > 99 || getStat("wyvkin4lib") > 99 || getStat("wyvkin3lib") > 99) say(".\r\r");
+				else {
+					say(". Taking only a few seconds to rest, the continued attendance of their companion");
+					if(getStat("wyvkinocc") > 0) say("s are");
+					else say(" is");
+					say(" more than enough to drive them to continue getting off, going back to what they were once doing. Said companion");
+					if(getStat("wyvkinocc") > 0) say("s");
+					say(", meanwhile, ");
+					if(getStat("wyvkinocc") > 0) say("have");
+					else say("has");
+					say("no doubt become more aroused by seeing them climax.\r\r");
+				}
+				if(enduring) {
+					if(isPure("Wyvern") && Math.random()*6 <= 1) infect("Wyvern");
+					else if(Math.random()*4 <= 1) infect("Wyvern");
+				}
+				else {
+					if(isPure("Wyvern") && Math.random()*5 <= 1) infect("Wyvern");
+					else if(Math.random()*3 <= 1) infect("Wyvern");
+				}
+			}
+			else {
+				modStat("wyvkin1lib", 7);
+				if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 7);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 7);
+				if(getStat("wyvkin4lib") > 99 || getStat("wyvkin1lib") > 99 || getStat("wyvkin3lib") > 99) say(".\r\r");
+				else {
+					say(". Taking only a few seconds to rest, the continued attendance of their companion");
+					if(getStat("wyvkinocc") > 0) say("s are");
+					else say(" is")
+					say(" more than enough to drive them to continue watching, screeching lowly in approval towards your persisting abuse. Said companion");
+					if(getStat("wyvkinocc") > 0) say("s");
+					say(", meanwhile, ");
+					if(getStat("wyvkinocc") > 0) say("have");
+					else say("has")
+					say(" no doubt become more aroused by seeing them climax.\r\r");
+				}
+			}
+		}
+		if(getStat("wyvkin3lib") > 99) {
+			setStat("wyvkin3lib", 0);
+			say("     Wyvern <bold>C</bold> orgasms");
+			if(getStat("wyvkin3att") == 1) {
+				say("! Their continued, fierce tonguing of your quickly strained maw is more than enough to set them off, the beast's idle grinding against you quickly slicked by the feel of their hot ");
+				if(getStat("wyvkin3gen") == 1) say("cum");
+				else say("sex");
+			}
+			if(getStat("wyvkin3att") == 2) {
+				say("! A sudden flood of the beast's virile cum flooding your stuffed maw, ");
+				if(getStat("scale") < 5) say("quickly overwhelmed and sputtering from you");
+				else say("forcing you to swallow down every last drop");
+				say(" before the flow finally subsides");
+			}
+			if(getStat("wyvkin3att") == 3) {
+				say("! A sudden wave of bestial honey assaulting your face, driving you to swallow down the ensuing flood out of fear you might drown in it, ");
+				if(getStat("scale") < 5) say("quickly overwhelming your smaller form");
+				else say("your senses lost in a haze of the monster's sex");
+			}
+			if(getStat("wyvkin3att") == 4) {
+				say("! Biting roughly down against you, you feel your <bodyshape> form awash in a flood of the beast's hot fluids, ");
+				if(getStat("wyvkin3gen") == 1) say("his");
+				else say("her");
+				say(" persistent heaving finally rewarded");
+			}
+			if(getStat("wyvkin3att") == 5) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your womb, screeching and rigid as they thrust into you with each successive wave");
+				oviChance();
+			}
+			if(getStat("wyvkin3att") == 6) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your bowels, screeching and rigid as they thrust into you with each successive wave");
+				mimpregChance();
+			}
+			if(getStat("wyvkin3att") == 7) {
+				say("! You're immediately assaulted with the beast's tight hole tightly squeezing your strained dick, briefly ");
+				if(isListed(getStr("cockname"), "Knot")) say("tying");
+				else say("hilting");
+				say(" it within her, screeching and rigid as she writhes with each successive throb");
+			}
+			if(getStat("wyvkin3att") == 8) say("! Crotch quickly stained with the beast's honey, her grinding becomes much more rough, screeching and rigid as she writhes with each successive throb");
+			else {
+				say("! Even though ");
+				if(getStat("wyvkinocc") > 1) say("the lack of room forces them to simply watch");
+				else say("they're simply watching");
+				say(" the whole scene, it's enough for them to get off, impotently staining the nest's floor with their sex");
+			}
+			if(getStat("wyvkin3att") > 0) {
+				boundLust += 10+(lustAdjust*2);
+				modStat("wyvkin1lib", 20);
+				modStat("wyvkin2lib", 20);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 20);
+				if(getStat("wyvkin1lib") > 99 || getStat("wyvkin4lib") > 99 || getStat("wyvkin2lib") > 99) say(".\r\r");
+				else say(". Taking only a few seconds to rest, the continued attendance of their companions are more than enough to drive them to continue getting off, going back to what they were once doing. Said companions, meanwhile, have no doubt become more aroused by seeing them climax.\r\r");
+				if(enduring) {
+					if(isPure("Wyvern") && Math.random()*6 <= 1) infect("Wyvern");
+					else if(Math.random()*4 <= 1) infect("Wyvern");
+				}
+				else {
+					if(isPure("Wyvern") && Math.random()*5 <= 1) infect("Wyvern");
+					else if(Math.random()*3 <= 1) infect("Wyvern");
+				}
+			}
+			else {
+				modStat("wyvkin1lib", 7);
+				modStat("wyvkin2lib", 7);
+				if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 7);
+				if(getStat("wyvkin4lib") > 99 || getStat("wyvkin1lib") > 99 || getStat("wyvkin2lib") > 99) say(".\r\r");
+				else say(". Taking only a few seconds to rest, the continued attendance of their companions are more than enough to drive them to continue watching, screeching lowly in approval towards your persisting abuse. Said companions, meanwhile, have no doubt become more aroused by seeing them climax.\r\r");
+			}
+		}
+		if(getStat("wyvkin4lib") > 99) {
+			setStat("wyvkin4lib", 0);
+			say("     Wyvern <bold>C</bold> orgasms");
+			if(getStat("wyvkin4att") == 1) {
+				say("! Their continued, fierce tonguing of your quickly strained maw is more than enough to set them off, the beast's idle grinding against you quickly slicked by the feel of their hot ");
+				if(getStat("wyvkin4gen") == 1) say("cum");
+				else say("sex");
+			}
+			if(getStat("wyvkin4att") == 2) {
+				say("! A sudden flood of the beast's virile cum flooding your stuffed maw, ");
+				if(getStat("scale") < 5) say("quickly overwhelmed and sputtering from you");
+				else say("forcing you to swallow down every last drop");
+				say(" before the flow finally subsides");
+			}
+			if(getStat("wyvkin4att") == 3) {
+				say("! A sudden wave of bestial honey assaulting your face, driving you to swallow down the ensuing flood out of fear you might drown in it, ");
+				if(getStat("scale") < 5) say("quickly overwhelming your smaller form");
+				else say("your senses lost in a haze of the monster's sex");
+			}
+			if(getStat("wyvkin4att") == 4) {
+				say("! Biting roughly down against you, you feel your <bodyshape> form awash in a flood of the beast's hot fluids, ");
+				if(getStat("wyvkin4gen") == 1) say("his");
+				else say("her");
+				say(" persistent heaving finally rewarded");
+			}
+			if(getStat("wyvkin4att") == 5) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your womb, screeching and rigid as they thrust into you with each successive wave");
+				oviChance();
+			}
+			if(getStat("wyvkin4att") == 6) {
+				say("! You're immediately assaulted with a flood of the beast's virile cum within your bowels, screeching and rigid as they thrust into you with each successive wave");
+				mimpregChance();
+			}
+			if(getStat("wyvkin4att") == 7) {
+				say("! You're immediately assaulted with the beast's tight hole tightly squeezing your strained dick, briefly ");
+				if(isListed(getStr("cockname"), "Knot")) say("tying");
+				else say("hilting");
+				say(" it within her, screeching and rigid as she writhes with each successive throb");
+			}
+			if(getStat("wyvkin4att") == 8) say("! Crotch quickly stained with the beast's honey, her grinding becomes much more rough, screeching and rigid as she writhes with each successive throb");
+			else say("! Even though the lack of room forces them to simply watch the whole scene, it's enough for them to get off, impotently staining the nest's floor with their sex");
+			if(getStat("wyvkin4att") > 0) {
+				boundLust += 10+(lustAdjust*2);
+				modStat("wyvkin1lib", 20);
+				modStat("wyvkin2lib", 20);
+				modStat("wyvkin3lib", 20);
+				if(getStat("wyvkin1lib") > 99 || getStat("wyvkin2lib") > 99 || getStat("wyvkin3lib") > 99) say(".\r\r");
+				else say(". Taking only a few seconds to rest, the continued attendance of their companions are more than enough to drive them to continue getting off, going back to what they were once doing. Said companions, meanwhile, have no doubt become more aroused by seeing them climax.\r\r");
+				if(enduring) {
+					if(isPure("Wyvern") && Math.random()*6 <= 1) infect("Wyvern");
+					else if(Math.random()*4 <= 1) infect("Wyvern");
+				}
+				else {
+					if(isPure("Wyvern") && Math.random()*5 <= 1) infect("Wyvern");
+					else if(Math.random()*3 <= 1) infect("Wyvern");
+				}
+			}
+			else {
+				modStat("wyvkin1lib", 7);
+				modStat("wyvkin2lib", 7);
+				modStat("wyvkin3lib", 7);
+				if(getStat("wyvkin1lib") > 99 || getStat("wyvkin2lib") > 99 || getStat("wyvkin3lib") > 99) say(".\r\r");
+				else say(". Taking only a few seconds to rest, the continued attendance of their companions are more than enough to drive them to continue watching, screeching lowly in approval towards your persisting abuse. Said companions, meanwhile, have no doubt become more aroused by seeing them climax.\r\r");
+			}
+		}
+	}
+}
+
+function wyvernDisengage():void {
+	if((getStat("wyvkin1att") > 0 || getStat("wyvkin2att") > 0 || getStat("wyvkin3att") > 0 || getStat("wyvkin4att") > 0) && Math.random()*2 <= 1) {
+		tempone = 1;
+		say("     In the tussle, you manage to wrench ");
+		while(tempone == 1) {
+			if(getStat("headocc") > 0 && Math.random()*3 <= 1) {
+				if(getStat("wyvkin1att") == 1 || getStat("wyvkin1att") == 2 || getStat("wyvkin1att") == 3) {
+					setStat("wyvkin1att", 0);
+					say("wyvern <bold>A</bold> from your head.");
+				}
+				else if(getStat("wyvkin2att") == 1 || getStat("wyvkin2att") == 2 || getStat("wyvkin2att") == 3) {
+					setStat("wyvkin2att", 0);
+					say("wyvern <bold>B</bold> from your head.");
+				}
+				else if(getStat("wyvkin3att") == 1 || getStat("wyvkin3att") == 2 || getStat("wyvkin3att") == 3) {
+					setStat("wyvkin3att", 0);
+					say("wyvern <bold>C</bold> from your head.");
+				}
+				else {
+					setStat("wyvkin4att", 0);
+					say("wyvern <bold>D</bold> from your head.");
+				}
+				setStat("headocc", 0);
+				modStat("wyvkinatt", -1);
+				tempone = 0;
+			}
+			else if(getStat("bodyocc") > 0 && Math.random()*2 <= 1) {
+				if(getStat("wyvkin1att") == 4) {
+					setStat("wyvkin1att", 0);
+					say("wyvern <bold>A</bold> from your torso.");
+				}
+				else if(getStat("wyvkin2att") == 4) {
+					setStat("wyvkin2att", 0);
+					say("wyvern <bold>B</bold> from your torso.");
+				}
+				else if(getStat("wyvkin3att") == 4) {
+					setStat("wyvkin3att", 0);
+					say("wyvern <bold>C</bold> from your torso.");
+				}
+				else {
+					setStat("wyvkin4att", 0);
+					say("wyvern <bold>D</bold> from your torso.");
+				}
+				setStat("bodyocc", 0);
+				modStat("wyvkinatt", -1);
+				tempone = 0;
+			}
+			else if(getStat("genitalcap") > 0) {
+				if(getStat("wyvkin1att") == 5 || getStat("wyvkin1att") == 6 || getStat("wyvkin1att") == 7 || getStat("wyvkin1att") == 8) {
+					setStat("wyvkin1att", 0);
+					say("wyvern <bold>A</bold> from your ");
+					if(getStat("wyvkin1att") == 5) say("cunt.");
+					else if(getStat("wyvkin1att") == 6) say("ass.");
+					else if(getStat("wyvkin1att") == 7) say("dick.");
+					else say("crotch.");
+				}
+				else if(getStat("wyvkin2att") == 5 || getStat("wyvkin2att") == 6 || getStat("wyvkin2att") == 7 || getStat("wyvkin2att") == 8) {
+					setStat("wyvkin2att", 0);
+					say("wyvern <bold>B</bold> from your ");
+					if(getStat("wyvkin2att") == 5) say("cunt.");
+					else if(getStat("wyvkin2att") == 6) say("ass.");
+					else if(getStat("wyvkin2att") == 7) say("dick.");
+					else say("crotch.");
+				}
+				else if(getStat("wyvkin3att") == 5 || getStat("wyvkin3att") == 6 || getStat("wyvkin3att") == 7 || getStat("wyvkin3att") == 8) {
+					setStat("wyvkin3att", 0);
+					say("wyvern <bold>C</bold> from your ");
+					if(getStat("wyvkin3att") == 5) say("cunt.");
+					else if(getStat("wyvkin3att") == 6) say("ass.");
+					else if(getStat("wyvkin3att") == 7) say("dick.");
+					else say("crotch.");
+				}
+				else {
+					setStat("wyvkin4att", 0);
+					say("wyvern <bold>D</bold> from your ");
+					if(getStat("wyvkin4att") == 5) say("cunt.");
+					else if(getStat("wyvkin4att") == 6) say("ass.");
+					else if(getStat("wyvkin4att") == 7) say("dick.");
+					else say("crotch.");
+				}
+				modStat("wyvkinatt", -1);
+				modStat("genitalcap", -1);
+				tempone = 0;
+			}
+		}
+	}
+}
+				
+function wyvernMatron(seg:String = ""):void {
+	if(seg == "") {
+		if(Math.random()*14 <= temptwo) {
+			say("     <bold>The ");
+			if(WYVGEN == 0) say("\"Matron\"");
+			else say("Matron");
+			say(" returns!</bold> <gchis> bestial offspring now have their attention split between <ghim> and you, eager to see what their parent has in store...\r\r");
+			doNext("go", wyvernMatron);
+		}
+		else ++temptwo;
+	}
+	if(seg == "go") {
+		if(getStat("wyvkinocc") < 2) {
+			say("     Not paying much heed to your current predicament, the massive wyvern screeches loudly before squatting down, body trembling as you're made to watch on, white, crudely shaped egg gradually forcing its way out from between <ghis> powerful legs. It doesn't take long, but the air is filled with the monster's screeching and growling until the white orb softly falls to the ground.\r\r");
+			say("     The wyvern turns to inspect the egg as <ghe> catches <ghis> breath. From what you can tell, the drop was enough to stir the occupant from its prior slumber. Helping it break free of the tough shell, the air is eventually filled with the noise of another wyvern kin emerging into this world, tumbling from its prison. You're not rightly sure if this is the beast's legitimate offspring or someone who succumbed to a similar fate to you");
+			if(WYVGEN == 0) say(", probably the latter");
+			say(".\r\r");
+			say("     And with that, the wyvern matron takes to the air once more, perhaps to find more potential offspring or perhaps to hunt for food. In either case, the new kin quickly notices your predicament and begins its approach, no doubt eager to join in. From what you can gather, they appear to be ");
+			if(getStat("wyvkinocc") == 1) {
+				if(getStat("femaleward") == 1) {
+					setStat("wyvkin4gen", 1);
+					say("<bold>male</bold>.");
+				}
+				else if(getStat("maleward") == 1) {
+					setStat("wyvkin4gen", 0);
+					say("<bold>female</bold>.");
+				}
+				else {
+					if(Math.random()*2 <= 1) {
+						setStat("wyvkin4gen", 1);
+						say("<bold>male</bold>.");
+					}
+					else {
+						setStat("wyvkin4gen", 0);
+						say("<bold>female</bold>.");
+					}
+				}
+				setStat("wyvkinocc", 2);
+			}
+			else {
+				if(getStat("femaleward") == 1) {
+					setStat("wyvkin3gen", 1);
+					say("<bold>male</bold>.");
+				}
+				else if(getStat("maleward") == 1) {
+					setStat("wyvkin3gen", 0);
+					say("<bold>female</bold>.");
+				}
+				else {
+					if(Math.random()*2 <= 1) {
+						setStat("wyvkin3gen", 1);
+						say("<bold>male</bold>.");
+					}
+					else {
+						setStat("wyvkin3gen", 0);
+						say("<bold>female</bold>.");
+					}
+				}
+				setStat("wyvkinocc", 2);
+			}
+		}
+		else {
+			say("     As you can imagine, the wyvern has little interest in adding more to an already fairly crowded nest, and instead is here to check up on <ghis> children. Now giving your situation <ghis> proper attention, <ghis> appears to feel that you haven't fully succumbed to your new circumstance, and screeches at <ghis> other children until they pull free of you. Though they still pin you down, you're now exposed and left at the mercy of larger beast, eager to have some fun with you...\r\r");
+			doNext("main", wyOrgy);
+			BOUNDSTATE = true;
+			wyvernvictory();
+			if(isPure("Wyvern") && Math.random()*4 <= 1) infect("Wyvern");
+			else if(Math.random()*2 <= 1) infect("Wyvern");
+			modStat("wyvkin1lib", 25);
+			modStat("wyvkin2lib", 25);
+			if(getStat("wyvkinocc") > 0) modStat("wyvkin3lib", 25);
+			if(getStat("wyvkinocc") > 1) modStat("wyvkin4lib", 25);
+		}
+		temptwo = 0;
+	}
+}
+	
+			
+function wyvernSanityRoll():void {
+	tempone = 0;
+	if(getStat("wyvkin1att") > 0) ++tempone;
+	if(getStat("wyvkin2att") > 0) ++tempone;
+	if(getStat("wyvkinocc") > 0 && getStat("wyvkin3att") > 0) ++tempone;
+	if(getStat("wyvkinocc") > 1 && getStat("wyvkin4att") > 0) ++tempone;
+	if(enduring) tempone = tempone/2;
+	if(tempone > 0) modStat("humanity", -(tempone + mindAdjust));
 }

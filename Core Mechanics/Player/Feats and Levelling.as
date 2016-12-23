@@ -43,6 +43,9 @@ function listMajorFeats():void {
 	if(!hasFeat("Roughing It") && getStat("endurance") > 11) featsListing.push(["Roughing It", "You can now rest anywhere, via the status menu, and will slightly restore negative morale. Resting in dangerous places still carries a risk of being attacked."]);
 	if(!hasFeat("Strong Back") && getStat("strength") > 11) featsListing.push(["Strong Back", "Improves carry weight scaling via strength."]);
 	if(!hasFeat("Martial Artist") && getStat("dexterity") > 11) featsListing.push(["Martial Artist", "You have basic martial arts training, increasing the damage you cause when you have no weapon."]);
+	if(!hasFeat("Ranged Preference") && getStat("perception") > 14) featsListing.push(["Ranged Preference", "Your unarmed attacks are considered ranged, and your hit chance with ranged attacks is slightly improved."]);
+	if(!hasFeat("Magpie Eyes") && getStat("perception") > 14) featsListing.push(["Magpie Eyes", "Your chances to find items from encounters is significantly increased."]);
+	if(!hasFeat("Tank Support") && getStat("charisma") > 14 && getStat("endurance") > 14) featsListing.push(["Tank Support", "You gain a bonus to charisma while defending, increasing the chances for your follower to act."]);
 }
 
 function chooseFeats():void {
@@ -194,7 +197,7 @@ function assessExp():void {
 			button6(false);
 			buttonInventory(false);
 			buttonAppearance(false);
-			newGame.visible = false;
+			buttonSystem(false);
 			say("<bold>Choose a stat to increase:</bold>\r");
 			say("<bold>Strength:</bold> " + getStat("strength") + " <a href='event:statUp~Str'>[+]</a>\rDetermines your raw physical strength, and the damage of your physical attacks.\r");
 			say("<bold>Dexterity:</bold> " + getStat("dexterity")+ " <a href='event:statUp~Dex'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
@@ -265,4 +268,60 @@ function statUp(eventStr):void {
 		assessExp();
 		statDisplay();
 	}
+}
+
+
+////////////////////////////////////////////////////////////////
+//Quest Logging/////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+
+var questMaster:Array = [];
+
+questMaster.push(["main", 0, "Testing 123!"]);
+
+function setQuest(Name:String, Entry:String = ""):void {
+	var arrlen:Number = questMaster.length;
+	for(var i = 0; i < arrlen; i++) {
+		if(questMaster[i][0] == Name) {
+			questMaster[i][2] = Entry;
+			return;
+		}
+	}
+	questMaster.push([Name, 0, Entry]);
+}
+
+function advQuest(Name:String, increment:Number = 1):void {
+	var arrlen:Number = questMaster.length;
+	for(var i = 0; i < arrlen; i++) {
+		if(questMaster[i][0] == Name) {
+			questMaster[i][1] += increment;
+			return;
+		}
+	}
+	trace("ERROR: advQuest entry does not exist!");
+}
+
+function getQuest(Name:String):Number {
+	var arrlen:Number = questMaster.length;
+	var val = 0;
+	for(var i = 0; i < arrlen; i++) {
+		if(questMaster[i][0] == Name) {
+			val = questMaster[i][1];
+		}
+	}
+	return(val);
+	trace("ERROR: advQuest entry does not exist!");
+}
+
+function displayQuests():void {
+	var texts = "";
+	var arrlen:Number = questMaster.length;
+	screenClear();
+	clearButtons();
+	button6(true, "Back", selfExamine);
+	for(var i = 0; i < arrlen; i++) {
+		if(questMaster[i][2] != "") texts += "     -"+questMaster[i][2]+"\r";
+	}
+	if(texts != "") say("\rCurrent Tasks:\r\r" + texts)
+	else say("\rYou have no recorded tasks right now!");
 }

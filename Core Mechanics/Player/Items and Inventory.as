@@ -251,7 +251,7 @@ function interact(item:String, stack:Number):void {
 			button2(true, "Look", roomInteract, "2");
 			button3(true, "Use", roomInteract, "3");
 			button6(true, "Cancel", roomInteract, "4");
-			newGame.visible = false;
+			buttonSystem(false);
 			tempnum = arrayLength;
 			trace("Found Item: " + tappeditem);
 			found = true;
@@ -268,7 +268,7 @@ function interact(item:String, stack:Number):void {
 				button2(true, "Look", roomInteract, "2");
 				button3(true, "Equip", roomInteract, "3");
 				button6(true, "Cancel", roomInteract, "4");
-				newGame.visible = false;
+				buttonSystem(false);
 				tempnum = arrayLength;
 				trace("Found Item: " + tappeditem);
 				found = true;
@@ -319,7 +319,7 @@ function invInteract(item:String, stack:Number):void {
 				else button3(true, "Equip", invInteracts, "3");
 				button4(true, "Trash", invInteracts, "4");
 				button6(true, "Cancel", invInteracts, "5");
-				newGame.visible = false;
+				buttonSystem(false);
 				tempnum = arrayLength;
 				trace("Found Item: " + tappeditem);
 				found = true;
@@ -757,6 +757,7 @@ function runEquipPassive(equip:String, minutes:Number):void {
 function playerInventory():void {
 	screenClear();
 	clearButtons();
+	shiftColour("Blue");
 	if(inCombat) say("     Quickly rummaging through your backpack, you find:\r\r");
 	else say("     Peeking into your backpack, you see:\r\r");
 	takestock("Inventory", true);

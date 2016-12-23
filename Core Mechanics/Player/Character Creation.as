@@ -148,7 +148,7 @@ function startEvents(eventStr:String):void {
 	clearButtons();
 	if(eventNum == 1) {
 		screenClear();
-		newGame.visible = false;
+		buttonSystem(false);
 		button1(true, "Start", startEvents, "18");
 		inCombat = false;
 		screenClear();
@@ -442,7 +442,7 @@ function startEvents(eventStr:String):void {
 	if(eventNum == 6) {
 		screenClear();
 		button3(true, "Cancel", startEvents, "1");
-		newGame.visible = false;
+		buttonSystem(false);
 		setStr("lastPage", eventStr);
 		setStat("inmajor", 1);
 		say("<bold>Choose your starting major feat:</bold>\r");
@@ -516,7 +516,8 @@ function startEvents(eventStr:String):void {
 	}
 	if(eventNum == 10) {
 		screenClear();
-		button3(true, "Done", startEvents, "1");
+		if(getStat("increation") == 1) button3(true, "Done", startEvents, "1");
+		else button6(true, "Done", sysScreen, "options");
 		say("<bold>Monster Warding:</bold>\r     Monster warding prevents certain encounters from occuring randomly. You can still hunt for these monster, and this can be turned on/off at any time in the options menu. Warding is temporarily disabled when there's no un-warded monster available for a given zone.");
 		say("\r\r<bold>Male:</bold> [");
 		if(getStat("maleward") == 0) say("<bold>OFF</bold>/ ");
@@ -613,7 +614,8 @@ function startEvents(eventStr:String):void {
 	if(eventNum >= 10.1 && eventNum <= 10.905) startEvents("10");
 	if(eventNum == 11) {
 		screenClear();
-		button3(true, "Done", startEvents, "1");
+		if(getStat("increation") == 1) button3(true, "Done", startEvents, "1");
+		else button6(true, "Done", sysScreen, "options");
 		say("<bold>Sexual/Fetishistic Rules:</bold>\r     The following rules dictate the extent and frequency of certain sexual and fetishitic content.\r\r");
 		say("<bold>Anal Sex:</bold> ");
 		if(getStat("anallevel") == 1) say("<bold>[LOW]</bold> ");
@@ -667,7 +669,7 @@ function startEvents(eventStr:String):void {
 	if(eventNum == 11.31) setStat("ublevel", 1);
 	if(eventNum == 11.41) setStat("ublevel", 2);
 	if(eventNum == 11.51) setStat("ublevel", 3);
-	if(eventNum >= 11.1 && eventNum <= 11.51) {
+	if(eventNum >= 11.01 && eventNum <= 11.9) {
 		startEvents("11");
 	}
 	if(eventNum == 12) {
@@ -752,8 +754,8 @@ function startEvents(eventStr:String):void {
 		if(fullGo) {
 			gameStart();
 			statDisplay();
-			newGame.visible = true;
-			doNext("home", apartmentRooms);
+			buttonSystem();
+			doNext("Your Apartment", apartmentRooms);
 		}
 		else startEvents("1");
 	}
@@ -763,12 +765,6 @@ function startEvents(eventStr:String):void {
 function ccGender():String {
 	if(getStat("genderchoice") == 1) return("Male");
 	else return("Female");
-}
-
-function newGameStart(e:MouseEvent):void
-{
-	memoryPurge();
-	startEvents("1");
 }
 
 function randomStats():void {
@@ -909,8 +905,8 @@ function gameStart():void {
 		randomInfect();
 		say("     Eventually, in the early morning hours, you were able to make it back to your apartment building and you've been holed in your apartment ever since.  Though you'd been altered by your contact with the monsters and their tainted mess, you were still sane and in control.  You've been trying to resist the new sexual urges you felt, which could get especially hard when you'd hear other creatures poking around inside the apartment building.  Thankfully, aside from some scratching at the door and jiggling the locked knob, your unit has been left alone.  The days have become such a blur that you're unsure how long you've been in hiding, but the activity in the building has been getting less frequent and it's been completely quiet this morning.  Which is good, since you're almost out of food and water at this point and something drastic might need to be done...\r\r");
 		modStat("endurance", 1);
-		floorMaster["home"].push([ "Bottled Water", 5, 1 ]);
-		floorMaster["home"].push([ "Food", 5, 1 ]);
+		floorMaster["Your Apartment"].push([ "Bottled Water", 5, 1 ]);
+		floorMaster["Your Apartment"].push([ "Food", 5, 1 ]);
 	}
 	else {
 		say("     You'd just gotten back from a late evening when the crisis hit.  You'd barely gotten in the door of your apartment when the power went out, though it wasn't until later that you learnt that most all electronics went as well.  The ground shook - earthquake, you think.  You get to safety under the door frame to the kitchen to wait out the tremors.  You'd been through a few of these, living in SoCal long enough gets you used to them, but this one was different.  By no means the strongest one you've felt, this one does seem to go on unusually long, with several uneven swells and lulls in the rumbling before finally settling down.\r\r");
@@ -918,15 +914,15 @@ function gameStart():void {
 		say("     While hard to tell in the dark, you were able to make out the figure of something large and fur-covered emerging from another apartment.  It growled again and tore away the clothing covering its expanding chest.  This sound was echoed from the other apartment as a second figure bursts from it.  This one looked more human, at least to start, but had large horns growing from its head and its feet clopped like hooves on the dark floor.  The first of them, now having gained a second pair of legs to support its now tauric body, charged at the second and they started to fight and grapple.  At first, it seemed like they were merely brawling, but at some point that changed and the bull-like monster was soon fucking the yowling panther creature.\r\r");
 		say("     It was difficult to look away from the peephole, finding the sight strangely arousing.  You crept quietly to the window, fearful of making a sound that might be heard by the beasts over the noise of their wild fucking.  And their noises weren't the only ones to be heard, more coming from upstairs and outside.  You peered through the slats of your blinds, you could see more of the same going on out in the street.  Not all were monsters, but any poor human being who got caught was fucked until they transformed into another mutant monster.\r\r");
 		say("     You've been holed up in your apartment ever since.  And while the worst of it went on through the night and into the morning, you could hear the occasional creature coming or going.  Thankfully, aside from some scratching at the door and jiggling the locked knob, your unit has been left alone.  The days have become such a blur that you're unsure how long you've been in hiding, but the activity in the building has been getting less frequent and it's been completely quiet this morning.  Which is good, since you're almost out of food and water at this point and something drastic might need to be done...\r\r");
-		floorMaster["home"].push([ "Bottled Water", 5, 1 ]);
-		floorMaster["home"].push([ "Food", 5, 1 ]);
+		floorMaster["Your Apartment"].push([ "Bottled Water", 5, 1 ]);
+		floorMaster["Your Apartment"].push([ "Food", 5, 1 ]);
 	}
 	//say("     Regardless of the circumstance, it seems you're alone out here. Ah well, you're an American of the 21st century. What's a little Apocalypse to keep you down? Steeling your nerves and readying what you have, you cautiously break the seal and prepare to set out.\r");
 	refreshPlayer();
 	setStat("health", getStat("maxhealth"));
-	floorMaster["home"].push([ "Sling", 1, 2 ]);
-	floorMaster["home"].push([ "Sleeping Bag", 1, 1 ]);
-	floorMaster["home"].push([ "Leather Harness", 1, 2 ]);
+	floorMaster["Your Apartment"].push([ "Sling", 1, 2 ]);
+	floorMaster["Your Apartment"].push([ "Sleeping Bag", 1, 1 ]);
+	floorMaster["Your Apartment"].push([ "Leather Harness", 1, 2 ]);
 }
 
 function memoryPurge():void {
@@ -935,7 +931,7 @@ function memoryPurge():void {
 	statMaster = { };
 	stringMaster = { };
 	NPCList = [];
-	NPCList.push(["apartment3f", "Dr. Arboto", "pokeArbot", 0, ""]);
+	NPCList.push(["Castlegrove 3rd Floor", "Mr. Arboto", "pokeArbot", 0, ""]);
 	//NPCList.push(["Abbey", "Doctor Bob", "pokeBob", 0, ""]);
 	//NPCList.push(["Abbey", "Pat", "pokePat", 0, "patCombat"]);
 	setStat("majorfeatcount", 1)
@@ -966,10 +962,12 @@ function memoryPurge():void {
 	setStat("basedamage", 40);
 	resetWorld();
 	floorMaster["Inventory"] = [];
-	floorMaster["home"] = [];
+	floorMaster["Your Apartment"] = [];
 	floorMaster["Inventory"].push([ "Journal", 1, 1 ], [ "Common Clothes", 1, 3 ], [ "Wrist Watch", 1, 3 ], [ "Damage Stick", 1, 1 ], [ "Heal Stick", 1, 1 ], [ "Smoke Stick", 1, 1 ]);
+	questMaster = [];
+	questMaster.push(["main", 0, "Testing 123!"]);
 	worldMaster["Hunting"].push(["Wyvern Flight", "Wyvern Flight", "Outside", 2]);
-	worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
+	//worldMaster["Hunting"].push(["Trevor Labs", "Trevor Labs", "Outside", 3]);
 	setStat("humanity", 100);
 	setStat("World Time", 720);
 	worldMaster["Timer"].push(["Game", 10080]);
