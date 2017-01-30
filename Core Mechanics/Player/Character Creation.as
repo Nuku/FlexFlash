@@ -158,6 +158,7 @@ function startEvents(eventStr:String):void {
 	}
 	if(eventNum == 2) {	//Name Selection
 		screenClear();
+		lockHot = true;
 		button3(true, "Done", startEvents, "2.1");
 		say("Name:");
 		nameInput.visible = true;
@@ -167,6 +168,7 @@ function startEvents(eventStr:String):void {
 	}
 	if(eventNum == 2.1) {
 		nameInput.visible = false;
+		lockHot = false;
 		if(nameInput.text == "") nameInput.text = "Survivor";
 		setStr("playername", nameInput.text);
 		nameInput.x = -99;

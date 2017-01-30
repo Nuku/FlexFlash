@@ -15,7 +15,8 @@ function selfExamine(N:String = "") {
 	var cunttext:String = "";
 	screenClear();
 	clearButtons();
-	say("LEVEL: " + getStat("level") + "\rStrength: " + getStat("strength") + "\rDexterity:" + getStat("dexterity") + "\rEndurance: " + getStat("endurance") + "\rCharisma: " + getStat("charisma") + "\rPerception: " + getStat("perception") + "\rIntelligence: " + getStat("intelligence") + "\rFeats: " + pFeatList);
+	say("<wrap><bold>NAME LEVEL BACKSTORY</bold>\r" + getStr("playername") + " " + getStat("level") + " " + "NYI\r<bold>Strength Dexterity Endurance Charisma Perception Intelligence</bold>\r" + getStat("strength") + " " + getStat("dexterity") + " " + getStat("endurance") + " " + getStat("charisma") + " " + getStat("perception") + " " + getStat("intelligence") + "</wrap>\r\r<bold>Feats:</bold> " + pFeatList);
+	//say("Level: " + getStat("level") + "<wrap>\rStrength: " + getStat("strength") + " Dexterity: " + getStat("dexterity") + " Endurance: " + getStat("endurance") + "</wrap>\rCharisma: " + getStat("charisma") + " Perception: " + getStat("perception") + " Intelligence: " + getStat("intelligence") + "\rFeats: " + pFeatList);
 	if(getStat("cocks") > 1) {
 		cocktext = "have " + getStat("cocks") + " " + cockSizeDesc() + " <one of>cocks||dicks||penises||shafts||manhoods<random>. " + getStr("playercockdesc") + ". They're ";
 		if(getStat("libido") == 0) cocktext = cocktext + "not aroused in the slightest at the moment";
@@ -50,14 +51,14 @@ function selfExamine(N:String = "") {
 		else if(getStat("libido") <= 75) cunttext = cunttext + "hot and dripping juices";
 		else cunttext = cunttext + "drooling musky nectar down your thighs";
 	}
-	say("\r\r     You look yourself over. " + getStr("playerskindesc") + ". " + getStr("playerheaddesc") + ". " + getStr("playerbodydesc") + ". ");
-	if(getStr("playertaildesc") == "") say("\r");
-	else say(getStr("playertaildesc") + ".\r");
+	say("\r\r<bold>Appearance:</bold>\r     " + getStr("playerskindesc") + ". " + getStr("playerheaddesc") + ". " + getStr("playerbodydesc") + ". ");
+	if(getStr("playertaildesc") == "") say("\r\r");
+	else say(getStr("playertaildesc") + ".\r\r");
 	say("     Taking a more intimate look at yourself, ");
 	if(getStat("cocks") >= 1 && getStat("cunts") >= 1) say("you " + cocktext + ".\r     Along with it, you " + cunttext + ". ");
-	else if(getStat("cocks") >=1) say("you " + cocktext + ".\r");
-	else if(getStat("cunts") >=1) say("you " + cunttext + ".\r");
-	else say("you're completely devoid of any genitals!\r");
+	else if(getStat("cocks") >=1) say("you " + cocktext + ".\r\r");
+	else if(getStat("cunts") >=1) say("you " + cunttext + ".\r\r");
+	else say("you're completely devoid of any genitals!\r\r");
 	if(getStat("breastpairs") >= 1) {
 		if(getStat("cunts") < 1 || getStat("cocks") < 1) say("     ");
 		if(getStat("breastpairs") == 1 && getStat("breastsize") == 0) say("You have a pair of nipples on your <bodytype> torso, and is otherwise unremarkable.");
@@ -65,14 +66,37 @@ function selfExamine(N:String = "") {
 		else if(getStat("breastpairs") == 1) say("You have a pair of " + breastSizeDesc() + " breasts on your " + getStr("playerbodytype") + " chest.");
 		else if(getStat("breastpairs") == 2) say("you have two pairs of breasts lining your " + getStr("playerbodytype") + " torso. The topmost set is " + breastSizeDesc() + " with the second set being a fraction of that size.");
 		else say("you have " + getStat("breastpairs") + " pairs of breasts lining your " + getStr("playerbodytype") + " torso. The topmost set is " + breastSizeDesc() + " with each successive set being a fraction of previous set's size.");
+		say("\r\r");
 	}
 	listNPCs("Player");
+	//say("\r\r");
+	if((hasFeat("Nascent Promethean") || hasFeat("Promethean") || hasFeat("Dark Promethean") || hasFeat("Grand Promethean")) && !isPure("Human")) {
+		say("<bold>Lock Transformation:</bold> ");
+		if(getStat("infectlock") == 0) say("<a href='event:toggleInfect'>[ON]</a>");
+		else say("[ON]");
+		if(getStat("infectlock") == 1) say("/<a href='event:toggleInfect'>[OFF]</a>");
+		else say("/[OFF]");
+	}
 	say("\r\r");
 	buttonInventory(true);
 	button6(true, "Back", doLastRoom);
 	button3(true, "Tasks", displayQuests);
 	if((getStat("libido") > 27 || hasFeat("Hairy Palm")) && !checkTimer("masturbate")) button1(true, "Masturbate", doMasturbate);
 	if(hasFeat("Roughing It")) button4(true, "Rest", doStatusSleep);
+}
+
+function toggleInfect():void {
+	var texts = "";
+	if(getStat("infectlock") == 0) {
+		setStat("infectlock", 1);
+		texts = "     Random infections DISABLED.";
+	}
+	else {
+		setStat("infectlock", 0);
+		texts = "     Random infections ENABLED.";
+	}
+	selfExamine();
+	say(texts);
 }
 
 function doStatusSleep():void {

@@ -118,6 +118,7 @@ function listMinorFeats():void {
 		}
 		if(!hasFeat("Litter Bearer"))  featsListing.push(["Litter Bearer", "Greatly raises your chance to birth multiple children at a time."]);
 	}
+	if(!hasFeat("Nascent Promethean") && !hasFeat("Promethean") && getStat("increation") != 1 && (!isPure("Human"))) featsListing.push(["Nascent Promethean", "Your experience with this blight gives you newfound strength! You may now toggle infection on and off in the status menu."]);
 }
 
 var volunteering:Boolean = false;
@@ -125,15 +126,8 @@ var volunsleeping:Boolean = false;
 
 function volunteer(str:String = ""):void {
 	if(getStat("majorfeatcount") <= (getStat("level")/3)) {
-		screenClear();
-		button1(false);
-		button2(false);
+		fullClear();
 		button3(true, "Cancel", doLastRoom);
-		button4(false);
-		button5(false);
-		button6(false);
-		buttonInventory(false);
-		buttonAppearance(false);
 		say("<bold>Choose your major feat:</bold>\r");
 		volunteering = true;
 		listMajorFeats();
@@ -143,15 +137,8 @@ function volunteer(str:String = ""):void {
 }
 function volunsleep(str:String = ""):void {
 	if(getStat("minorfeatcount") <= (getStat("level")/5)) {
-		screenClear();
-		button1(false);
-		button2(false);
+		fullClear();
 		button3(true, "Cancel", doLastRoom);
-		button4(false);
-		button5(false);
-		button6(false);
-		buttonInventory(false);
-		buttonAppearance(false);
 		say("<bold>Choose your minor feat:</bold>\r");
 		volunsleeping = true;
 		listMinorFeats();
@@ -187,17 +174,8 @@ function assessExp():void {
 		modStat("level", 1);
 		setStat("maxexperience", (getStat("level")+1)*100);
 		if(getStat("level")%2 == 0) {
-			screenClear();
+			fullClear();
 			say("You levelled up! You are now at level " + getStat("level") + ".\r\r");
-			button1(false);
-			button2(false);
-			button3(false);
-			button4(false);
-			button5(false);
-			button6(false);
-			buttonInventory(false);
-			buttonAppearance(false);
-			buttonSystem(false);
 			say("<bold>Choose a stat to increase:</bold>\r");
 			say("<bold>Strength:</bold> " + getStat("strength") + " <a href='event:statUp~Str'>[+]</a>\rDetermines your raw physical strength, and the damage of your physical attacks.\r");
 			say("<bold>Dexterity:</bold> " + getStat("dexterity")+ " <a href='event:statUp~Dex'>[+]</a>\rAffects your ability to perform dextrous or agile feats, as well as your ability to hit and dodge\r");
@@ -205,6 +183,7 @@ function assessExp():void {
 			say("<bold>Charisma:</bold> " + getStat("charisma") + " <a href='event:statUp~Cha'>[+]</a>\rImproves your ability to command others, in and out of combat.\r");
 			say("<bold>Perception:</bold> " + getStat("perception") + " <a href='event:statUp~Per'>[+]</a>\rDetermines your hit chance and damage with ranged weapons, as well as your success rates when scavenging and hunting.\r");
 			say("<bold>Intellect:</bold> " + getStat("intelligence") + " <a href='event:statUp~Int'>[+]</a>\rReduces experience cost per level.\r");
+			raiseShield();
 		}
 		else {
 			say("You levelled up! You are now at level " + getStat("level") + ".\r\r");
@@ -265,6 +244,7 @@ function statUp(eventStr):void {
 		refreshPlayer();
 		setStat("health", getStat("maxhealth"));
 		doLastRoom();
+		raiseShield(false);
 		assessExp();
 		statDisplay();
 	}
@@ -316,8 +296,7 @@ function getQuest(Name:String):Number {
 function displayQuests():void {
 	var texts = "";
 	var arrlen:Number = questMaster.length;
-	screenClear();
-	clearButtons();
+	fullClear();
 	button6(true, "Back", selfExamine);
 	for(var i = 0; i < arrlen; i++) {
 		if(questMaster[i][2] != "") texts += "     -"+questMaster[i][2]+"\r";
