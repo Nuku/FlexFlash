@@ -32,7 +32,7 @@ function listNPCs(room:String) {
 		for(i = 0; i < arrLen; i++) {
 			if(NPCList[i][3] > 0) {
 				++b
-				if(b == 1) texts += "\r\rPeople following you: ";
+				if(b == 1) texts += "\r\r<bold>Companions</bold>:";
 				else if(b > 1) texts += ", ";
 				texts += "<a href='event:NPCIR~" + NPCList[i][2] + "~" + NPCList[i][1] + "'>" + NPCList[i][1] + "</a>";
 			}
@@ -48,7 +48,7 @@ function listNPCs(room:String) {
 			}
 		}
 	}
-	say(texts);
+	if(texts != "") say(texts+"\r\r");
 }
 
 

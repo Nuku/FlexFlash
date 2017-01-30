@@ -23,6 +23,7 @@ include "Nuku Valente/Monsters/Hermaphrodite Gryphon.as"
 include "Nuku Valente/Monsters/Female Husky.as"
 
 include "Blue Bishop/Wyvern.as"
+include "Blue Bishop/Hawpy.as"
 
 presetName();
 startScreen();

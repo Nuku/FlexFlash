@@ -15,6 +15,15 @@ function doLastRoom(next:Boolean = false):void {
 		}
 		else funcBy(strBy);
 	}
+	else if(this[getStr("lastroomfunction")] == null) {		
+		if(next) {
+			buttonSystem(false);
+			clearButtons();
+			button1(true, "Next", bootToHome);
+			nextButton = true;
+		}
+		else bootToHome();
+	}
 	else {
 		if(next) {
 			buttonSystem(false);
@@ -28,13 +37,10 @@ function doLastRoom(next:Boolean = false):void {
 
 var locationName:String = "Flexible Survival!";
 
-/*
-	if(bypassF != null) {
-		doNext(bypassN, bypassF);
-		bypassN = "";
-		bypassF = null;
-	}
-*/
+function bootToHome():void {
+	queue("\r\r     <red><bold>ERROR: Invalid room called, returning to home.</red></bold>\r");
+	apartmentRooms("Your Apartment");
+}
 
 function setLastRoom(func:String, tag:String = ""):void {
 	setStr("lastroomfunction", func);
@@ -70,7 +76,7 @@ function doBSleep():void {
 }
 
 function cheaty():void {
-	modStat("experience", 1000);
+	modStat("experience", 100);
 	//setStat("scale", 1)
 	//trace("LOAD: " + getCLoad());
 	//modStat("ballsize", -1);
@@ -84,15 +90,17 @@ function apartmentRooms(room:String):void {
 	setStr("lastroomtag", room);
 	setStr("lastroomfunction", "apartmentRooms");
 	setStr("lastroomname", room);
+	var vroom:Boolean = false;
 	if(room == "Your Apartment") {
 		say("     This is your apartment in the building.  It is nothing grand, but it has suited your needs.  You've got a kitchen, a washroom, an office/den and a bedroom.  Being a single-bedroom apartment, the bedroom is somewhat larger and you've got a king-sized bed in there.  Since the outbreak, you've keep the blinds closed to avoid attracting unwanted attention.\r\r");
 		say("     Your apartment has gotten somewhat messy lately, with some empty cans and jars of food sitting out and dirty clothes left lying around.  Cleaning up has been a low priority - what with the end of the world and everything.  With the power out, the only light is from some lanterns and candles you've found, which you use sparingly to avoid attracting unwanted attention to your domicile.  This place does provide somewhere to rest and to store your supplies for survival, at least.  You can exit from here and return to the ground floor foyer.");
-		//say(" <a href='event:fimpregChance'>[+IMPREGCHANCE]</a> <a href='event:mimpregChance'>[+MIMPREGCHANCE]</a> <a href='event:cheaty'>[+XP]</a> <bold>Wyvern Test:</bold> <a href='event:wyvtestm'>[M]</a> <a href='event:wyvtestf'>[F]</a>");
+		say(" <a href='event:fimpregChance'>[+IMPREGCHANCE]</a> <a href='event:mimpregChance'>[+MIMPREGCHANCE]</a> <a href='event:cheaty'>[+XP]</a> <bold>Wyvern Test:</bold> <a href='event:wyvtestm'>[M]</a> <a href='event:wyvtestf'>[F]</a>");
 		offspringDisplay();
 		button1(true, "Lobby", apartmentRooms, "Castlegrove Lobby");
 		button6(true, "Rest", doBSleep);
 		buttonInventory(true);
 		buttonAppearance(true);
+		vroom = true;
 	}
 	if(room == "Castlegrove Lobby") { //Lobby
 		say("     You've lived in this apartment building for several years.  The Castlegrove Apartment Building dates back to the early 1900's, but it has been refurbished fairly recently.  This three-story apartment building is somewhat small by today's standards, being three stories tall and only having three or four apartments per floor.  Your apartment is on this floor along with three others.  There is a wooden-railed staircase leading upstairs.  It is sturdy and wide, a fact you're thankful for, as you've helped a few people move in and out of this place.\r\r");
@@ -119,6 +127,7 @@ function apartmentRooms(room:String):void {
 		}
 		else if(getQuest("main") == 3) say("\r\r     You'll want to <bold>reinforce</bold> this place before heading out proper.");
 		else say("\r\r     You should probably go <bold>upstairs</bold> before venturing outside.");
+		vroom = true;
 	}
 	if(room == "Castlegrove 2nd Floor") { //Second floor
 		if(getQuest("main") > 3) say("     The second floor of the building houses more apartments.  There's another three units on this floor, all unoccupied for the moment.  The central wooden staircase goes back downstairs and continues upstairs.  The apartments are also in disarray and damaged from former residents turning into monsters.  With the power out, the only light in the hall comes from the windows at each end of the short hallway.  You've put a couple of boards across every window on this floor to prevent any more mutants from easily climbing or flying in through them.");
@@ -127,6 +136,7 @@ function apartmentRooms(room:String):void {
 		button2(true, "Upstairs", apartmentRooms, "Castlegrove 3rd Floor");
 		buttonInventory(true);
 		buttonAppearance(true);
+		vroom = true;
 	}
 	if(room == "Castlegrove 3rd Floor") { //Third floor
 		if(getQuest("main") > 3) say("     The top floor of the Castlegrove Apartment Building, this one has another three units, the largest of which is Mr. Arboto's.  Being retired computer electronics engineer, he'd converted the master bedroom of his two-bedroom apartment into a workshop for his various projects.  There's a variety of electrical and electronics tools, several old computers and a few half-finished projects on display.  The workshop is also the only room with power at present, being provided by the now-cybernetic Mr. Arboto himself.  As with the floor below, some boards have been put across the windows to prevent intruders.");
@@ -136,17 +146,19 @@ function apartmentRooms(room:String):void {
 		button6(true, "Volunteer", volunteer);
 		buttonInventory(true);
 		buttonAppearance(true);
+		vroom = true;
 	}
 	say("\r\r");
 	if(canIntro(room)) doIntro(room);
+	else if(!vroom) bootToHome();
 	else {
 		takestock(room);
 		listNPCs(room);
 		locationName = room;
 		outputQueue();
+		buttonSystem(true);
 		assessExp();
 		assessEnding();
-		buttonSystem(true);
 	}
 }
 

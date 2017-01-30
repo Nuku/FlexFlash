@@ -41,6 +41,7 @@ function infect(str:String = "", tar:Number = 0): void {
 */
 
 function applyInfect(tar:Number = 0): void {
+	if(getStat("infectLock") == 1 && !isPure("Human")) return;
 	var i:Number = Math.round(Math.random()*5);
 	var found:Number = 0;
 	var infectpoint:Number = 0;

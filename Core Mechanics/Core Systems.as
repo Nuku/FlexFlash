@@ -18,6 +18,8 @@ myCSS.setStyle("yellow", {color:'#FFFF80', display: 'inline'});
 myCSS.setStyle("green", {color:'#80FF80', display: 'inline'});
 myCSS.setStyle("purple", {color:'#BF80FF', display: 'inline'});
 myCSS.setStyle("pink", {color:'#FF80FF', display: 'inline'});
+myCSS.setStyle("wrap", {textAlign:'justify', display: 'inline'});
+myCSS.setStyle("center", {textAlign:'center', display: 'inline'});
 outputWindow.styleSheet = myCSS;
 statPaneA.styleSheet = myCSS;
 statPaneB.styleSheet = myCSS;
@@ -131,6 +133,8 @@ systemText.visible = false;
 nameInput.restrict = "A-Z a-z 0-9";
 nameInput.maxChars = 12;
 nameInput.visible = false;
+buttonShield.alpha = 0;
+buttonShield.visible = false;
 
 var isLocal:Boolean = false;
 var buttonLock:Boolean = false;
@@ -912,46 +916,48 @@ function dumpTemp():void {
 }
 
 
-
+var lockHot:Boolean = false;
 
 //perform the action currently associated with a button!
 function hotKey(e:KeyboardEvent):void {
-	trace("KEYBOARD INPUT:" + e.keyCode);
-	if(e.keyCode == 81) {
-		//Q key
-		buttonEvent1();
-	}
-	if(e.keyCode == 87) {
-		//W key
-		buttonEvent2();
-	}
-	if(e.keyCode == 69) {
-		//E key
-		buttonEvent3();
-	}
-	if(e.keyCode == 65) {
-		//A key
-		buttonEvent4();
-	}
-	if(e.keyCode == 83) {
-		//S key
-		buttonEvent5();
-	}
-	if(e.keyCode == 68) {
-		//D key
-		buttonEvent6();
-	}
-	if(e.keyCode == 49) {
-		//1 key -- Navigate
-		doNavigate();
-	}
-	if(e.keyCode == 50) {
-		//2 key -- Inventory
-		doInvent();
-	}
-	if(e.keyCode == 51) {
-		//3 key -- Status
-		doAppearance();
+	if(!lockHot) {
+		trace("KEYBOARD INPUT:" + e.keyCode);
+		if(e.keyCode == 81) {
+			//Q key
+			buttonEvent1();
+		}
+		if(e.keyCode == 87) {
+			//W key
+			buttonEvent2();
+		}
+		if(e.keyCode == 69) {
+			//E key
+			buttonEvent3();
+		}
+		if(e.keyCode == 65) {
+			//A key
+			buttonEvent4();
+		}
+		if(e.keyCode == 83) {
+			//S key
+			buttonEvent5();
+		}
+		if(e.keyCode == 68) {
+			//D key
+			buttonEvent6();
+		}
+		if(e.keyCode == 49) {
+			//1 key -- Navigate
+			doNavigate();
+		}
+		if(e.keyCode == 50) {
+			//2 key -- Inventory
+			doInvent();
+		}
+		if(e.keyCode == 51) {
+			//3 key -- Status
+			doAppearance();
+		}
 	}
 }
 
@@ -1188,8 +1194,6 @@ function doDecline(e:TimerEvent):void{
 	}	
 }
 
-
-
 function doRecoup(e:TimerEvent):void{
 	//if(declineDelay > 0) --declineDelay;
 	if(lightB.alpha > 0.9) {
@@ -1206,3 +1210,34 @@ function doRecoup(e:TimerEvent):void{
 	}	
 }
 animEventTimer.start();
+
+var shieldButtons:Boolean = false;
+var shieldTimer:Timer = new Timer(20);
+
+shieldTimer.addEventListener(TimerEvent.TIMER, doShield);
+
+function doShield(e:TimerEvent):void {
+	if(shieldButtons) {
+		buttonShield.visible = true;
+		buttonShield.alpha += 0.1;
+		if(buttonShield.alpha >= 0.9) {
+			buttonShield.alpha = 0.9;
+			shieldTimer.stop();
+			return;
+		}
+	}
+	else {
+		buttonShield.alpha -= 0.1;
+		if(buttonShield.alpha <= 0) {
+			buttonShield.visible = false;
+			buttonShield.alpha = 0;
+			shieldTimer.stop();
+			return;
+		}
+	}
+}
+
+function raiseShield(sett:Boolean = true):void {
+	shieldButtons = sett;
+	shieldTimer.start();
+}
